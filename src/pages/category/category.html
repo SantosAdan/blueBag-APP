@@ -1,0 +1,15 @@
+<ion-header>
+  <ion-navbar color="primary">
+    <ion-title>BlueBag</ion-title>
+  </ion-navbar>
+  <ion-searchbar placeholder="Buscar..."></ion-searchbar>
+</ion-header>
+
+<ion-content>
+  <ion-list>
+    <button ion-item *ngFor="let category of categories" (click)="goToCategoryDetailPage(category.name, category.icon)">
+      <ion-icon [name]="category.icon" item-start></ion-icon>
+      <span>{{ category.name }}</span>
+    </button>
+  </ion-list>
+</ion-content>

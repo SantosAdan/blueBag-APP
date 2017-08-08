@@ -1,0 +1,23 @@
+page-category_detail {
+  .green {
+    color: #32db64;
+    font-weight: bold;
+  }
+
+  .first-number {
+    font-size: 1.4em;
+  }
+
+  .icon-padding {
+    padding-right: 3%;
+  }
+}
+
+/* Toast custom background colors */
+ion-toast.success .toast-wrapper {
+  background: green;
+}
+ion-toast.error .toast-wrapper {
+  background: rgb(209, 71, 71);
+}
+/* END of Toast custom background colors */

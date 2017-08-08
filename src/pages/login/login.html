@@ -1,0 +1,27 @@
+<ion-content padding>
+  <h4 class="login-title"><p class="bluebag-dark">BlueBag</p> - Login</h4>
+  <ion-list>
+    <ion-item>
+      <ion-label>
+        <ion-icon name="person"></ion-icon>
+      </ion-label>
+      <ion-input type="text" [(ngModel)]="user_email" placeholder="Email"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label>
+        <ion-icon name="unlock"></ion-icon>
+      </ion-label>
+      <ion-input type="password" [(ngModel)]="user_password" placeholder="Senha"></ion-input>
+    </ion-item>
+  </ion-list>
+
+  <div style="text-align: center;">
+    <button ion-button block color="bluebag-dark" (click)="login(user_email, user_password)">Entrar</button>
+  </div>
+
+  <div style="text-align: center; padding-top: 15%;">
+    <p>Ainda não possui cadastro?</p>
+    <button ion-button block color="bluebag-light" (click)="goToSignUpPage()">Criar conta!</button>
+  </div>
+</ion-content>
