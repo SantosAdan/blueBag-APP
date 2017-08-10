@@ -1,14 +1,15 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams, LoadingController, AlertController } from 'ionic-angular';
 import { Headers, Http, RequestOptions, Response } from "@angular/http";
-import { JwtHelper } from "angular2-jwt";
 import {Observable} from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/toPromise';
 
-import { StorageProvider } from "../../providers/storage/storage";
 import { TabsPage } from "../../pages/tabs/tabs";
 import { SignUpPage } from "../sign-up/sign-up";
+import {JwtProvider} from "../../providers/jwt/jwt";
+
+const BASE_URL = "http://92a48ec4.ngrok.io/api";
 
 @Component({
   selector: 'page-login',
@@ -16,8 +17,6 @@ import { SignUpPage } from "../sign-up/sign-up";
 })
 export class LoginPage {
 
-  private BASE_URL = "http://dev.bluebag.com.br/api";
-  // private BASE_URL = "http://615cd408.ngrok.io/api";
   public user_email: string;
   public user_password: string;
 
@@ -25,22 +24,20 @@ export class LoginPage {
               public navParams: NavParams,
               public loadingCtrl: LoadingController,
               public alertCtrl: AlertController,
-              private http: Http,
-              private storageProvider: StorageProvider) {
-    let token = localStorage.getItem('token');
-
-    if (token != null ) {
-      this.goToTabsPage();
-    }
+              private jwtToken: JwtProvider,
+              private http: Http) {
   }
 
   /**
-   *   Redirect method after login
+   *   Redirect method after login.
    */
   goToTabsPage() {
     this.navCtrl.push(TabsPage);
   }
 
+  /**
+   *   Redirect method to SignUp Page.
+   */
   goToSignUpPage() {
     this.navCtrl.push(SignUpPage);
   }
@@ -110,7 +107,7 @@ export class LoginPage {
     let options = new RequestOptions({ headers: headers});
 
     // Make the request call
-    this.http.post(this.BASE_URL+'/login', body, options)
+    this.http.post(BASE_URL+'/login', body, options)
         .map(this.extractData)
         .subscribe(
             data => {
@@ -119,8 +116,7 @@ export class LoginPage {
 
               // If the user credentials are valid, the current user is redirected to the tabs page.
               if (data && data != 'undefined' && data != 'invalid_credentials') {
-                localStorage.setItem('token', data.token);
-                localStorage.setItem('user_email', user_email);
+                this.jwtToken.token = data.token;
                 this.goToTabsPage();
               }
               else {

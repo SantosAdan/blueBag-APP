@@ -17,6 +17,8 @@ import { SignUpPage } from '../pages/sign-up/sign-up';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { StorageProvider } from '../providers/storage/storage';
+import { JwtProvider } from '../providers/jwt/jwt';
+import { AuthProvider } from '../providers/auth/auth';
 
 @NgModule({
   declarations: [
@@ -52,7 +54,9 @@ import { StorageProvider } from '../providers/storage/storage';
     StatusBar,
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
-    StorageProvider
+    StorageProvider,
+    JwtProvider,
+    AuthProvider
   ]
 })
 export class AppModule {}

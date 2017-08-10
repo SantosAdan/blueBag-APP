@@ -18,17 +18,6 @@ export class TabsPage {
   tab4Root = SettingsPage;
 
   constructor(public navCtrl: NavController) {
-    let token = localStorage.getItem('token');
 
-    if (token === null ) {
-      this.goToLoginPage();
-    }
-  }
-
-  /**
-   *   Redirect method if not logged in.
-   */
-  goToLoginPage() {
-    this.navCtrl.push(LoginPage);
   }
 }

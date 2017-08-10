@@ -22,14 +22,14 @@ export class SignUpPage {
   }
 
   /**
-   * Return to Login Page method.
+   * Return to Login Page.
    */
   goToLoginPage() {
     this.navCtrl.push(LoginPage);
   }
 
   /**
-   *
+   * SignUp a user with given credendtials.
    */
   signUp() {
 

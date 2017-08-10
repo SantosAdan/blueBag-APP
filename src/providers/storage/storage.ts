@@ -1,21 +1,20 @@
 import { Injectable } from '@angular/core';
-import { Storage } from "@ionic/storage";
 import 'rxjs/add/operator/map';
 
 @Injectable()
 export class StorageProvider {
 
-  constructor(private storage: Storage) {
+  constructor() {
 
   }
 
   set(key: string, value: string) {
-    window.localStorage[key] = value;
+    localStorage.setItem(key, value);
     return this;
   }
 
   get(key: string, defaultValue = null) {
-    return window.localStorage[key] || defaultValue;
+    return localStorage.getItem(key) || defaultValue;
   }
 
   setObject(key: string, value: string) {
@@ -27,6 +26,6 @@ export class StorageProvider {
   }
 
   remove(key: string) {
-    this.storage.remove(key);
+    localStorage.removeItem(key);
   }
 }
