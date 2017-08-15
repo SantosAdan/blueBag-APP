@@ -30,7 +30,7 @@ export class CategoryDetailPage {
   // Show toast message
   presentToast(type: string) {
     let toast = this.toastCtrl.create({
-      message: 'Produto adicionado ao carrinho com sucesso!',
+      message: 'Produto adicionado à sacola com sucesso!',
       duration: 2000,
       position: 'top',
       cssClass: type

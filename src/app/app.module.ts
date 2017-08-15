@@ -7,7 +7,7 @@ import { IonicStorageModule } from '@ionic/storage';
 
 import { CategoryPage } from '../pages/category/category';
 import { CategoryDetailPage } from '../pages/category_detail/category_detail';
-import { ContactPage } from '../pages/contact/contact';
+import { ShoppingBagPage } from '../pages/shopping_bag/shopping-bag';
 import { HomePage } from '../pages/home/home';
 import { SettingsPage } from '../pages/settings/settings';
 import { TabsPage } from '../pages/tabs/tabs';
@@ -19,13 +19,14 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import { StorageProvider } from '../providers/storage/storage';
 import { JwtProvider } from '../providers/jwt/jwt';
 import { AuthProvider } from '../providers/auth/auth';
+import { DefaultRequestOptionsProvider } from '../providers/default-request-options/default-request-options';
 
 @NgModule({
   declarations: [
     MyApp,
     CategoryPage,
     CategoryDetailPage,
-    ContactPage,
+    ShoppingBagPage,
     HomePage,
     SettingsPage,
     TabsPage,
@@ -43,7 +44,7 @@ import { AuthProvider } from '../providers/auth/auth';
     MyApp,
     CategoryPage,
     CategoryDetailPage,
-    ContactPage,
+    ShoppingBagPage,
     HomePage,
     SettingsPage,
     TabsPage,
@@ -56,7 +57,8 @@ import { AuthProvider } from '../providers/auth/auth';
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     StorageProvider,
     JwtProvider,
-    AuthProvider
+    AuthProvider,
+    DefaultRequestOptionsProvider
   ]
 })
 export class AppModule {}

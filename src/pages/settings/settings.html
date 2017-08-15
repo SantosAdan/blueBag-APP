@@ -12,7 +12,7 @@
 <ion-content>
   <div class="greeting-section">
     <ion-buttons>
-      <span class="greeting-msg">Olá, <span>Fulano de Tal!</span></span>
+      <span class="greeting-msg">Olá, <span>{{ user_name }}</span></span>
       <button id="btn-logout" ion-button clear (click)="showAlert()">
         <ion-icon name="power" color="danger"></ion-icon>
       </button>

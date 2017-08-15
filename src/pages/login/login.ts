@@ -9,7 +9,7 @@ import { TabsPage } from "../../pages/tabs/tabs";
 import { SignUpPage } from "../sign-up/sign-up";
 import {JwtProvider} from "../../providers/jwt/jwt";
 
-const BASE_URL = "http://92a48ec4.ngrok.io/api";
+const BASE_URL = "http://b499abf0.ngrok.io/api";
 
 @Component({
   selector: 'page-login',
@@ -32,7 +32,8 @@ export class LoginPage {
    *   Redirect method after login.
    */
   goToTabsPage() {
-    this.navCtrl.push(TabsPage);
+    this.navCtrl.setRoot(TabsPage);
+    this.navCtrl.popToRoot();
   }
 
   /**
