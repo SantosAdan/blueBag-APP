@@ -1,0 +1,81 @@
+<ion-header>
+  <ion-navbar color="primary">
+    <ion-title>
+      <ion-icon name="{{ category.icon }}" class="icon-padding"></ion-icon>
+      {{ category.name }}
+    </ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+  <ion-card>
+    <img src="assets/img/product-default.jpg" height="150" />
+    <ion-card-content>
+      <ion-card-title>
+        Produto Genérico 1
+      </ion-card-title>
+      <ion-grid>
+        <ion-row>
+          <ion-col col-8>
+            <h1 class="green">R$ <span class="first-number">12</span>,55</h1>
+          </ion-col>
+          <ion-col col-4>
+            <ion-badge color="secondary">Economia R$</ion-badge>
+          </ion-col>
+        </ion-row>
+        <!-- Add Button Row -->
+        <ion-row>
+          <button ion-button round block color="bluebag-dark" (click)="addToChart()">+ Adicionar</button>
+        </ion-row>
+        <!-- End of Add Button Row -->
+      </ion-grid>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-list>
+    <ion-item>
+      <ion-thumbnail item-start>
+        <img src="assets/img/product-default.jpg">
+      </ion-thumbnail>
+      <p>Produto Genérico 1</p>
+      <h2>R$ <span class="first-number">12</span>,55</h2>
+      <button ion-button round block large (click)="addToChart()">+ Adicionar</button>
+    </ion-item>
+
+    <ion-item>
+      <ion-thumbnail item-start>
+        <img src="assets/img/product-default.jpg">
+      </ion-thumbnail>
+      <p>Produto Genérico 2</p>
+      <h2>R$ <span class="first-number">6</span>,12</h2>
+      <button ion-button round block large (click)="addToChart()">+ Adicionar</button>
+    </ion-item>
+
+    <ion-item>
+      <ion-thumbnail item-start>
+        <img src="assets/img/product-default.jpg">
+      </ion-thumbnail>
+      <p>Produto Genérico 3</p>
+      <h2>R$ <span class="first-number">7</span>,99</h2>
+      <button ion-button round block large (click)="addToChart()">+ Adicionar</button>
+    </ion-item>
+
+    <ion-item>
+      <ion-thumbnail item-start>
+        <img src="assets/img/product-default.jpg">
+      </ion-thumbnail>
+      <p>Produto Genérico 4</p>
+      <h2>R$ <span class="first-number">2</span>,65</h2>
+      <button ion-button round block large (click)="addToChart()">+ Adicionar</button>
+    </ion-item>
+
+    <ion-item>
+      <ion-thumbnail item-start>
+        <img src="assets/img/product-default.jpg">
+      </ion-thumbnail>
+      <p>Produto Genérico 5</p>
+      <h2>R$ <span class="first-number">9</span>,05</h2>
+      <button ion-button round block large (click)="addToChart()">+ Adicionar</button>
+    </ion-item>
+  </ion-list>
+</ion-content>

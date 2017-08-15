@@ -1,0 +1,74 @@
+<ion-header>
+  <ion-navbar color="primary">
+    <ion-title>BlueBag</ion-title>
+    <ion-buttons end>
+      <button ion-button clear>
+        <ion-icon ios="ios-call-outline" md="md-call" color="danger"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+  <div class="greeting-section">
+    <ion-buttons>
+      <span class="greeting-msg">Olá, <span>{{ user_name }}</span></span>
+      <button id="btn-logout" ion-button clear (click)="showAlert()">
+        <ion-icon name="power" color="danger"></ion-icon>
+      </button>
+    </ion-buttons>
+  </div>
+
+  <div class="header-section">
+    <p text-center>Configurações</p>
+  </div>
+
+  <ion-list>
+    <a href="#" ion-item>
+      <ion-icon name="pin" color="bluebag-dark" item-start></ion-icon>
+      Dados de entrega
+    </a>
+    
+    <a href="#" ion-item>
+      <ion-icon name="calendar" color="bluebag-dark" item-start></ion-icon>
+      Agenda de entrega
+    </a>
+
+    <a href="#" ion-item>
+      <ion-icon name="contact" color="bluebag-dark" item-start></ion-icon>
+      Dados pessoais
+    </a>
+
+    <a href="#" ion-item>
+      <ion-icon name="card" color="bluebag-dark" item-start></ion-icon>
+      Dados financeiros
+    </a>
+  </ion-list>
+
+  <div class="header-section">
+    <p text-center>Outros</p>
+  </div>
+
+  <ion-list>
+    <a href="#" ion-item>
+      Sugerir Melhorias
+    </a>
+
+    <a href="#" ion-item>
+      Perguntas Frequentes
+    </a>
+
+    <a href="#" ion-item>
+      Termos de Uso
+    </a>
+
+    <a href="#" ion-item>
+      Política de Privacidade
+    </a>
+
+    <a href="#" ion-item>
+      Avalie-nos na Store!
+      <ion-icon name="appstore" item-end color="secondary"></ion-icon>
+    </a>
+  </ion-list>
+</ion-content>

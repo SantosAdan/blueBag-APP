@@ -1,0 +1,45 @@
+<ion-header>
+  <ion-navbar color="bluebag-dark">
+    <ion-title>BlueBag</ion-title>
+  </ion-navbar>
+
+  <ion-toolbar color="bluebag-dark" class="center">
+    <h1>R$ {{ getTotal() }}</h1>
+    <p>Total da Compra</p>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-refresher (ionRefresh)="refresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+  <ion-grid style="background-color: #94b9f4">
+    <ion-row>
+      <ion-col col-12>
+        <div class="center">
+          <h1>
+            <ion-icon name="basket"></ion-icon>
+            <small> Sua sacola tem</small> {{ products.length }} <small>itens</small>
+          </h1>
+        </div>
+      </ion-col>
+    </ion-row>
+
+    <ion-row>
+      <button ion-button block color="bluebag-dark" class="center">Finalizar compra</button>
+    </ion-row>
+  </ion-grid>
+
+  <ion-list>
+    <ion-item *ngFor="let product of products; let i = index">
+      <ion-thumbnail item-start>
+        <img src="assets/img/product-default.jpg">
+      </ion-thumbnail>
+      <h3>{{ product.name }}</h3>
+      <h2>R$ {{ product.value }}</h2>
+      <p>Quantidade: <strong>{{ product.amount }}</strong></p>
+      <button ion-button round block color="danger" class="btn-fix-padding" (click)="removeProduct(i)">Remover</button>
+    </ion-item>
+  </ion-list>
+</ion-content>
