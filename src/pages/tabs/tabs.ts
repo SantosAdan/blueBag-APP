@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { NavController } from "ionic-angular";
 
-import { CategoryPage } from '../category/category';
+import { DepartmentPage } from '../department/department';
 import { ShoppingBagPage } from '../shopping_bag/shopping-bag';
 import { HomePage } from '../home/home';
 import { SettingsPage } from '../settings/settings';
@@ -12,7 +12,7 @@ import { SettingsPage } from '../settings/settings';
 export class TabsPage {
 
   tab1Root = HomePage;
-  tab2Root = CategoryPage;
+  tab2Root = DepartmentPage;
   tab3Root = ShoppingBagPage;
   tab4Root = SettingsPage;
 

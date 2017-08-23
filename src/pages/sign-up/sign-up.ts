@@ -3,7 +3,7 @@ import { NavController, NavParams } from 'ionic-angular';
 import {LoginPage} from "../login/login";
 import {Http, Headers, RequestOptions, Response} from "@angular/http";
 
-const BASE_URL = "http://b499abf0.ngrok.io/api";
+const BASE_URL = "https://bluebagbr.com/api";
 
 @Component({
   selector: 'page-sign-up',

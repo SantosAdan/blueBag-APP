@@ -9,7 +9,7 @@ import { TabsPage } from "../../pages/tabs/tabs";
 import { SignUpPage } from "../sign-up/sign-up";
 import {JwtProvider} from "../../providers/jwt/jwt";
 
-const BASE_URL = "http://b499abf0.ngrok.io/api";
+const BASE_URL = "https://bluebagbr.com/api";
 
 @Component({
   selector: 'page-login',
