@@ -5,7 +5,7 @@ import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
 import { MyApp } from './app.component';
 import { IonicStorageModule } from '@ionic/storage';
 
-import { CategoryPage } from '../pages/category/category';
+import { DepartmentPage } from '../pages/department/department';
 import { CategoryDetailPage } from '../pages/category_detail/category_detail';
 import { ShoppingBagPage } from '../pages/shopping_bag/shopping-bag';
 import { HomePage } from '../pages/home/home';
@@ -20,18 +20,20 @@ import { StorageProvider } from '../providers/storage/storage';
 import { JwtProvider } from '../providers/jwt/jwt';
 import { AuthProvider } from '../providers/auth/auth';
 import { DefaultRequestOptionsProvider } from '../providers/default-request-options/default-request-options';
+import {HeaderScroller} from "../pages/header-scroller";
 
 @NgModule({
   declarations: [
     MyApp,
-    CategoryPage,
+    DepartmentPage,
     CategoryDetailPage,
     ShoppingBagPage,
     HomePage,
     SettingsPage,
     TabsPage,
     LoginPage,
-    SignUpPage
+    SignUpPage,
+    HeaderScroller
   ],
   imports: [
     BrowserModule,
@@ -42,7 +44,7 @@ import { DefaultRequestOptionsProvider } from '../providers/default-request-opti
   bootstrap: [IonicApp],
   entryComponents: [
     MyApp,
-    CategoryPage,
+    DepartmentPage,
     CategoryDetailPage,
     ShoppingBagPage,
     HomePage,

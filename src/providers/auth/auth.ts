@@ -5,7 +5,7 @@ import {RequestOptions, Response, Http} from "@angular/http";
 import 'rxjs/add/operator/toPromise';
 import {Observable} from "rxjs";
 
-const BASE_URL = "http://b499abf0.ngrok.io/api";
+const BASE_URL = "https://bluebagbr.com/api";
 
 @Injectable()
 export class AuthProvider {
