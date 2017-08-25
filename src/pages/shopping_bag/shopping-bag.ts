@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {NavController, ToastController} from 'ionic-angular';
+import {NavController, ToastController, AlertController} from 'ionic-angular';
 import {HeaderScroller} from '../header-scroller';
 
 @Component({
@@ -10,7 +10,9 @@ export class ShoppingBagPage {
 
   public products: Array<any>;
 
-  constructor(public navCtrl: NavController, public toastCtrl: ToastController) {
+  constructor(public navCtrl: NavController,
+              public toastCtrl: ToastController,
+              public alertCtrl: AlertController) {
     this.products = [
       {name: 'Produto Genérico 1', value: 12.45, amount: 2},
       {name: 'Produto Genérico 2', value: 2.92, amount: 1},
@@ -65,8 +67,10 @@ export class ShoppingBagPage {
   }
 
   public removeAmount(index) {
-    if (this.products[index].amount != 0) {
+    if (this.products[index].amount != 1) {
       this.products[index].amount--;
+    } else {
+        this.showConfirm(index);
     }
   }
 
@@ -84,6 +88,33 @@ export class ShoppingBagPage {
       cssClass: type
     });
     toast.present();
+  }
+
+  /**
+   * Show confirm removing product alert.
+   */
+  public showConfirm(index) {
+    let confirmed: boolean = false;
+
+    let alert = this.alertCtrl.create({
+      title: '',
+      message: 'Deseja remover este produto da sua sacola?',
+      buttons: [
+        {
+          text: 'Não',
+          role: 'cancel',
+          handler: () => {}
+        },
+        {
+          text: 'Sim',
+          handler: () => {
+            this.removeProduct(index);
+          }
+        }
+      ]
+    });
+
+    alert.present();
   }
 
   /**

@@ -9,7 +9,8 @@ import { TabsPage } from "../../pages/tabs/tabs";
 import { SignUpPage } from "../sign-up/sign-up";
 import {JwtProvider} from "../../providers/jwt/jwt";
 
-const BASE_URL = "https://bluebagbr.com/api";
+// const BASE_URL = "https://bluebagbr.com/api";
+const BASE_URL = "http://dev.bluebag.com.br/api";
 
 @Component({
   selector: 'page-login',
