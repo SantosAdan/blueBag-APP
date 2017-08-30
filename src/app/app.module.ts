@@ -4,6 +4,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
 import { MyApp } from './app.component';
 import { IonicStorageModule } from '@ionic/storage';
+import { Network } from "@ionic-native/network";
 
 import { DepartmentPage } from '../pages/department/department';
 import { CategoryDetailPage } from '../pages/category_detail/category_detail';
@@ -20,7 +21,6 @@ import { StorageProvider } from '../providers/storage/storage';
 import { JwtProvider } from '../providers/jwt/jwt';
 import { AuthProvider } from '../providers/auth/auth';
 import { DefaultRequestOptionsProvider } from '../providers/default-request-options/default-request-options';
-import {HeaderScroller} from "../pages/header-scroller";
 
 @NgModule({
   declarations: [
@@ -32,8 +32,7 @@ import {HeaderScroller} from "../pages/header-scroller";
     SettingsPage,
     TabsPage,
     LoginPage,
-    SignUpPage,
-    HeaderScroller
+    SignUpPage
   ],
   imports: [
     BrowserModule,
@@ -57,6 +56,7 @@ import {HeaderScroller} from "../pages/header-scroller";
     StatusBar,
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
+    Network,
     StorageProvider,
     JwtProvider,
     AuthProvider,

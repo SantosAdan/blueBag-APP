@@ -6,8 +6,8 @@ import {DefaultRequestOptionsProvider} from "../../providers/default-request-opt
 import 'rxjs/add/operator/map';
 import {JwtProvider} from "../../providers/jwt/jwt";
 
-// const BASE_URL = "https://bluebagbr.com/api";
-const BASE_URL = "http://dev.bluebag.com.br/api";
+const BASE_URL = "https://bluebagbr.com/api";
+// const BASE_URL = "http://dev.bluebag.com.br/api";
 
 @Component({
   selector: 'page-department',
