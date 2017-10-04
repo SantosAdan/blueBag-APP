@@ -2,9 +2,8 @@ import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 import {LoginPage} from "../login/login";
 import {Http, Headers, RequestOptions, Response} from "@angular/http";
+import {ConfigProvider} from "../../providers/config/config";
 
-const BASE_URL = "https://bluebagbr.com/api";
-// const BASE_URL = "http://dev.bluebag.com.br/api";
 
 @Component({
   selector: 'page-sign-up',
@@ -30,7 +29,10 @@ export class SignUpPage {
   public citiesList: any;
   public showSearch: boolean;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public http: Http) {
+  constructor(public navCtrl: NavController,
+              public navParams: NavParams,
+              public http: Http,
+              public configProvider : ConfigProvider) {
   }
 
   ngOnInit() {
@@ -59,7 +61,7 @@ export class SignUpPage {
     let options = new RequestOptions({ headers: headers});
 
     this.http
-        .get(`${BASE_URL}/cities`, options)
+        .get(`${this.configProvider.base_url}/cities`, options)
         .map((res:Response) => res.json())
         .subscribe(res => {
           this.citiesList = res.data;
@@ -89,7 +91,7 @@ export class SignUpPage {
     };
 
     this.http
-        .post(`${BASE_URL}/users`, body, options)
+        .post(`${this.configProvider.base_url}/users`, body, options)
         .map((res:Response) => res.json())
         .subscribe(res => {
           this.goToLoginPage();

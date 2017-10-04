@@ -19,12 +19,10 @@ export class HomePage {
   public checkNetwork() {
     this.platform.ready().then(() => {
       this.network.onConnect().subscribe(data => {
-        console.log(data)
         this.displayNetworkUpdate(data.type);
       }, error => console.error(error));
 
       this.network.onDisconnect().subscribe(data => {
-        console.log(data)
         this.displayNetworkUpdate(data.type);
       }, error => console.error(error));
     });

@@ -14,6 +14,7 @@ import { SettingsPage } from '../pages/settings/settings';
 import { TabsPage } from '../pages/tabs/tabs';
 import { LoginPage } from '../pages/login/login';
 import { SignUpPage } from '../pages/sign-up/sign-up';
+import {UserDataPage} from "../pages/user-data/user-data";
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -21,6 +22,9 @@ import { StorageProvider } from '../providers/storage/storage';
 import { JwtProvider } from '../providers/jwt/jwt';
 import { AuthProvider } from '../providers/auth/auth';
 import { DefaultRequestOptionsProvider } from '../providers/default-request-options/default-request-options';
+import { MaskDirective } from '../directives/mask/mask';
+import { ConfigProvider } from '../providers/config/config';
+
 
 @NgModule({
   declarations: [
@@ -32,7 +36,9 @@ import { DefaultRequestOptionsProvider } from '../providers/default-request-opti
     SettingsPage,
     TabsPage,
     LoginPage,
-    SignUpPage
+    SignUpPage,
+    UserDataPage,
+    MaskDirective
   ],
   imports: [
     BrowserModule,
@@ -50,7 +56,8 @@ import { DefaultRequestOptionsProvider } from '../providers/default-request-opti
     SettingsPage,
     TabsPage,
     LoginPage,
-    SignUpPage
+    SignUpPage,
+    UserDataPage
   ],
   providers: [
     StatusBar,
@@ -60,7 +67,8 @@ import { DefaultRequestOptionsProvider } from '../providers/default-request-opti
     StorageProvider,
     JwtProvider,
     AuthProvider,
-    DefaultRequestOptionsProvider
+    DefaultRequestOptionsProvider,
+    ConfigProvider
   ]
 })
 export class AppModule {}
