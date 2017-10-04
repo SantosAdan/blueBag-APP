@@ -1,0 +1,30 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>Dados Pessoais</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+<ion-content padding>
+  <ion-list>
+    <ion-item>
+      <ion-label floating>Nome</ion-label>
+      <ion-input type="text" [(ngModel)]="user.name"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label floating>Email</ion-label>
+      <ion-input type="email" [(ngModel)]="user.email"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label floating>CPF</ion-label>
+      <ion-input mask="***.***.***-**" type="text" [(ngModel)]="user.cpf"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label floating>Telefone</ion-label>
+      <ion-input mask="(**) *****-****" type="text" [(ngModel)]="user.phone"></ion-input>
+    </ion-item>
+  </ion-list>
+
+  <button ion-button block color="bluebag-dark" (click)="editUserData()">Salvar</button>
+</ion-content>

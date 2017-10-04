@@ -8,9 +8,8 @@ import 'rxjs/add/operator/toPromise';
 import { TabsPage } from "../../pages/tabs/tabs";
 import { SignUpPage } from "../sign-up/sign-up";
 import {JwtProvider} from "../../providers/jwt/jwt";
+import {ConfigProvider} from "../../providers/config/config";
 
-const BASE_URL = "https://bluebagbr.com/api";
-// const BASE_URL = "http://dev.bluebag.com.br/api";
 
 @Component({
   selector: 'page-login',
@@ -26,7 +25,8 @@ export class LoginPage {
               public loadingCtrl: LoadingController,
               public alertCtrl: AlertController,
               private jwtToken: JwtProvider,
-              private http: Http) {
+              private http: Http,
+              private configProvider : ConfigProvider) {
   }
 
   /**
@@ -109,10 +109,11 @@ export class LoginPage {
     let options = new RequestOptions({ headers: headers});
 
     // Make the request call
-    this.http.post(BASE_URL+'/login', body, options)
+    this.http.post(`${this.configProvider.base_url}/login`, body, options)
         .map(this.extractData)
         .subscribe(
             data => {
+              console.log(data);
               // Dismiss loading loader
               loading.dismiss();
 
