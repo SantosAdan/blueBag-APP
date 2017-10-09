@@ -14,7 +14,7 @@ import { SettingsPage } from '../pages/settings/settings';
 import { TabsPage } from '../pages/tabs/tabs';
 import { LoginPage } from '../pages/login/login';
 import { SignUpPage } from '../pages/sign-up/sign-up';
-import {UserDataPage} from "../pages/user-data/user-data";
+import { UserDataPage } from "../pages/user-data/user-data";
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -24,6 +24,7 @@ import { AuthProvider } from '../providers/auth/auth';
 import { DefaultRequestOptionsProvider } from '../providers/default-request-options/default-request-options';
 import { MaskDirective } from '../directives/mask/mask';
 import { ConfigProvider } from '../providers/config/config';
+// import { ShoppingBagProvider } from '../providers/shopping-bag/shopping-bag';
 
 
 @NgModule({
@@ -68,7 +69,8 @@ import { ConfigProvider } from '../providers/config/config';
     JwtProvider,
     AuthProvider,
     DefaultRequestOptionsProvider,
-    ConfigProvider
+    ConfigProvider,
+    //ShoppingBagProvider
   ]
 })
 export class AppModule {}

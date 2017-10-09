@@ -40,7 +40,7 @@
       </ion-thumbnail>
       <p>{{ product.name }}</p>
       <h2 class="green" float-end padding-vertical>R$ {{ product.value.toFixed(2).toString().replace('.', ',') }}</h2>
-      <button ion-button round block color="bluebag-dark" (click)="addToChart()">+ Adicionar</button>
+      <button ion-button round block color="bluebag-dark" (click)="addToChart(product.id)">+ Adicionar</button>
     </ion-item>
   </ion-list>
 </ion-content>

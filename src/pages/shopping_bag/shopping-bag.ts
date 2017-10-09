@@ -14,12 +14,12 @@ export class ShoppingBagPage {
               public toastCtrl: ToastController,
               public alertCtrl: AlertController) {
     this.products = [
-      {name: 'Produto Genérico 1', value: 12.45, amount: 2},
-      {name: 'Produto Genérico 2', value: 2.92, amount: 1},
-      {name: 'Produto Genérico 3', value: 7.35, amount: 4},
-      {name: 'Produto Genérico 4', value: 1.45, amount: 1},
-      {name: 'Produto Genérico 5', value: 21.09, amount: 1},
-      {name: 'Produto Genérico 6', value: 0.99, amount: 1}
+      // {name: 'Produto Genérico 1', value: 12.45, amount: 2},
+      // {name: 'Produto Genérico 2', value: 2.92, amount: 1},
+      // {name: 'Produto Genérico 3', value: 7.35, amount: 4},
+      // {name: 'Produto Genérico 4', value: 1.45, amount: 1},
+      // {name: 'Produto Genérico 5', value: 21.09, amount: 1},
+      // {name: 'Produto Genérico 6', value: 0.99, amount: 1}
     ];
   }
 

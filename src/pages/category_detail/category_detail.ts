@@ -4,6 +4,7 @@ import {Http, Response, RequestOptions} from "@angular/http";
 import {DefaultRequestOptionsProvider} from "../../providers/default-request-options/default-request-options";
 import {ConfigProvider} from "../../providers/config/config";
 import {JwtProvider} from "../../providers/jwt/jwt";
+import {ShoppingBagProvider} from "../../providers/shopping-bag/shopping-bag";
 
 @Component({
     selector: 'page-category_detail',
@@ -21,7 +22,8 @@ export class CategoryDetailPage {
                 public requestOptions: DefaultRequestOptionsProvider,
                 public http: Http,
                 private jwtProvider: JwtProvider,
-                public configProvider: ConfigProvider) {
+                public configProvider: ConfigProvider,
+                public shoppingBagProvider: ShoppingBagProvider) {
 
     }
 
@@ -67,7 +69,8 @@ export class CategoryDetailPage {
     }
 
     // Add product to cart
-    addToChart() {
+    addToChart(product_id) {
+        this.shoppingBagProvider.add(product_id, 1);
         this.presentToast('success');
     }
 
