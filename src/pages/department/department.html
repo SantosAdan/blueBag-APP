@@ -6,10 +6,18 @@
 </ion-header>
 
 <ion-content>
-  <ion-list>
-    <button ion-item *ngFor="let category of categories" (click)="goToProductsPage(category.name, category.icon)">
-      <ion-icon [name]="category.icon" item-start color="bluebag-dark"></ion-icon>
-      <span>{{ category.name }}</span>
+  <ion-refresher (ionRefresh)="refresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+  <div class="spinner">
+    <ion-spinner *ngIf="showLoading"></ion-spinner>
+  </div>
+
+  <ion-list *ngIf="!showLoading">
+    <button ion-item *ngFor="let department of departments" (click)="goToProductsPage(department.name, department.icon, department.id)">
+      <ion-icon [name]="department.icon" item-start color="bluebag-dark"></ion-icon>
+      <span>{{ department.name }}</span>
     </button>
   </ion-list>
 </ion-content>

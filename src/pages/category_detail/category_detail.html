@@ -1,81 +1,46 @@
 <ion-header>
   <ion-navbar>
     <ion-title>
-      <ion-icon name="{{ category.icon }}" class="icon-padding"></ion-icon>
-      {{ category.name }}
+      <ion-icon name="{{ department.icon }}" class="icon-padding"></ion-icon>
+      {{ department.name }}
     </ion-title>
   </ion-navbar>
 </ion-header>
 
 <ion-content>
-  <ion-card>
-    <img src="assets/img/product-default.jpg" height="150" />
+  <div class="spinner">
+    <ion-spinner *ngIf="showLoading"></ion-spinner>
+  </div>
+
+  <ion-card *ngIf="!showLoading">
+    <img src="assets/img/product-default.jpg" height="100" />
     <ion-card-content>
       <ion-card-title>
-        Produto Genérico 1
+        Produto em destaque
       </ion-card-title>
       <ion-grid>
         <ion-row>
-          <ion-col col-8>
+          <ion-col col-12 text-center>
             <h1 class="green">R$ <span class="first-number">12</span>,55</h1>
-          </ion-col>
-          <ion-col col-4>
-            <ion-badge color="secondary">Economia R$</ion-badge>
           </ion-col>
         </ion-row>
         <!-- Add Button Row -->
         <ion-row>
-          <button ion-button round block color="bluebag-dark" (click)="addToChart()">+ Adicionar</button>
+          <button ion-button round block small color="bluebag-dark" (click)="addToChart()">+ Adicionar</button>
         </ion-row>
         <!-- End of Add Button Row -->
       </ion-grid>
     </ion-card-content>
   </ion-card>
 
-  <ion-list>
-    <ion-item>
+  <ion-list *ngIf="!showLoading">
+    <ion-item *ngFor="let product of products">
       <ion-thumbnail item-start>
-        <img src="assets/img/product-default.jpg">
+        <img [src]="configProvider.base_url+'/products/'+product.id+'/photo'">
       </ion-thumbnail>
-      <p>Produto Genérico 1</p>
-      <h2>R$ <span class="first-number">12</span>,55</h2>
-      <button ion-button round block large (click)="addToChart()">+ Adicionar</button>
-    </ion-item>
-
-    <ion-item>
-      <ion-thumbnail item-start>
-        <img src="assets/img/product-default.jpg">
-      </ion-thumbnail>
-      <p>Produto Genérico 2</p>
-      <h2>R$ <span class="first-number">6</span>,12</h2>
-      <button ion-button round block large (click)="addToChart()">+ Adicionar</button>
-    </ion-item>
-
-    <ion-item>
-      <ion-thumbnail item-start>
-        <img src="assets/img/product-default.jpg">
-      </ion-thumbnail>
-      <p>Produto Genérico 3</p>
-      <h2>R$ <span class="first-number">7</span>,99</h2>
-      <button ion-button round block large (click)="addToChart()">+ Adicionar</button>
-    </ion-item>
-
-    <ion-item>
-      <ion-thumbnail item-start>
-        <img src="assets/img/product-default.jpg">
-      </ion-thumbnail>
-      <p>Produto Genérico 4</p>
-      <h2>R$ <span class="first-number">2</span>,65</h2>
-      <button ion-button round block large (click)="addToChart()">+ Adicionar</button>
-    </ion-item>
-
-    <ion-item>
-      <ion-thumbnail item-start>
-        <img src="assets/img/product-default.jpg">
-      </ion-thumbnail>
-      <p>Produto Genérico 5</p>
-      <h2>R$ <span class="first-number">9</span>,05</h2>
-      <button ion-button round block large (click)="addToChart()">+ Adicionar</button>
+      <p>{{ product.name }}</p>
+      <h2 class="green" float-end padding-vertical>R$ {{ product.value.toFixed(2).toString().replace('.', ',') }}</h2>
+      <button ion-button round block color="bluebag-dark" (click)="addToChart()">+ Adicionar</button>
     </ion-item>
   </ion-list>
 </ion-content>

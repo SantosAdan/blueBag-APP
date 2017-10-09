@@ -9,6 +9,7 @@ import { TabsPage } from "../../pages/tabs/tabs";
 import { SignUpPage } from "../sign-up/sign-up";
 import {JwtProvider} from "../../providers/jwt/jwt";
 import {ConfigProvider} from "../../providers/config/config";
+import {StorageProvider} from "../../providers/storage/storage";
 
 
 @Component({
@@ -25,8 +26,10 @@ export class LoginPage {
               public loadingCtrl: LoadingController,
               public alertCtrl: AlertController,
               private jwtToken: JwtProvider,
+              private storageProvider: StorageProvider,
               private http: Http,
               private configProvider : ConfigProvider) {
+    this.user_email = storageProvider.get('user_email') ? storageProvider.get('user_email') : '';
   }
 
   /**
@@ -120,6 +123,7 @@ export class LoginPage {
               // If the user credentials are valid, the current user is redirected to the tabs page.
               if (data && data != 'undefined' && data != 'invalid_credentials') {
                 this.jwtToken.token = data.token;
+                this.storageProvider.set('user_email', user_email);
                 this.goToTabsPage();
               }
               else {
