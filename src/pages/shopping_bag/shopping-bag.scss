@@ -15,16 +15,14 @@ page-shopping-bag {
 
   .product-value {
     font-size: 1.3em !important;
-    text-align: right;
-    //color: #32db64;
     font-weight: bold !important;
-    padding-top: 3%;
+    padding-top: 10%;
   }
 
   .product-amount {
     color: color($colors, gray);
     font-size: 0.9em !important;
-    padding-top: 3%;
+    padding-top: 5%;
   }
 
   .btn-add{
@@ -45,12 +43,20 @@ page-shopping-bag {
 
   .header {
     color: #ffffff;
-    background-color: #0451ce;
+    background-color: color($colors, bluebag-light);
     padding: 1% 0;
   }
 
   .first-number {
     font-size: 1.4em;
+  }
+
+  div.fix-center {
+    margin: auto;
+    position: absolute;
+    top: 0; left: 0; bottom: 0; right: 0;
+    height: 150px;
+    text-align: center;
   }
 }
 

@@ -18,13 +18,13 @@
     </ion-item>
     <ion-item>
       <ion-label floating>CPF</ion-label>
-      <ion-input mask="***.***.***-**" type="text" [(ngModel)]="user.cpf"></ion-input>
+      <ion-input mask="***.***.***-**" type="text" clearInput [(ngModel)]="user.cpf"></ion-input>
     </ion-item>
     <ion-item>
       <ion-label floating>Telefone</ion-label>
-      <ion-input mask="(**) *****-****" type="text" [(ngModel)]="user.phone"></ion-input>
+      <ion-input mask="(**) *****-****" type="text" clearInput [(ngModel)]="user.phone"></ion-input>
     </ion-item>
   </ion-list>
 
-  <button ion-button block color="bluebag-dark" (click)="editUserData()">Salvar</button>
+  <button ion-button block outline color="bluebag-dark" (click)="editUserData()">Salvar</button>
 </ion-content>

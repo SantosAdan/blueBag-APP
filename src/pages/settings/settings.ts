@@ -21,6 +21,7 @@ export class SettingsPage {
   ionViewDidLoad() {
     this.auth.getUser().subscribe(
         res => {
+          //noinspection TypeScriptUnresolvedVariable
           this.user_name = res.data.name;
         },
         err => {

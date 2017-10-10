@@ -22,8 +22,8 @@ export class StorageProvider {
     return this;
   }
 
-  getObject(key: string) {
-    return JSON.parse(localStorage.getItem(key));
+  getObject(key: string, defaultValue = []) {
+    return JSON.parse(localStorage.getItem(key)) || defaultValue;
   }
 
   remove(key: string) {

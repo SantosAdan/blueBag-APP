@@ -24,7 +24,7 @@ import { AuthProvider } from '../providers/auth/auth';
 import { DefaultRequestOptionsProvider } from '../providers/default-request-options/default-request-options';
 import { MaskDirective } from '../directives/mask/mask';
 import { ConfigProvider } from '../providers/config/config';
-// import { ShoppingBagProvider } from '../providers/shopping-bag/shopping-bag';
+import { ShoppingBagProvider } from '../providers/shopping-bag/shopping-bag';
 
 
 @NgModule({
@@ -70,7 +70,7 @@ import { ConfigProvider } from '../providers/config/config';
     AuthProvider,
     DefaultRequestOptionsProvider,
     ConfigProvider,
-    //ShoppingBagProvider
+    ShoppingBagProvider
   ]
 })
 export class AppModule {}
