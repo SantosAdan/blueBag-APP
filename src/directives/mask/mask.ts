@@ -28,13 +28,15 @@ export class MaskDirective {
   onInputChange() {
     this.modelValue = this.getModelValue();
     let stringToFormat = this.modelValue;
-    if (stringToFormat.length < 10) {
-      stringToFormat = this.padString(stringToFormat);
-    }
+    if (stringToFormat != undefined) {
+      if (stringToFormat.length < 10) {
+        stringToFormat = this.padString(stringToFormat);
+      }
 
-    this.viewValue = this.format(stringToFormat);
-    this.model.viewToModelUpdate(this.modelValue);
-    this.model.valueAccessor.writeValue(this.viewValue)
+      this.viewValue = this.format(stringToFormat);
+      this.model.viewToModelUpdate(this.modelValue);
+      this.model.valueAccessor.writeValue(this.viewValue)
+    }
   }
 
   generatePattern(patternString) {
@@ -60,13 +62,14 @@ export class MaskDirective {
 
   getModelValue() {
     let modelValue = this.model.value;
-    //modelValue = modelValue.toString();
-    //console.log(modelValue);
-    for (let i = 0; i < this.dividers.length; i++) {
-      while (modelValue.indexOf(this.dividers[i]) > -1) {
-        modelValue = modelValue.replace(this.dividers[i], "");
+
+    if (this.model.value != null) {
+      for (let i = 0; i < this.dividers.length; i++) {
+        while (modelValue.indexOf(this.dividers[i]) > -1) {
+          modelValue = modelValue.replace(this.dividers[i], "");
+        }
       }
+      return modelValue;
     }
-    return modelValue;
   }
 }

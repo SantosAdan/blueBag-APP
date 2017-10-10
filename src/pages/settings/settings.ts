@@ -36,6 +36,7 @@ export class SettingsPage {
   public logout() {
     // Remove token from localstorage
     localStorage.removeItem('token');
+    localStorage.removeItem('shopping_bag');
 
     // Return to login page
     this.app.getRootNav().setRoot(LoginPage); // use app.getRootNav() to fix showing tabs after logout

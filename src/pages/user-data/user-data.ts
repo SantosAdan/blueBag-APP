@@ -25,12 +25,13 @@ export class UserDataPage {
       public navParams: NavParams,
       public auth: AuthProvider,
       public toastCtrl: ToastController) {
-      this.user = {id: null, name: '', email: '', cpf: 12345678900, phone: 12911112222};
+      this.user = {id: null, name: '', email: '', cpf: null, phone: null};
   }
 
   ionViewDidLoad() {
     this.auth.getUser().subscribe(
         res => {
+          //noinspection TypeScriptUnresolvedVariable
           this.user = {
             id: res.data.id,
             name: res.data.name,
