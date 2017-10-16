@@ -74,12 +74,14 @@ export class AddressNewPage {
      * API: ViaCep
      */
     findCEP() {
+        let id = this.mode == 'new' ? null : this.navParams.get('address_id');
+
         this.http.get(`https://viacep.com.br/ws/${this.address.zipcode}/json/`)
             .map((res: Response) => res.json())
             .subscribe(res => {
                     //noinspection TypeScriptUnresolvedVariable
                     this.address = {
-                        id: null,
+                        id: id,
                         street: res.logradouro,
                         number: null,
                         complement: res.complemento,
@@ -176,6 +178,6 @@ export class AddressNewPage {
      * Close modal of creating/editing.
      */
     closeModal() {
-        this.viewCtrl.dismiss();
+        this.viewCtrl.dismiss(this.address);
     }
 }

@@ -1,7 +1,7 @@
 import {Component} from "@angular/core";
 import {ActionSheetController, AlertController, ModalController, NavController, ToastController} from "ionic-angular";
 import {AuthProvider} from "../../providers/auth/auth";
-import {orderBy, remove} from "lodash";
+import {orderBy, reject, remove} from "lodash";
 import {AddressNewPage} from "../address-new/address-new";
 import {Http, RequestOptions, Response} from "@angular/http";
 import {ConfigProvider} from "../../providers/config/config";
@@ -57,10 +57,10 @@ export class AddressPage {
             .delete(`${this.configProvider.base_url}/addresses/${address_id}`, this.defaultRequest.merge(new RequestOptions))
             .map((res: Response) => res.json())
             .subscribe(res => {
-                let removed = remove(this.addresses, {'id': address_id});
-                if (res == null && removed) {
-                    this.presentToast('Endereço apagado com sucesso.', 'success');
-                }
+                    let removed = remove(this.addresses, {'id': address_id});
+                    if (res == null && removed) {
+                        this.presentToast('Endereço apagado com sucesso.', 'success');
+                    }
                 },
                 err => {
                     if (err.status == 500) {
@@ -130,7 +130,7 @@ export class AddressPage {
                     handler: () => {
                         this.showConfirm(address_id);
                     }
-                },{
+                }, {
                     text: 'Editar',
                     icon: 'create',
                     handler: () => {
@@ -150,6 +150,9 @@ export class AddressPage {
             user_id: this.userId,
             mode: 'new'
         });
+        newAddressModal.onDidDismiss(data => {
+            this.updateAddressArray(data);
+        });
         newAddressModal.present();
     }
 
@@ -157,11 +160,25 @@ export class AddressPage {
      * Show modal for new address form.
      */
     presentEditAddressModal(address_id) {
-        const newAddressModal = this.modalCtrl.create(AddressNewPage, {
+        const editAddressModal = this.modalCtrl.create(AddressNewPage, {
             user_id: this.userId,
             address_id: address_id,
             mode: 'edit'
         });
-        newAddressModal.present();
+        editAddressModal.onDidDismiss(data => {
+            this.updateAddressArray(data);
+        });
+        editAddressModal.present();
+    }
+
+    /**
+     * Update address array to match created/updated values.
+     *
+     * @param data
+     */
+    updateAddressArray(data) {
+        this.addresses = reject(this.addresses, {id: data.id}); // Removes address from array
+        this.addresses.push(data); // Push new/updated value
+        this.addresses = orderBy(this.addresses, 'street', 'asc'); // Ordering
     }
 }
