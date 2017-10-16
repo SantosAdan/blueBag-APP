@@ -1,13 +1,10 @@
-import {Component, NgModule} from '@angular/core';
-import { NavController, NavParams } from 'ionic-angular';
+import {Component} from '@angular/core';
+import { NavController } from 'ionic-angular';
 import {LoginPage} from "../login/login";
 import {Http, Headers, RequestOptions, Response} from "@angular/http";
 import {ConfigProvider} from "../../providers/config/config";
 import {MaskDirective} from "../../directives/mask/mask";
 
-@NgModule({
-  declarations: [ MaskDirective ],
-})
 @Component({
   selector: 'page-sign-up',
   templateUrl: 'sign-up.html',
@@ -36,7 +33,6 @@ export class SignUpPage {
   public showSearch: boolean;
 
   constructor(public navCtrl: NavController,
-              public navParams: NavParams,
               public http: Http,
               public configProvider : ConfigProvider) {
   }

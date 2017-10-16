@@ -3,9 +3,6 @@ import {NavController, NavParams, ToastController} from 'ionic-angular';
 import { AuthProvider } from "../../providers/auth/auth";
 import {MaskDirective} from "../../directives/mask/mask";
 
-@NgModule({
-  declarations: [ MaskDirective ],
-})
 @Component({
   selector: 'page-user-data',
   templateUrl: 'user-data.html',

@@ -15,6 +15,8 @@ import { TabsPage } from '../pages/tabs/tabs';
 import { LoginPage } from '../pages/login/login';
 import { SignUpPage } from '../pages/sign-up/sign-up';
 import { UserDataPage } from "../pages/user-data/user-data";
+import { AddressPage } from "../pages/address/address";
+import { AddressNewPage } from "../pages/address-new/address-new";
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -39,6 +41,8 @@ import { ShoppingBagProvider } from '../providers/shopping-bag/shopping-bag';
     LoginPage,
     SignUpPage,
     UserDataPage,
+    AddressPage,
+    AddressNewPage,
     MaskDirective
   ],
   imports: [
@@ -58,7 +62,9 @@ import { ShoppingBagProvider } from '../providers/shopping-bag/shopping-bag';
     TabsPage,
     LoginPage,
     SignUpPage,
-    UserDataPage
+    UserDataPage,
+    AddressPage,
+    AddressNewPage
   ],
   providers: [
     StatusBar,

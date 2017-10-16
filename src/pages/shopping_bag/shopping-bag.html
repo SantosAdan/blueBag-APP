@@ -3,24 +3,24 @@
 
     <ion-grid>
       <ion-row>
-        <ion-col col-6>
-          Total
-          <h1>R$ {{ getTotal() }}</h1>
+        <ion-col col-5>
+          {{ getNumberItems() }} item(s)
+          <h3>R$ {{ getTotal() }}</h3>
         </ion-col>
-        <ion-col col-6>
-          <h2>
-            <ion-icon id="notif-icon" name="basket">
-              <ion-badge id="notif-badge" color="danger">{{ getNumberItems() }}</ion-badge>
-            </ion-icon>
-          </h2>
+        <ion-col col-7>
+          <button ion-button small icon-right color="bluebag-dark" margin-vertical>Finalizar compra&nbsp;
+            <ion-icon name="checkmark"></ion-icon>
+          </button>
         </ion-col>
       </ion-row>
 
-      <ion-row>
-        <button ion-button icon-right block color="bluebag-dark">Finalizar compra&nbsp;
-          <ion-icon name="checkmark"></ion-icon>
-        </button>
-      </ion-row>
+      <!--<ion-row>-->
+        <!--<h2>-->
+          <!--<ion-icon id="notif-icon" name="basket">-->
+            <!--<ion-badge id="notif-badge" color="danger">{{ getNumberItems() }}</ion-badge>-->
+          <!--</ion-icon>-->
+        <!--</h2>-->
+      <!--</ion-row>-->
     </ion-grid>
   </ion-toolbar>
 </ion-header>
@@ -57,7 +57,8 @@
         <button ion-button outline color="danger" class="btn-remove" (click)="removeAmount(product.id)">
           <ion-icon name="remove"></ion-icon>
         </button>
-        <strong>{{ product.amount }}</strong>
+        <!--<strong>{{ product.amount }}</strong>-->
+        <input type="number" [(ngModel)]="product.amount">
         <button ion-button outline color="secondary" class="btn-add" (click)="addAmount(product.id)">
           <ion-icon name="add"></ion-icon>
         </button>

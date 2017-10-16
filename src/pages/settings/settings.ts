@@ -3,6 +3,7 @@ import {NavController, AlertController, App} from 'ionic-angular';
 import { LoginPage } from "../login/login";
 import {AuthProvider} from "../../providers/auth/auth";
 import {UserDataPage} from "../user-data/user-data";
+import {AddressPage} from "../address/address";
 
 @Component({
   selector: 'page-settings',
@@ -71,7 +72,14 @@ export class SettingsPage {
   /**
    * Show user info.
    */
-  public presentUserData() {
+  public goToUserDataPage() {
     this.navCtrl.push(UserDataPage);
+  }
+
+  /**
+   * Show user info.
+   */
+  public goToAddressPage() {
+    this.navCtrl.push(AddressPage);
   }
 }

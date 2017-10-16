@@ -24,7 +24,7 @@
   </div>
 
   <ion-list>
-    <a href="#" ion-item>
+    <a href="#" ion-item (click)="goToAddressPage()">
       <ion-icon name="pin" color="bluebag-dark" item-start></ion-icon>
       Dados de entrega
     </a>
@@ -34,7 +34,7 @@
       Agenda de entrega
     </a>
 
-    <a href="#" ion-item (click)="presentUserData()">
+    <a href="#" ion-item (click)="goToUserDataPage()">
       <ion-icon name="contact" color="bluebag-dark" item-start></ion-icon>
       Dados pessoais
     </a>

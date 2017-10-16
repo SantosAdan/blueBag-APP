@@ -1,0 +1,56 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-title *ngIf="mode == 'new'">Novo Endereço</ion-title>
+    <ion-title *ngIf="mode == 'edit'">Editando Endereço</ion-title>
+
+    <ion-buttons end>
+      <button ion-button icon-only (click)="closeModal()">
+        <ion-icon name="close" color="danger"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+
+</ion-header>
+
+<ion-content padding>
+  <ion-list>
+    <ion-item>
+      <ion-label floating>CEP</ion-label>
+      <ion-input type="text" [(ngModel)]="address.zipcode" (change)="findCEP()" placeholder="CEP"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label floating>Rua</ion-label>
+      <ion-input type="text" [(ngModel)]="address.street" placeholder="Rua"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label floating>Número</ion-label>
+      <ion-input type="text" [(ngModel)]="address.number" placeholder="Número"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label floating>Complemento</ion-label>
+      <ion-input type="text" [(ngModel)]="address.complement" placeholder="Complemento"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label floating>Bairro</ion-label>
+      <ion-input type="text" [(ngModel)]="address.district" placeholder="Bairro"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label floating>Cidade</ion-label>
+      <ion-input type="text" [(ngModel)]="address.city" placeholder="Cidade"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label floating>Estado</ion-label>
+      <ion-input type="text" [(ngModel)]="address.state" placeholder="Estado"></ion-input>
+    </ion-item>
+  </ion-list>
+
+  <button ion-button block outline color="bluebag-dark" *ngIf="mode == 'new'" (click)="storeAddress()">Salvar</button>
+  <button ion-button block outline color="bluebag-dark" *ngIf="mode == 'edit'" (click)="updateAddress(address.id)">Salvar</button>
+</ion-content>

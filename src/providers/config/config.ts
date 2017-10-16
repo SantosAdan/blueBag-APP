@@ -7,7 +7,6 @@ export class ConfigProvider {
   // public BASE_URL = "https://bluebagbr.com/api";
 
   constructor() {
-
   }
 
   get base_url() {

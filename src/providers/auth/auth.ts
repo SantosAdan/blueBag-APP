@@ -33,7 +33,7 @@ export class AuthProvider {
    */
   public getUser() {
     return this.http
-        .get(`${this.configProvider.base_url}/users`, this.requestOptions.merge(new RequestOptions))
+        .get(`${this.configProvider.base_url}/users?include=addresses`, this.requestOptions.merge(new RequestOptions))
         .map((res:Response) => res.json())
         .catch((error:any) => Observable.throw(error.json().error || 'Server Error.'));
   }
@@ -51,7 +51,7 @@ export class AuthProvider {
       cpf: user.cpf.substring(0, 11),
       phone: user.phone.substring(0, 11)
     };
-    console.log(body);
+
     return this.http
         .put(`${this.configProvider.base_url}/users/${user.id}`, body, this.requestOptions.merge(new RequestOptions))
         .map((res:Response) => res.json())

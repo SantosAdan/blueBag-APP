@@ -1,0 +1,34 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>Dados para entrega</ion-title>
+
+    <ion-buttons end>
+      <button ion-button icon-only (click)="presentNewAddressModal()">
+        <ion-icon name="add"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content no-padding>
+  <div class="spinner">
+    <ion-spinner *ngIf="showLoading"></ion-spinner>
+  </div>
+
+  <ion-list *ngIf="!showLoading">
+
+    <ion-item *ngFor="let address of addresses">
+
+      <p>{{ address.street }}, {{ address.number }}. {{ address.district }}</p>
+      <p>{{ address.city}} - {{ address.state }}</p>
+
+      <ion-badge color="bluebag-dark" float-start>Principal</ion-badge>
+      <ion-icon name="more" item-end (click)="presentActionSheet(address.id)"></ion-icon>
+    </ion-item>
+
+  </ion-list>
+
+</ion-content>
