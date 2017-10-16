@@ -21,12 +21,14 @@
       <ion-grid>
         <ion-row>
           <ion-col col-12 text-center>
-            <h1 class="green">R$ <span class="first-number">12</span>,55</h1>
+            <h1 class="productValue">R$ <span class="first-number">12</span>,55</h1>
           </ion-col>
         </ion-row>
         <!-- Add Button Row -->
         <ion-row>
-          <button ion-button round block small color="bluebag-dark" (click)="addToChart()">+ Adicionar</button>
+          <button ion-button icon-right block color="bluebag-dark" (click)="addToChart(product.id)">
+            Adicionar <ion-icon name="basket"></ion-icon>
+          </button>
         </ion-row>
         <!-- End of Add Button Row -->
       </ion-grid>
@@ -34,13 +36,19 @@
   </ion-card>
 
   <ion-list *ngIf="!showLoading">
-    <ion-item *ngFor="let product of products">
+    <ion-item *ngFor="let product of products" text-wrap text-center>
       <ion-thumbnail item-start>
         <img [src]="configProvider.base_url+'/products/'+product.id+'/photo'">
       </ion-thumbnail>
+
       <p>{{ product.name }}</p>
-      <h2 class="green" float-end padding-vertical>R$ {{ product.value.toFixed(2).toString().replace('.', ',') }}</h2>
-      <button ion-button round block color="bluebag-dark" (click)="addToChart()">+ Adicionar</button>
+      <h1 class="productValue" padding-vertical>
+        R$ {{ product.value.toFixed(2).toString().replace('.', ',') }}
+      </h1>
+      <button ion-button icon-right outline block color="bluebag-dark" (click)="addToChart(product.id)">
+        Adicionar <ion-icon name="basket"></ion-icon>
+      </button>
+
     </ion-item>
   </ion-list>
 </ion-content>

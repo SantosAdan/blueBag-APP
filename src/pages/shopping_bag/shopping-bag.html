@@ -1,26 +1,26 @@
 <ion-header>
-  <ion-toolbar color="bluebag-dark" class="center">
+  <ion-toolbar class="center">
 
     <ion-grid>
       <ion-row>
-        <ion-col col-6>
-          Total
-          <h1>R$ {{ getTotal() }}</h1>
+        <ion-col col-5>
+          {{ getNumberItems() }} item(s)
+          <h3>R$ {{ getTotal() }}</h3>
         </ion-col>
-        <ion-col col-6>
-          <h2>
-            <ion-icon id="notif-icon" name="basket">
-              <ion-badge id="notif-badge" color="danger">{{ getNumberItems() }}</ion-badge>
-            </ion-icon>
-          </h2>
+        <ion-col col-7>
+          <button ion-button small icon-right color="bluebag-dark" margin-vertical>Finalizar compra&nbsp;
+            <ion-icon name="checkmark"></ion-icon>
+          </button>
         </ion-col>
       </ion-row>
 
-      <ion-row>
-        <button ion-button block color="bluebag-light" class="center">Finalizar compra&nbsp;
-          <ion-icon name="checkmark"></ion-icon>
-        </button>
-      </ion-row>
+      <!--<ion-row>-->
+        <!--<h2>-->
+          <!--<ion-icon id="notif-icon" name="basket">-->
+            <!--<ion-badge id="notif-badge" color="danger">{{ getNumberItems() }}</ion-badge>-->
+          <!--</ion-icon>-->
+        <!--</h2>-->
+      <!--</ion-row>-->
     </ion-grid>
   </ion-toolbar>
 </ion-header>
@@ -30,23 +30,44 @@
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
 
+  <div class="fix-center">
+    <ion-grid *ngIf="products.length == 0">
+      <ion-row>
+        <ion-col col-12>
+          <h2>Não há produtos na sacola</h2>
+        </ion-col>
+      </ion-row>
+
+      <ion-row text-center>
+        <ion-col col-12>
+          <ion-icon name="basket" color="bluebag-lighter" style="font-size: 5em;"></ion-icon>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </div>
+
   <ion-list>
-    <ion-item *ngFor="let product of products; let i = index">
+    <ion-item *ngFor="let product of products;" text-wrap text-center>
       <ion-thumbnail item-start>
-        <img src="assets/img/product-default.jpg">
+        <img [src]="configProvider.base_url+'/products/'+product.id+'/photo'">
       </ion-thumbnail>
-      <h2>{{ product.name }}</h2>
+      <p>{{ product.name }}</p>
 
-      <h2 class="product-value">R$ {{ product.value.toString().replace('.', ',') }}</h2>
-
-      <div class="product-amount">
-        Quantidade:
-        <button ion-button color="danger" class="btn-remove" (click)="removeAmount(i)"><ion-icon name="remove"></ion-icon></button>
-        <strong>{{ product.amount }}</strong>
-        <button ion-button color="secondary" class="btn-add" (click)="addAmount(i)"><ion-icon name="add"></ion-icon></button>
+      <div class="product-amount" text-center>
+        <button ion-button outline color="danger" class="btn-remove" (click)="removeAmount(product.id)">
+          <ion-icon name="remove"></ion-icon>
+        </button>
+        <!--<strong>{{ product.amount }}</strong>-->
+        <input type="number" [(ngModel)]="product.amount">
+        <button ion-button outline color="secondary" class="btn-add" (click)="addAmount(product.id)">
+          <ion-icon name="add"></ion-icon>
+        </button>
       </div>
 
-      <button ion-button round block color="danger" class="btn-fix-padding" (click)="removeProduct(i)">Remover</button>
+      <h2 float-left class="product-value">R$ {{ product.value.toFixed(2).toString().replace('.', ',') }}</h2>
+      <button ion-button icon-only clear float-right color="danger" class="btn-fix-padding" (click)="showConfirm(product.id)">
+        <ion-icon name="trash"></ion-icon>
+      </button>
     </ion-item>
   </ion-list>
 </ion-content>

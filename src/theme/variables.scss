@@ -40,8 +40,10 @@ $colors: (
   light:          #f4f4f4,
   dark:           #222,
   white:          #fff,
-  bluebag-light:  #c2d7f9,
-  bluebag-dark:   #0451ce,
+  bluebag-lighter:  #c2d7f9,
+  bluebag-light:  #00aae2,
+  bluebag-dark:   #00447f,
+  bluebag-grey:   #dedede,
   gray:           #707070,
 );
 
@@ -70,8 +72,8 @@ $tabs-md-tab-color-inactive: color($colors, light);
 // then be future customized. This import comes last
 // so that the above variables are used and Ionic's
 // default are overridden.
-$tabs-background: color($colors, primary);
-$toolbar-background: color($colors, primary);
+$tabs-background: color($colors, bluebag-light);
+$toolbar-background: color($colors, bluebag-light);
 $tabs-tab-color-active: color($colors, white);
 
 @import "ionic.theme.default";

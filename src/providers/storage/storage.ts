@@ -17,12 +17,13 @@ export class StorageProvider {
     return localStorage.getItem(key) || defaultValue;
   }
 
-  setObject(key: string, value: string) {
-
+  setObject(key: string, value: any[]) {
+    localStorage.setItem(key, JSON.stringify(value));
+    return this;
   }
 
-  getObject(key: string, value: string) {
-
+  getObject(key: string, defaultValue = []) {
+    return JSON.parse(localStorage.getItem(key)) || defaultValue;
   }
 
   remove(key: string) {

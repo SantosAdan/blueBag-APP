@@ -3,6 +3,7 @@ import {NavController, AlertController, App} from 'ionic-angular';
 import { LoginPage } from "../login/login";
 import {AuthProvider} from "../../providers/auth/auth";
 import {UserDataPage} from "../user-data/user-data";
+import {AddressPage} from "../address/address";
 
 @Component({
   selector: 'page-settings',
@@ -21,6 +22,7 @@ export class SettingsPage {
   ionViewDidLoad() {
     this.auth.getUser().subscribe(
         res => {
+          //noinspection TypeScriptUnresolvedVariable
           this.user_name = res.data.name;
         },
         err => {
@@ -35,6 +37,7 @@ export class SettingsPage {
   public logout() {
     // Remove token from localstorage
     localStorage.removeItem('token');
+    localStorage.removeItem('shopping_bag');
 
     // Return to login page
     this.app.getRootNav().setRoot(LoginPage); // use app.getRootNav() to fix showing tabs after logout
@@ -69,7 +72,14 @@ export class SettingsPage {
   /**
    * Show user info.
    */
-  public presentUserData() {
+  public goToUserDataPage() {
     this.navCtrl.push(UserDataPage);
+  }
+
+  /**
+   * Show user info.
+   */
+  public goToAddressPage() {
+    this.navCtrl.push(AddressPage);
   }
 }

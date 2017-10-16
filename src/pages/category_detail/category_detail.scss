@@ -1,6 +1,6 @@
 page-category_detail {
-  .green {
-    color: #32db64;
+  .productValue {
+    color: color($colors, bluebag-dark);
     font-weight: bold;
   }
 
@@ -29,3 +29,8 @@ ion-toast.error .toast-wrapper {
   background: rgb(209, 71, 71);
 }
 /* END of Toast custom background colors */
+
+.productValue {
+  color: color($colors, bluebag-dark);
+  font-weight: bold;
+}
