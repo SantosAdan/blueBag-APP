@@ -6,97 +6,109 @@ import {DefaultRequestOptionsProvider} from "../../providers/default-request-opt
 import "rxjs/add/operator/map";
 import {JwtProvider} from "../../providers/jwt/jwt";
 import {ConfigProvider} from "../../providers/config/config";
+import {StorageProvider} from "../../providers/storage/storage";
+import {RefreshTokenProvider} from "../../providers/refresh-token/refresh-token";
 
+const VIEW_MODE: string = 'bluebag_depart_view';
 
 @Component({
-    selector: 'page-department',
-    templateUrl: 'department.html'
+  selector: 'page-department',
+  templateUrl: 'department.html',
 })
 export class DepartmentPage {
 
-    public departments: any[];
-    public showLoading: boolean;
+  public departments: any[];
+  public showLoading: boolean;
+  public showInList: boolean = true;
 
-    constructor(public navCtrl: NavController,
-                public requestOptions: DefaultRequestOptionsProvider,
-                public http: Http,
-                private jwtProvider: JwtProvider,
-                public configProvider: ConfigProvider) {
-    }
+  constructor (public navCtrl: NavController,
+               public requestOptions: DefaultRequestOptionsProvider,
+               public http: Http,
+               private jwtProvider: JwtProvider,
+               public configProvider: ConfigProvider,
+               private refreshJWTProvider: RefreshTokenProvider,
+               private storageProvider: StorageProvider) {
+  }
 
-    ngOnInit() {
-        this.showLoading = true;
-    }
+  ngOnInit () {
+    this.showLoading = true;
+    this.showInList = this.storageProvider.get(VIEW_MODE, 'list') == 'list';
+  }
 
-    ionViewDidLoad() {
-        this.getDepartments()
-    }
+  ionViewDidLoad () {
+    this.getDepartments()
+  }
 
-    /**
-     * Get all departments.
-     *
-     * @returns {Subscription}
-     */
-    public getDepartments(refresher = null) {
-        return this.http
-            .get(`${this.configProvider.base_url}/departments`, this.requestOptions.merge(new RequestOptions))
-            .map((response: Response) => response.json())
-            .subscribe(
-                response => {
-                    this.departments = response.data;
-                    this.showLoading = false; // Retiramos o spinner de loading
+  /**
+   * Get all departments.
+   *
+   * @returns {Subscription}
+   */
+  public getDepartments (refresher = null) {
+    return this.http
+      .get(`${this.configProvider.base_url}/departments`, this.requestOptions.merge(new RequestOptions))
+      .map((response: Response) => response.json())
+      .subscribe(
+        response => {
+          this.departments = response.data;
+          this.showLoading = false; // Retiramos o spinner de loading
 
-                    if (refresher) {
-                        refresher.complete();
-                    }
-                },
-                err => {
-                    if (err.status === 401) {
-                        this.http.post(`${this.configProvider.base_url}/refresh_token`, {}, this.requestOptions.merge(new RequestOptions))
-                            .map((response: Response) => response.json())
-                            .subscribe(response => {
-                                // Setando novo token
-                                this.jwtProvider.token = response.token;
+          if (refresher) {
+            refresher.complete();
+          }
+        },
+        err => {
+          if (err.status === 401) {
+            // Refresh token
+            this.refreshJWTProvider.refresh();
 
-                                // Refazendo o request
-                                this.http
-                                    .get(`${this.configProvider.base_url}/departments`, this.requestOptions.merge(new RequestOptions))
-                                    .map((response: Response) => response.json())
-                                    .subscribe(response => {
-                                        this.departments = response.data;
-                                        this.showLoading = false; // Retiramos o spinner de loading
+            // Redo request
+            this.http
+              .get(`${this.configProvider.base_url}/departments`, this.requestOptions.merge(new RequestOptions))
+              .map((response: Response) => response.json())
+              .subscribe(response => {
+                this.departments = response.data;
+                this.showLoading = false; // Retiramos o spinner de loading
 
-                                        if (refresher) {
-                                            refresher.complete();
-                                        }
-                                    });
-                            });
-                    }
+                if (refresher) {
+                  refresher.complete();
                 }
-            );
-    }
+              });
+          }
+        }
+      );
+  }
 
-    /**
-     * Navigate to the Products Page of a given Category.
-     *
-     * @param categoryName
-     * @param categoryIcon
-     * @param categoryId
-     */
-    public goToProductsPage(categoryName: string, categoryIcon: string, categoryId: number) {
-        this.navCtrl.push(CategoryDetailPage, {
-            catName: categoryName,
-            catIcon: categoryIcon,
-            catId: categoryId
-        });
-    }
+  /**
+   * Navigate to the Products Page of a given Category.
+   *
+   * @param categoryName
+   * @param categoryIcon
+   * @param categoryId
+   */
+  public goToProductsPage (categoryName: string, categoryIcon: string, categoryId: number) {
+    this.navCtrl.push(CategoryDetailPage, {
+      catName: categoryName,
+      catIcon: categoryIcon,
+      catId: categoryId
+    });
+  }
 
-    /**
-     * Refresh listener.
-     *
-     * @param refresher
-     */
-    public refresh(refresher) {
-        this.getDepartments(refresher);
-    }
+  /**
+   * Refresh listener.
+   *
+   * @param refresher
+   */
+  public refresh (refresher) {
+    this.getDepartments(refresher);
+  }
+
+  changeViewMode () {
+    let mode: string;
+    this.showInList = !this.showInList;
+
+    // Save preference to storage
+    mode = this.showInList == true ? 'list' : 'cards';
+    this.storageProvider.set(VIEW_MODE, mode);
+  }
 }

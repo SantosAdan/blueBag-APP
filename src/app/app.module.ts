@@ -17,6 +17,7 @@ import { SignUpPage } from '../pages/sign-up/sign-up';
 import { UserDataPage } from "../pages/user-data/user-data";
 import { AddressPage } from "../pages/address/address";
 import { AddressNewPage } from "../pages/address-new/address-new";
+import {CheckoutPage} from "../pages/checkout/checkout";
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -27,6 +28,7 @@ import { DefaultRequestOptionsProvider } from '../providers/default-request-opti
 import { MaskDirective } from '../directives/mask/mask';
 import { ConfigProvider } from '../providers/config/config';
 import { ShoppingBagProvider } from '../providers/shopping-bag/shopping-bag';
+import { RefreshTokenProvider } from '../providers/refresh-token/refresh-token';
 
 
 @NgModule({
@@ -43,6 +45,7 @@ import { ShoppingBagProvider } from '../providers/shopping-bag/shopping-bag';
     UserDataPage,
     AddressPage,
     AddressNewPage,
+    CheckoutPage,
     MaskDirective
   ],
   imports: [
@@ -64,7 +67,8 @@ import { ShoppingBagProvider } from '../providers/shopping-bag/shopping-bag';
     SignUpPage,
     UserDataPage,
     AddressPage,
-    AddressNewPage
+    AddressNewPage,
+    CheckoutPage
   ],
   providers: [
     StatusBar,
@@ -76,7 +80,8 @@ import { ShoppingBagProvider } from '../providers/shopping-bag/shopping-bag';
     AuthProvider,
     DefaultRequestOptionsProvider,
     ConfigProvider,
-    ShoppingBagProvider
+    ShoppingBagProvider,
+    RefreshTokenProvider
   ]
 })
 export class AppModule {}
