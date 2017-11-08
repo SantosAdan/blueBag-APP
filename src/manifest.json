@@ -1,6 +1,6 @@
 {
-  "name": "Ionic",
-  "short_name": "Ionic",
+  "name": "BlueBag",
+  "short_name": "BlueBag",
   "start_url": "index.html",
   "display": "standalone",
   "icons": [{

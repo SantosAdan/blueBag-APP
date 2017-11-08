@@ -21,9 +21,11 @@ export class RefreshTokenProvider {
    * @returns {Subscription}
    */
   refresh () {
-    return this.http.post(`${this.configProvider.base_url}/refresh_token`, {}, this.requestOptions.merge(new RequestOptions))
+    console.log('Entrei no refresh service!')
+    this.http.post(`${this.configProvider.base_url}/refresh_token`, {}, this.requestOptions.merge(new RequestOptions))
       .map((response: Response) => response.json())
       .subscribe(response => {
+        console.log(response);
         // Setando novo token
         this.jwtProvider.token = response.token;
       });

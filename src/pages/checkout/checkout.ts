@@ -1,11 +1,13 @@
 import {Component, ViewChild} from '@angular/core';
 import {Content, NavController, NavParams, Slides} from 'ionic-angular';
 import {AuthProvider} from "../../providers/auth/auth";
-import {find, orderBy} from 'lodash';
+import * as _ from 'lodash';
 import {Http, RequestOptions, Response} from "@angular/http";
 import {ConfigProvider} from "../../providers/config/config";
 import {DefaultRequestOptionsProvider} from "../../providers/default-request-options/default-request-options";
 import {ShoppingBagProvider} from "../../providers/shopping-bag/shopping-bag";
+import {InvoicePage} from "../invoice/invoice";
+import {InvoiceDetailsPage} from "../invoice-details/invoice-details";
 
 @Component({
   selector: 'page-checkout',
@@ -20,10 +22,12 @@ export class CheckoutPage {
   public products: any[] = [];
   public selectedAddress: number = null;
   public selectedCard: number = null;
+  public selectedInstallment: string = '';
   // public totalAmount: string = '';
   public totalValue: string = '';
   public numPayments: number = 1;
   public paymentInstallments: any[] = [];
+  public user_id: number = null;
 
   public address: {
     id: number
@@ -93,6 +97,7 @@ export class CheckoutPage {
     this.getAddresses();
     this.getProducts();
     this.getPaymentInstallments();
+    this.selectInstallment();
   }
 
   /**
@@ -101,11 +106,11 @@ export class CheckoutPage {
   getAddresses () {
     this.auth.getUser().subscribe(
       res => {
-        //noinspection TypeScriptUnresolvedVariable
-        this.addresses = res.data.addresses.data
+        this.user_id = res.data.id; // user_id to send on request
+        this.addresses = res.data.addresses.data;
 
         // Ordering
-        this.addresses = orderBy(this.addresses, 'street', 'asc')
+        this.addresses = _.orderBy(this.addresses, 'street', 'asc');
 
         // Close loading spinner
         // this.showLoading = false;
@@ -167,6 +172,36 @@ export class CheckoutPage {
     }
   }
 
+  createInvoice () {
+    let body = {
+      address_id: this.selectedAddress,
+      user_id: this.user_id,
+      products: this.products.map(item => {
+        return {id: item.id, amount: item.amount, value: item.value};
+      }),
+      total: this.products.reduce((sum, product) => {
+        return sum + (product.value * product.amount)
+      }, 0)
+    };
+
+    this.http
+      .post(`${this.configProvider.base_url}/invoices`, body, this.defaultRequest.merge(new RequestOptions))
+      // .map((res: Response) => res.json())
+      .subscribe(res => {
+
+        if (res.status === 201) {
+          let data = res.json();
+
+          this.clearShoppingBag();
+          this.goToInvoicePage(data.id);
+        }
+
+      },
+        err => {
+          console.log(err);
+        })
+  }
+
   /**
    * Select an address to delivery.
    *
@@ -184,7 +219,11 @@ export class CheckoutPage {
    */
   selectCard (card_id) {
     this.selectedCard = card_id;
-    this.card = find(this.cards, {id: card_id});
+    this.card = _.find(this.cards, {id: card_id});
+  }
+
+  selectInstallment () {
+    this.selectedInstallment = _.find(this.paymentInstallments, {value: this.numPayments});
   }
 
   /**
@@ -214,6 +253,18 @@ export class CheckoutPage {
    */
   scrollToTop () {
     this.content.scrollToTop();
+  }
+
+  clearShoppingBag () {
+    localStorage.removeItem('shopping_bag');
+  }
+
+  goToInvoicePage (invoice_id) {
+    this.navCtrl.setRoot(InvoicePage);
+    this.navCtrl.popToRoot();
+    this.navCtrl.push(InvoiceDetailsPage, {
+      id: invoice_id
+    });
   }
 
 }

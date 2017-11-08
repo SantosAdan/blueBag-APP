@@ -23,7 +23,7 @@
     <ion-spinner *ngIf="showLoading"></ion-spinner>
   </div>
 
-  <ion-list *ngIf="!showLoading && showInList">
+  <ion-list *ngIf="!showLoading && showInList" no-margin no-padding>
     <button ion-item *ngFor="let department of departments" (click)="goToProductsPage(department.name, department.icon, department.id)">
       <ion-icon [name]="department.icon" item-start color="bluebag-dark"></ion-icon>
       <span>{{ department.name }}</span>

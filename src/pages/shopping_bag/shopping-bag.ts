@@ -51,11 +51,12 @@ export class ShoppingBagPage {
         err => {
           // If token wasn't valid, do the refresh
           if (err.status === 401) {
+
             // Refresh token
             this.refreshJWTProvider.refresh();
 
             // Redo request
-            this.shoppingBagProvider.getProductsData()
+            return this.shoppingBagProvider.getProductsData()
               .subscribe(res => {
                 this.products = res.data;
                 this.showLoading = false; // Retiramos o spinner de loading

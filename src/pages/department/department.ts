@@ -4,7 +4,6 @@ import {Http, RequestOptions, Response} from "@angular/http";
 import {CategoryDetailPage} from "../category_detail/category_detail";
 import {DefaultRequestOptionsProvider} from "../../providers/default-request-options/default-request-options";
 import "rxjs/add/operator/map";
-import {JwtProvider} from "../../providers/jwt/jwt";
 import {ConfigProvider} from "../../providers/config/config";
 import {StorageProvider} from "../../providers/storage/storage";
 import {RefreshTokenProvider} from "../../providers/refresh-token/refresh-token";
@@ -24,18 +23,15 @@ export class DepartmentPage {
   constructor (public navCtrl: NavController,
                public requestOptions: DefaultRequestOptionsProvider,
                public http: Http,
-               private jwtProvider: JwtProvider,
                public configProvider: ConfigProvider,
                private refreshJWTProvider: RefreshTokenProvider,
                private storageProvider: StorageProvider) {
   }
 
-  ngOnInit () {
+  ionViewDidLoad () {
     this.showLoading = true;
     this.showInList = this.storageProvider.get(VIEW_MODE, 'list') == 'list';
-  }
 
-  ionViewDidLoad () {
     this.getDepartments()
   }
 
@@ -44,7 +40,7 @@ export class DepartmentPage {
    *
    * @returns {Subscription}
    */
-  public getDepartments (refresher = null) {
+  getDepartments (refresher = null) {
     return this.http
       .get(`${this.configProvider.base_url}/departments`, this.requestOptions.merge(new RequestOptions))
       .map((response: Response) => response.json())
@@ -86,7 +82,7 @@ export class DepartmentPage {
    * @param categoryIcon
    * @param categoryId
    */
-  public goToProductsPage (categoryName: string, categoryIcon: string, categoryId: number) {
+  goToProductsPage (categoryName: string, categoryIcon: string, categoryId: number) {
     this.navCtrl.push(CategoryDetailPage, {
       catName: categoryName,
       catIcon: categoryIcon,
@@ -99,7 +95,7 @@ export class DepartmentPage {
    *
    * @param refresher
    */
-  public refresh (refresher) {
+  refresh (refresher) {
     this.getDepartments(refresher);
   }
 

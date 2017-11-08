@@ -1,0 +1,47 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>Meus Pedidos</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content>
+
+  <div class="spinner">
+    <ion-spinner *ngIf="invoices.length == 0"></ion-spinner>
+  </div>
+
+  <ion-list *ngIf="invoices != 0">
+    <ion-item *ngFor="let invoice of invoices">
+      <ion-grid no-padding>
+        <ion-row>
+
+          <ion-col col-6>
+            <h2>Número pedido</h2>
+            <p>Item(s): {{invoice.products.data.length}}</p>
+          </ion-col>
+
+          <ion-col col-6>
+            <div float-right>
+              <h2>{{invoice.total}}</h2>
+              <p>{{invoice.created_at}}</p>
+            </div>
+          </ion-col>
+
+        </ion-row>
+        <!-- Button Row -->
+        <ion-row>
+          <ion-col col-12 text-center>
+            <button ion-button clear color="bluebag-dark" no-margin no-padding (click)="goToDetails(invoice.id)">
+              Detalhes
+              <ion-icon name="arrow-forward" margin-left></ion-icon>
+            </button>
+          </ion-col>
+        </ion-row>
+        <!-- End of Button Row -->
+      </ion-grid>
+    </ion-item>
+  </ion-list>
+</ion-content>

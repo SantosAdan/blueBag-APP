@@ -24,7 +24,7 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content no-padding>
   <ion-refresher (ionRefresh)="refresh($event)">
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
@@ -43,13 +43,13 @@
 
       <ion-row text-center>
         <ion-col col-12>
-          <ion-icon name="basket" color="bluebag-lighter" style="font-size: 5em;"></ion-icon>
+          <ion-icon name="basket" color="bluebag-light" style="font-size: 5em;"></ion-icon>
         </ion-col>
       </ion-row>
     </ion-grid>
   </div>
 
-  <ion-list *ngIf="!showLoading">
+  <ion-list *ngIf="!showLoading" no-padding no-margin>
     <ion-item *ngFor="let product of products;" text-wrap text-center>
       <ion-thumbnail item-start>
         <img [src]="configProvider.base_url+'/products/'+product.id+'/photo'">

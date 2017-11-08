@@ -1,0 +1,37 @@
+page-invoice-details {
+  div.spinner {
+    margin: auto;
+    position: absolute;
+    top: 0; left: 0; bottom: 0; right: 0;
+    height: 100px;
+    text-align: center;
+  }
+
+  ion-card-header {
+    background-color: color($colors, bluebag-dark) !important;
+    color: color($colors, white) !important;
+    font-weight: bold;
+  }
+
+  ion-icon {
+    font-size: 3em;
+  }
+
+  ion-label {
+    margin: 0 !important;
+  }
+
+  small {
+    display: block;
+    text-align: center;
+  }
+
+  .info > p {
+    font-weight: bold !important;
+    padding-bottom: 3%;
+  }
+
+  .fix-padding-top {
+    padding-top: 8%;
+  }
+}

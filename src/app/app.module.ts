@@ -29,6 +29,10 @@ import { MaskDirective } from '../directives/mask/mask';
 import { ConfigProvider } from '../providers/config/config';
 import { ShoppingBagProvider } from '../providers/shopping-bag/shopping-bag';
 import { RefreshTokenProvider } from '../providers/refresh-token/refresh-token';
+import {ReadMoreComponent} from "../pages/read-more";
+import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
+import {InvoicePage} from "../pages/invoice/invoice";
+import {InvoiceDetailsPage} from "../pages/invoice-details/invoice-details";
 
 
 @NgModule({
@@ -46,10 +50,14 @@ import { RefreshTokenProvider } from '../providers/refresh-token/refresh-token';
     AddressPage,
     AddressNewPage,
     CheckoutPage,
-    MaskDirective
+    InvoicePage,
+    InvoiceDetailsPage,
+    MaskDirective,
+    ReadMoreComponent
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     HttpModule,
     IonicModule.forRoot(MyApp),
     IonicStorageModule.forRoot()
@@ -68,7 +76,9 @@ import { RefreshTokenProvider } from '../providers/refresh-token/refresh-token';
     UserDataPage,
     AddressPage,
     AddressNewPage,
-    CheckoutPage
+    CheckoutPage,
+    InvoicePage,
+    InvoiceDetailsPage,
   ],
   providers: [
     StatusBar,
