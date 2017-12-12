@@ -1,0 +1,91 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>BlueBag</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content no-padding>
+
+  <div class="spinner">
+    <ion-spinner *ngIf="!invoice && !address && !products"></ion-spinner>
+  </div>
+
+  <!-- General Info -->
+  <ion-card *ngIf="invoice">
+    <ion-card-header text-center>Número {{invoice.code}}</ion-card-header>
+    <ion-card-content padding>
+      <div float-left>
+        <p>Data</p>
+        <p class="fix-padding-top">Pagamento</p>
+      </div>
+      <div class="info" float-right>
+        <p>{{ invoice.created_at }} <small>{{ created_hour}}</small></p>
+        <p>{{ invoice.total }}</p>
+      </div>
+    </ion-card-content>
+  </ion-card>
+  <!--END of General Info -->
+
+  <!-- ADDRESS -->
+  <ion-card *ngIf="address">
+    <ion-card-header text-center>Endereço de Entrega</ion-card-header>
+
+    <ion-card-content no-padding>
+      <ion-list no-lines text-wrap>
+
+        <ion-item>
+          <ion-icon name="home" item-left></ion-icon>
+          <p>{{ address.street }}, {{ address.number }}. {{ address.district }} - {{ address.complement }}</p>
+        </ion-item>
+
+        <ion-item>
+          <ion-icon name="map" item-left></ion-icon>
+          <p>{{ address.city}} - {{ address.state }}</p>
+        </ion-item>
+
+        <ion-item>
+          <ion-icon name="locate" item-left></ion-icon>
+          <p>{{address.zipcode}}</p>
+        </ion-item>
+
+      </ion-list>
+    </ion-card-content>
+  </ion-card>
+  <!-- END of ADDRESS -->
+
+  <!-- Invoice Items -->
+  <ion-card *ngIf="products">
+    <ion-card-header text-center>Items</ion-card-header>
+    <ion-card-content no-padding>
+
+      <ion-list no-lines text-wrap>
+        <ion-item *ngFor="let product of products;">
+          <ion-grid>
+            <ion-row>
+              <ion-col col-12>
+                <h2>{{product.name}}</h2>
+              </ion-col>
+            </ion-row>
+
+            <ion-row>
+              <ion-col col-6 text-left>
+                <p>R$ {{product.value.toFixed(2).toString().replace('.', ',')}}</p>
+              </ion-col>
+              <ion-col col-2 text-center>
+                <p>x{{product.amount}}</p>
+              </ion-col>
+              <ion-col col-4 text-right>
+                <p>R$ {{ (product.value * product.amount).toFixed(2).toString().replace('.', ',') }}</p>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+        </ion-item>
+      </ion-list>
+
+    </ion-card-content>
+  </ion-card>
+  <!-- END of Invoice Items -->
+</ion-content>

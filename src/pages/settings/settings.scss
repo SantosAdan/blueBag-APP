@@ -3,30 +3,19 @@ page-settings {
     font-size: 30px;
   }
 
-  ion-buttons > span > span {
+  span {
     font-weight: bold;
   }
 
-  #btn-logout {
-    float: right;
-  }
-
-  .greeting-msg {
-    float: left;
-  }
-
-  .greeting-section {
-    padding: 5% 0% 5% 10%;
-    font-size: 1.2em;
-  }
   .header-section > p {
     font-size: 1.2em;
+    padding: 0;
+    margin: 0;
   }
 
   .header-section {
-    background-color: color($colors, bluebag-lighter);
+    background-color: color($colors, bluebag-grey);
     min-height: 40px;
-    padding: 1% 0%;
-    clear: both;
+    padding: 3% 0;
   }
 }

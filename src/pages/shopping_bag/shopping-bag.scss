@@ -1,16 +1,25 @@
 page-shopping-bag {
-  #notif-icon {
-    position: relative;
-    width: 42px;
-    top:1px;
-    right: 1px;
-    overflow: visible!important;
-  }
-  #notif-badge {
+  div.spinner {
+    margin: auto;
     position: absolute;
-    top: -3px;
-    right: -3px;
-    border-radius: 100%;
+    top: 0; left: 0; bottom: 0; right: 0;
+    height: 100px;
+    text-align: center;
+  }
+
+  input[type='number'] {
+    -moz-appearance:textfield;
+    display: inline;
+    width: 50px;
+    //border: 2px solid color($colors, bluebag-dark);
+    padding: 2% 5% 3% 5%;
+    text-align: center;
+  }
+  /* Webkit browsers like Safari and Chrome */
+  input[type=number]::-webkit-inner-spin-button,
+  input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
   }
 
   .product-value {
@@ -52,10 +61,11 @@ page-shopping-bag {
   }
 
   div.fix-center {
+    color: #414141;
     margin: auto;
     position: absolute;
     top: 0; left: 0; bottom: 0; right: 0;
-    height: 150px;
+    height: 210px;
     text-align: center;
   }
 }

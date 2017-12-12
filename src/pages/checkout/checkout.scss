@@ -1,0 +1,235 @@
+page-checkout {
+  .card-selected {
+    border: 2px solid color($colors, bluebag-light);
+    //position: relative;
+    //z-index: 20 !important;
+  }
+  .card-selected-bg {
+    background-color: color($colors, bluebag-dark) !important;
+  }
+  .card-selected-bg > h2 {
+    color: #fff !important;
+    font-weight: bold;
+  }
+
+  .selected-icon {
+    position: absolute;
+    right: 10px;
+    top: 0px;
+    color: #000;
+    z-index: 9999 !important;
+  }
+
+  /* Arruma a margem dos botões */
+  .fix-btn-margin {
+    margin-left: 5%;
+    margin-right: 5% !important;
+    width: 90%;
+  }
+
+  .fix-margin-right {
+    padding-top: 5% !important;
+    margin-left: 5%;
+    margin-right: 5% !important;
+    margin-bottom: 5% !important;
+    width: 90%;
+  }
+
+  .invoice-total {
+    font-size: 1.5em;
+    font-weight: bold;
+  }
+
+  ion-icon {
+    font-size: 3em;
+  }
+  ion-label {
+    margin: 0 !important;
+  }
+
+  .fix-item-color {
+    background-color: color($colors, bluebag-grey) !important;
+  }
+
+  /* Arruma o problema com o scroll vertical do ion-slides */
+  .swiper-slide {
+    overflow-y: scroll;
+  }
+  .slide-zoom{
+    height:100%;
+  }
+  /* end */
+
+
+  /* --------------------------------
+
+          Basic Style
+
+  -------------------------------- */
+  a {
+    text-decoration: none;
+  }
+
+  .cd-breadcrumb, .cd-multi-steps {
+    width: 100%;
+    max-width: 600px;
+    padding: 0; //padding: 0.5em 1em;
+    margin: 0; //margin: 1em auto;
+    background-color: color($colors, bluebag-light) !important;
+    //border-radius: .25em;
+  }
+  .cd-breadcrumb:after, .cd-multi-steps:after {
+    content: "";
+    display: table;
+    clear: both;
+  }
+  .cd-breadcrumb li, .cd-multi-steps li {
+    display: inline-block;
+    float: left;
+    margin: 0.5em 0;
+  }
+  .cd-breadcrumb li::after, .cd-multi-steps li::after {
+    /* this is the separator between items */
+    display: inline-block;
+    content: '\00bb';
+    margin: 0 .6em;
+    color: #959fa5;
+  }
+  .cd-breadcrumb li:last-of-type::after, .cd-multi-steps li:last-of-type::after {
+    /* hide separator after the last item */
+    display: none;
+  }
+  .cd-breadcrumb li > *, .cd-multi-steps li > * {
+    /* single step */
+    display: inline-block;
+    font-size: 1.4rem;
+    color: #2c3f4c;
+  }
+
+  /* --------------------------------
+
+        Multi steps indicator
+
+  -------------------------------- */
+  .cd-multi-steps {
+    /* reset style */
+    background-color: transparent;
+    padding: 0;
+    text-align: center;
+  }
+
+  .cd-multi-steps li {
+    position: relative;
+    float: none;
+    margin: 0.4em 40px 0.4em 0;
+  }
+  .cd-multi-steps li:last-of-type {
+    margin-right: 0;
+  }
+  .cd-multi-steps li::after {
+    /* this is the line connecting 2 adjacent items */
+    position: absolute;
+    content: '';
+    height: 4px;
+    background: color($colors, bluebag-grey);;
+    /* reset style */
+    margin: 0;
+  }
+  .cd-multi-steps li.visited::after {
+    background-color: color($colors, bluebag-dark);
+  }
+  .cd-multi-steps li > *, .cd-multi-steps li.current > * {
+    position: relative;
+    color: color($colors, white);
+    font-weight: bold;
+    font-family: Roboto, "Helvetica Neue", sans-serif;
+  }
+
+  .cd-multi-steps.text-top li, .cd-multi-steps.text-bottom li {
+    width: 65px;
+    text-align: center;
+  }
+  .cd-multi-steps.text-top li::after, .cd-multi-steps.text-bottom li::after {
+    /* this is the line connecting 2 adjacent items */
+    position: absolute;
+    left: 65%;
+    /* 40px is the <li> right margin value */
+    width: calc(100% + 40px);
+  }
+  .cd-multi-steps.text-top li > *::before, .cd-multi-steps.text-bottom li > *::before {
+    /* this is the spot indicator */
+    content: '';
+    position: absolute;
+    z-index: 1;
+    left: 50%;
+    right: auto;
+    -webkit-transform: translateX(-50%);
+    -moz-transform: translateX(-50%);
+    -ms-transform: translateX(-50%);
+    -o-transform: translateX(-50%);
+    transform: translateX(-50%);
+    height: 12px;
+    width: 12px;
+    border-radius: 10%;
+    background-color: color($colors, bluebag-grey);;
+  }
+  .cd-multi-steps.text-top li.visited > *::before,
+  .cd-multi-steps.text-top li.current > *::before, .cd-multi-steps.text-bottom li.visited > *::before,
+  .cd-multi-steps.text-bottom li.current > *::before {
+    background-color: color($colors, bluebag-dark); //background-color: #96c03d;
+  }
+  .no-touch .cd-multi-steps.text-top a:hover, .no-touch .cd-multi-steps.text-bottom a:hover {
+    color: color($colors, bluebag-dark); //color: #96c03d;
+  }
+  .no-touch .cd-multi-steps.text-top a:hover::before, .no-touch .cd-multi-steps.text-bottom a:hover::before {
+    box-shadow: 0 0 0 3px rgba(150, 192, 61, 0.3);
+  }
+
+  .cd-multi-steps.text-top li::after {
+    /* this is the line connecting 2 adjacent items */
+    bottom: 4px;
+  }
+  .cd-multi-steps.text-top li > * {
+    padding-bottom: 20px;
+  }
+  .cd-multi-steps.text-top li > *::before {
+    /* this is the spot indicator */
+    bottom: 0;
+  }
+
+  /* --------------------------------
+      Add a counter to the multi-steps indicator
+  -------------------------------- */
+  .cd-multi-steps.count li {
+    counter-increment: steps;
+  }
+
+  .cd-multi-steps.count li > *::before {
+    content: counter(steps) " - ";
+  }
+
+  .cd-multi-steps.text-top.count li > *::before,
+  .cd-multi-steps.text-bottom.count li > *::before {
+    /* this is the spot indicator */
+    content: counter(steps);
+    height: 26px;
+    width: 26px;
+    line-height: 26px;
+    font-size: 1.4rem;
+    color: #fff;
+  }
+
+  .cd-multi-steps.text-top.count li:not(.current) em::before,
+  .cd-multi-steps.text-bottom.count li:not(.current) em::before {
+    /* steps not visited yet - counter color */
+    color: #fff;
+  }
+
+  .cd-multi-steps.text-top.count li::after {
+    bottom: 11px;
+  }
+
+  .cd-multi-steps.text-top.count li > * {
+    padding-bottom: 34px;
+  }
+}

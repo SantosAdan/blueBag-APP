@@ -1,0 +1,50 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-title *ngIf="mode == 'new'">Novo Cartão</ion-title>
+    <ion-title *ngIf="mode == 'edit'">Editando Cartão</ion-title>
+
+    <ion-buttons end>
+      <button ion-button icon-only (click)="closeModal()">
+        <ion-icon name="close" color="danger"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+  <ion-list *ngIf="card">
+    <ion-item>
+      <ion-label>Número</ion-label>
+      <ion-input type="text" mask="**** **** **** ****" clearInput [(ngModel)]="card.number" placeholder="xxxx xxxx xxxx xxxx"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label>Titular</ion-label>
+      <ion-input type="text" [(ngModel)]="card.name"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label>CPF Titular</ion-label>
+      <ion-input type="text" mask="***.***.***-**" clearInput [(ngModel)]="card.cpf"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label>Data de Validade</ion-label>
+      <!--<ion-input type="text" [(ngModel)]="card.date" (click)="showDatePicker()"></ion-input>-->
+      <ion-datetime cancelText="Fechar" doneText="Selecionar" displayFormat="MM/YYYY" min="2017" max="2040" [(ngModel)]="card.date"></ion-datetime>
+    </ion-item>
+
+    <ion-item>
+      <ion-label>CVC</ion-label>
+      <ion-input type="text" mask="***" clearInput [(ngModel)]="card.cvc"></ion-input>
+    </ion-item>
+
+  </ion-list>
+
+  <button ion-button block outline color="bluebag-dark" *ngIf="mode == 'new'" (click)="storeCard()">Salvar</button>
+  <button ion-button block outline color="bluebag-dark" *ngIf="mode == 'edit'" (click)="updateCard(card.id)">Salvar</button>
+
+</ion-content>

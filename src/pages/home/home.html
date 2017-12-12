@@ -4,36 +4,105 @@
   </ion-navbar>
 </ion-header>
 
-<ion-content>
-  <h2 padding>Sessão Blue</h2>
+<ion-content padding-bottom>
+  <section class="blueSection">
+    <ion-icon name="star-outline" color="bluebag-dark"></ion-icon>
+    <span>Sessão Blue</span>
+  </section>
 
-  <ion-slides pager>
+  <ion-slides pager slidesPerView="2">
+
     <ion-slide>
       <ion-card>
-        <img src="assets/img/beer-combo.jpeg"/>
         <ion-card-content>
-          <ion-card-title>
-            Combo de Cervejas
-          </ion-card-title>
-          <p>
-            Desconto ESPECIAL para você que é nosso cliente vip.
-          </p>
+          <p>Nutella 500g</p>
+
+          <ion-thumbnail>
+            <img src="assets/img/nutella.png"/>
+          </ion-thumbnail>
+
+          <p class="bluePrice">R$ 12,49</p>
         </ion-card-content>
       </ion-card>
     </ion-slide>
+
     <ion-slide>
       <ion-card>
-        <img src="assets/img/beer.jpg"/>
         <ion-card-content>
-          <ion-card-title>
-            Chopp TOP
-          </ion-card-title>
-          <p>
-            Nosso produto genérico está com uma MEGA promoção.
-          </p>
+          <p>Picanha Friboi</p>
+
+          <ion-thumbnail>
+            <img src="assets/img/picanha.png"/>
+          </ion-thumbnail>
+
+          <p class="bluePrice">R$ 39,80</p>
         </ion-card-content>
       </ion-card>
     </ion-slide>
+
+    <ion-slide>
+      <ion-card>
+        <ion-card-content>
+          <p>Combo de Cervejas</p>
+
+          <ion-thumbnail>
+            <img src="assets/img/beer-combo.jpeg"/>
+          </ion-thumbnail>
+
+          <p class="bluePrice">R$ 14,90</p>
+        </ion-card-content>
+      </ion-card>
+    </ion-slide>
+
   </ion-slides>
 
+  <section class="onSaleSection">
+    <ion-icon name="ios-bookmark-outline" color="bluebag-dark"></ion-icon>
+    <span>Recomendados para você</span>
+  </section>
+
+  <ion-slides pager slidesPerView="2">
+    <ion-slide>
+      <ion-card>
+        <ion-card-content>
+          <p>Mac. Parafuso Amália 1kg</p>
+
+          <ion-thumbnail>
+            <img src="assets/img/macarrao.jpg"/>
+          </ion-thumbnail>
+
+          <p class="bluePrice">R$ 3,89</p>
+        </ion-card-content>
+      </ion-card>
+    </ion-slide>
+
+    <ion-slide>
+      <ion-card>
+        <ion-card-content>
+          <p>Molho de Tomate Fugini 500g</p>
+
+          <ion-thumbnail>
+            <img src="assets/img/molho.png"/>
+          </ion-thumbnail>
+
+          <p class="bluePrice">R$ 2,19</p>
+        </ion-card-content>
+      </ion-card>
+    </ion-slide>
+
+    <ion-slide>
+      <ion-card>
+        <ion-card-content>
+          <p>Queijo Ralado Vigor 50g</p>
+
+          <ion-thumbnail>
+            <img src="assets/img/queijo_ralado.png"/>
+          </ion-thumbnail>
+
+          <p class="bluePrice">R$ 4,89</p>
+        </ion-card-content>
+      </ion-card>
+    </ion-slide>
+
+  </ion-slides>
 </ion-content>

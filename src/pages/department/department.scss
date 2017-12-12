@@ -6,8 +6,27 @@ page-department {
     height: 100px;
     text-align: center;
   }
-}
 
-.icon-padding {
-  padding-left: 3%;
+  .fix-icon-card {
+    font-size: 2em;
+    display: block;
+    padding-bottom: 10%;
+  }
+
+  .col, .grid {
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  .card {
+    display: flex;
+    height: 120px;
+    width: 92%;
+    margin: 5% 0 0 5%;
+  }
+
+  .card-content {
+    width: 100%;
+    margin: auto;
+  }
 }

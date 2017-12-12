@@ -1,7 +1,7 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-title>Dados para entrega</ion-title>
+    <ion-title>BlueBag</ion-title>
 
     <ion-buttons end>
       <button ion-button icon-only (click)="presentNewAddressModal()">
@@ -19,6 +19,13 @@
   </div>
 
   <ion-list *ngIf="!showLoading">
+
+    <ion-list-header>
+      <h2>
+        <ion-icon name="pin"></ion-icon>
+        Endereços de Entrega
+      </h2>
+    </ion-list-header>
 
     <ion-item *ngFor="let address of addresses">
 

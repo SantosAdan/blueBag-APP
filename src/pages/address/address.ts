@@ -70,7 +70,7 @@ export class AddressPage {
     }
 
     /**
-     * Show confirm removing product alert.
+     * Show confirm removing address alert.
      *
      */
     showConfirm(address_id) {

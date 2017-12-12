@@ -12,28 +12,82 @@
     <ion-spinner *ngIf="showLoading"></ion-spinner>
   </div>
 
-  <ion-card *ngIf="!showLoading">
-    <img src="assets/img/product-default.jpg" height="100" />
-    <ion-card-content>
-      <ion-card-title>
-        Produto em destaque
-      </ion-card-title>
-      <ion-grid>
-        <ion-row>
-          <ion-col col-12 text-center>
-            <h1 class="productValue">R$ <span class="first-number">12</span>,55</h1>
-          </ion-col>
-        </ion-row>
-        <!-- Add Button Row -->
-        <ion-row>
-          <button ion-button icon-right block color="bluebag-dark" (click)="addToChart(product.id)">
+  <!-- On Sale Products -->
+  <section class="blueSection" *ngIf="!showLoading">
+    <ion-icon name="star-outline"></ion-icon>
+    <span>Destaques</span>
+  </section>
+
+  <ion-slides pager slidesPerView="2" *ngIf="!showLoading">
+    <ion-slide>
+      <ion-card>
+        <ion-card-content>
+          <p>Combo de Cervejas</p>
+
+          <ion-thumbnail>
+            <img src="assets/img/product-default.jpg"/>
+          </ion-thumbnail>
+
+          <p class="bluePrice">R$ 14,90</p>
+          <button ion-button outline icon-right block small color="bluebag-dark">
             Adicionar <ion-icon name="basket"></ion-icon>
           </button>
-        </ion-row>
-        <!-- End of Add Button Row -->
-      </ion-grid>
-    </ion-card-content>
-  </ion-card>
+        </ion-card-content>
+      </ion-card>
+    </ion-slide>
+
+    <ion-slide>
+      <ion-card>
+        <ion-card-content>
+          <p>Combo de Cervejas</p>
+
+          <ion-thumbnail>
+            <img src="assets/img/product-default.jpg"/>
+          </ion-thumbnail>
+
+          <p class="bluePrice">R$ 5,89</p>
+          <button ion-button outline icon-right block small color="bluebag-dark">
+            Adicionar <ion-icon name="basket"></ion-icon>
+          </button>
+        </ion-card-content>
+      </ion-card>
+    </ion-slide>
+
+    <ion-slide>
+      <ion-card>
+        <ion-card-content>
+          <p>Combo de Cervejas</p>
+
+          <ion-thumbnail>
+            <img src="assets/img/product-default.jpg"/>
+          </ion-thumbnail>
+
+          <p class="bluePrice">R$ 14,90</p>
+          <button ion-button outline icon-right block small color="bluebag-dark">
+            Adicionar <ion-icon name="basket"></ion-icon>
+          </button>
+        </ion-card-content>
+      </ion-card>
+    </ion-slide>
+
+    <ion-slide>
+      <ion-card>
+        <ion-card-content>
+          <p>Combo de Cervejas</p>
+
+          <ion-thumbnail>
+            <img src="assets/img/product-default.jpg"/>
+          </ion-thumbnail>
+
+          <p class="bluePrice">R$ 15,89</p>
+          <button ion-button outline icon-right block small color="bluebag-dark">
+            Adicionar <ion-icon name="basket"></ion-icon>
+          </button>
+        </ion-card-content>
+      </ion-card>
+    </ion-slide>
+  </ion-slides>
+  <!-- End of On Sale Products -->
 
   <ion-list *ngIf="!showLoading">
     <ion-item *ngFor="let product of products" text-wrap text-center>
@@ -42,12 +96,19 @@
       </ion-thumbnail>
 
       <p>{{ product.name }}</p>
+
       <h1 class="productValue" padding-vertical>
         R$ {{ product.value.toFixed(2).toString().replace('.', ',') }}
       </h1>
+
       <button ion-button icon-right outline block color="bluebag-dark" (click)="addToChart(product.id)">
         Adicionar <ion-icon name="basket"></ion-icon>
       </button>
+
+      <p class="clientInfo">
+        Vendido e entregue por:
+        <b>{{ product.client.data.name }}</b>
+      </p>
 
     </ion-item>
   </ion-list>

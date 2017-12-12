@@ -2,36 +2,39 @@
   <ion-toolbar class="center">
 
     <ion-grid>
-      <ion-row>
+      <ion-row *ngIf="(getNumberItems() !== 0)">
         <ion-col col-5>
           {{ getNumberItems() }} item(s)
           <h3>R$ {{ getTotal() }}</h3>
         </ion-col>
         <ion-col col-7>
-          <button ion-button small icon-right color="bluebag-dark" margin-vertical>Finalizar compra&nbsp;
+          <button ion-button small icon-right color="bluebag-dark" margin-vertical (click)="goToCheckoutPage()">Finalizar compra&nbsp;
             <ion-icon name="checkmark"></ion-icon>
           </button>
         </ion-col>
       </ion-row>
 
-      <!--<ion-row>-->
-        <!--<h2>-->
-          <!--<ion-icon id="notif-icon" name="basket">-->
-            <!--<ion-badge id="notif-badge" color="danger">{{ getNumberItems() }}</ion-badge>-->
-          <!--</ion-icon>-->
-        <!--</h2>-->
-      <!--</ion-row>-->
+      <ion-row *ngIf="(getNumberItems() === 0)">
+        <ion-col col-12>
+          {{ getNumberItems() }} item(s)
+          <h3>R$ {{ getTotal() }}</h3>
+        </ion-col>
+      </ion-row>
     </ion-grid>
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content no-padding>
   <ion-refresher (ionRefresh)="refresh($event)">
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
 
+  <div class="spinner">
+    <ion-spinner *ngIf="showLoading"></ion-spinner>
+  </div>
+
   <div class="fix-center">
-    <ion-grid *ngIf="products.length == 0">
+    <ion-grid *ngIf="!showLoading && products.length == 0">
       <ion-row>
         <ion-col col-12>
           <h2>Não há produtos na sacola</h2>
@@ -40,13 +43,17 @@
 
       <ion-row text-center>
         <ion-col col-12>
-          <ion-icon name="basket" color="bluebag-lighter" style="font-size: 5em;"></ion-icon>
+          <ion-icon name="basket" color="bluebag-light" style="font-size: 5em;"></ion-icon>
         </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <button ion-button block color="bluebag-light" (click)="goToDepartmentsPage()">Buscar produtos</button>
       </ion-row>
     </ion-grid>
   </div>
 
-  <ion-list>
+  <ion-list *ngIf="!showLoading" no-padding no-margin>
     <ion-item *ngFor="let product of products;" text-wrap text-center>
       <ion-thumbnail item-start>
         <img [src]="configProvider.base_url+'/products/'+product.id+'/photo'">
@@ -57,8 +64,7 @@
         <button ion-button outline color="danger" class="btn-remove" (click)="removeAmount(product.id)">
           <ion-icon name="remove"></ion-icon>
         </button>
-        <!--<strong>{{ product.amount }}</strong>-->
-        <input type="number" [(ngModel)]="product.amount">
+        <input type="number" [(ngModel)]="product.amount" (keyup)="updateAmount(product.id)">
         <button ion-button outline color="secondary" class="btn-add" (click)="addAmount(product.id)">
           <ion-icon name="add"></ion-icon>
         </button>
