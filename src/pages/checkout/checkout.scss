@@ -27,6 +27,14 @@ page-checkout {
     width: 90%;
   }
 
+  .fix-margin-right {
+    padding-top: 5% !important;
+    margin-left: 5%;
+    margin-right: 5% !important;
+    margin-bottom: 5% !important;
+    width: 90%;
+  }
+
   .invoice-total {
     font-size: 1.5em;
     font-weight: bold;
@@ -37,6 +45,10 @@ page-checkout {
   }
   ion-label {
     margin: 0 !important;
+  }
+
+  .fix-item-color {
+    background-color: color($colors, bluebag-grey) !important;
   }
 
   /* Arruma o problema com o scroll vertical do ion-slides */

@@ -5,6 +5,7 @@ import * as _ from 'lodash';
 import {CheckoutPage} from "../checkout/checkout";
 import {ConfigProvider} from "../../providers/config/config";
 import {RefreshTokenProvider} from "../../providers/refresh-token/refresh-token";
+import {DepartmentPage} from "../department/department";
 
 @Component({
   selector: 'page-shopping-bag',
@@ -220,5 +221,10 @@ export class ShoppingBagPage {
       total_amount: this.getNumberItems(),
       total_value: this.getTotal()
     });
+  }
+
+  goToDepartmentsPage () {
+    this.navCtrl.setRoot(DepartmentPage);
+    this.navCtrl.popToRoot();
   }
 }

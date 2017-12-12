@@ -1,0 +1,42 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>BlueBag</ion-title>
+
+    <ion-buttons end>
+      <button ion-button icon-only (click)="presentNewCardModal()">
+        <ion-icon name="add"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content no-padding>
+  <div class="spinner">
+    <ion-spinner *ngIf="cards.length == 0"></ion-spinner>
+  </div>
+
+  <ion-list *ngIf="cards.length != 0">
+    <ion-list-header>
+      <h2>
+        <ion-icon name="card"></ion-icon>
+        Meus cartões
+      </h2>
+    </ion-list-header>
+
+    <ion-item *ngFor="let card of cards">
+
+      <img *ngIf="card.flag != ''" src="assets/img/{{card.flag}}" width="30" alt="Credit Card Logo"/>
+      <h2>
+        {{card.number}}
+      </h2>
+      <p>{{card.name}}</p>
+      <p>{{card.date}}</p>
+
+      <ion-icon name="more" item-end (click)="presentActionSheet(card.id)"></ion-icon>
+    </ion-item>
+
+  </ion-list>
+</ion-content>

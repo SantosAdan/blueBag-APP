@@ -20,10 +20,10 @@
   <ion-slides #checkoutSlider padding-vertical>
     <!-- ADDRESS -->
     <ion-slide>
-      <h3>Qual o endereço para entrega?</h3>
+      <p>Qual o endereço para entrega?</p>
 
       <ion-list>
-        <ion-item *ngFor="let address of addresses" no-lines text-wrap>
+        <ion-item *ngFor="let address of addresses" no-lines text-wrap class="fix-item-color">
           <ion-card [ngClass]="{'card-selected' : (selectedAddress == address.id)}"
                     (click)="selectAddress(address.id)">
             <ion-card-content>
@@ -45,16 +45,16 @@
 
     <!-- PAYMENT -->
     <ion-slide>
-      <h3>Qual cartão deseja utilizar?</h3>
+      <p>Qual cartão deseja utilizar?</p>
 
-      <ion-list>
-        <ion-item *ngFor="let card of cards" no-lines text-wrap>
+      <ion-list *ngIf="cards.length != 0">
+        <ion-item *ngFor="let card of cards" no-lines text-wrap class="fix-item-color">
           <ion-card [ngClass]="{'card-selected' : (selectedCard == card.id)}"
                     (click)="selectCard(card.id)">
             <ion-card-content>
               <strong>{{ card.number }}</strong><br>
               {{ card.name }}<br>
-              {{card.due_date}}
+              {{card.date}}
             </ion-card-content>
             <span class="selected-icon" *ngIf="(selectedCard == card.id)">
               <ion-icon name="checkmark-circle" color="bluebag-light"></ion-icon>
@@ -63,7 +63,7 @@
         </ion-item>
       </ion-list>
 
-      <ion-item no-lines>
+      <ion-item no-lines class="fix-margin-right">
         <ion-label floating>Parcelas</ion-label>
         <ion-select [(ngModel)]="numPayments" cancelText="Fechar" interface="action-sheet" (ionChange)="selectInstallment()">
           <ion-option *ngFor="let installment of paymentInstallments" [value]="installment.value">
@@ -81,7 +81,7 @@
 
     <!-- REVIEW -->
     <ion-slide>
-      <h3>Verifique os dados do seu pedido</h3>
+      <p>Confirme os dados do seu pedido</p>
 
       <button class="fix-btn-margin" ion-button color="danger" (tap)="createInvoice()">Efetuar compra</button>
 
@@ -159,7 +159,7 @@
 
             <ion-item>
               <ion-icon name="calendar" item-left></ion-icon>
-              <p>{{card.due_date}}</p>
+              <p>{{card.date}}</p>
             </ion-item>
 
             <ion-item>

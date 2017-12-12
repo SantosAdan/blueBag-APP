@@ -6,6 +6,7 @@ import {ConfigProvider} from "../../providers/config/config";
 import {DefaultRequestOptionsProvider} from "../../providers/default-request-options/default-request-options";
 import {InvoiceDetailsPage} from "../invoice-details/invoice-details";
 import * as _ from 'lodash';
+import {DepartmentPage} from "../department/department";
 
 @Component({
   selector: 'page-invoice',
@@ -16,6 +17,7 @@ export class InvoicePage {
   public user_id: number = null;
   public invoices: any[] = [];
   public BRL = new Intl.NumberFormat('pt-BR', {style: 'currency', currency: 'BRL'});
+  public showLoader: boolean;
 
   constructor (public navCtrl: NavController,
                public navParams: NavParams,
@@ -26,9 +28,13 @@ export class InvoicePage {
   }
 
   ionViewDidLoad () {
+    // Show loader while getting data
+    this.showLoader = true;
+
     this.getUserId();
     setTimeout(() => {
       this.getInvoices();
+      this.showLoader = false;
     }, 1000);
   }
 
@@ -43,7 +49,8 @@ export class InvoicePage {
           this.invoices.map((invoice) => {
             invoice.total = this.BRL.format(invoice.total);
             invoice.created_at = new Date(invoice.created_at.date);
-            invoice.created_at = `${invoice.created_at.getDay()}/${invoice.created_at.getMonth()}/${invoice.created_at.getFullYear()}`;
+            invoice.created_at = `${invoice.created_at.getDate()}/${invoice.created_at.getMonth()+1}/${invoice.created_at.getFullYear()}`;
+
           })
         },
         err => {
@@ -67,5 +74,10 @@ export class InvoicePage {
     this.navCtrl.push(InvoiceDetailsPage, {
       id: invoice_id
     })
+  }
+
+  goToDepartmentsPage () {
+    this.navCtrl.setRoot(DepartmentPage);
+    this.navCtrl.popToRoot();
   }
 }

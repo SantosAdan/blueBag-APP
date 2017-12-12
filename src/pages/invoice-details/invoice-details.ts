@@ -62,7 +62,7 @@ export class InvoiceDetailsPage {
   }
 
   formatDate(invoice) {
-    return `${invoice.created_at.getDay()}/${invoice.created_at.getMonth()}/${invoice.created_at.getFullYear()}`;
+    return `${invoice.created_at.getDate()}/${invoice.created_at.getMonth()+1}/${invoice.created_at.getFullYear()}`;
   }
 
   formatHour(invoice) {

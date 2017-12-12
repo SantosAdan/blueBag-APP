@@ -1,25 +1,54 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-title>Meus Pedidos</ion-title>
+    <ion-title>BlueBag</ion-title>
   </ion-navbar>
 
 </ion-header>
 
 
-<ion-content>
+<ion-content no-padding>
 
   <div class="spinner">
-    <ion-spinner *ngIf="invoices.length == 0"></ion-spinner>
+    <ion-spinner *ngIf="showLoader"></ion-spinner>
   </div>
 
-  <ion-list *ngIf="invoices != 0">
+  <div class="fix-center" *ngIf="!showLoader && invoices.length == 0">
+    <ion-grid>
+      <ion-row>
+        <ion-col col-12>
+          <h2>Você ainda não realizou nenhum pedido.</h2>
+        </ion-col>
+      </ion-row>
+
+      <ion-row text-center>
+        <ion-col col-12>
+          <ion-icon name="basket" color="bluebag-light" style="font-size: 5em;"></ion-icon>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <button ion-button block color="bluebag-light" (click)="goToDepartmentsPage()">Buscar produtos</button>
+      </ion-row>
+    </ion-grid>
+  </div>
+
+  <!-- INVOICES -->
+  <ion-list *ngIf="!showLoader">
+
+    <ion-list-header>
+      <h2>
+        <ion-icon name="basket"></ion-icon>
+        Meus Pedidos
+      </h2>
+    </ion-list-header>
+
     <ion-item *ngFor="let invoice of invoices">
       <ion-grid no-padding>
         <ion-row>
 
           <ion-col col-6>
-            <h2>Número pedido</h2>
+            <h2>{{ invoice.code }}</h2>
             <p>Item(s): {{invoice.products.data.length}}</p>
           </ion-col>
 

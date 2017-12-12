@@ -1,4 +1,4 @@
-page-invoice {
+page-card {
   div.spinner {
     margin: auto;
     position: absolute;
@@ -7,16 +7,11 @@ page-invoice {
     text-align: center;
   }
 
-  div.fix-center {
-    color: #414141;
-    margin: auto;
-    position: absolute;
-    top: 0; left: 0; bottom: 0; right: 0;
-    height: 210px;
-    text-align: center;
-  }
-
   ion-icon {
     margin-right: 3%;
+  }
+
+  p {
+    padding: 1% 0;
   }
 }

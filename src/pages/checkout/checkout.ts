@@ -79,22 +79,10 @@ export class CheckoutPage {
   ionViewDidEnter () {
     this.checkoutSlider.lockSwipes(true);
 
-    this.cards = [
-      {
-        id: 1,
-        name: 'Adan R D Santos',
-        number: '1234 xxxx xxx 1111',
-        due_date: '10/20'
-      },
-      {
-        id: 2,
-        name: 'Adan R D Santos',
-        number: '5678 1234 0000 1111',
-        due_date: '10/25'
-      }
-    ];
-
     this.getAddresses();
+    setTimeout(() => {
+      this.getCreditCards();
+    }, 1000);
     this.getProducts();
     this.getPaymentInstallments();
     this.selectInstallment();
@@ -119,6 +107,23 @@ export class CheckoutPage {
         console.log(err)
       }
     )
+  }
+
+  getCreditCards () {
+    return this.http
+      .get(`${this.configProvider.base_url}/cards?user_id=${this.user_id}`, this.defaultRequest.merge(new RequestOptions))
+      .map((res: Response) => res.json())
+      .subscribe(res => {
+          this.cards = res.data;
+
+          this.cards.map((card) => {
+            card.date = new Date(card.date.date);
+            card.date = this.formatDate(card);
+          })
+        },
+        err => {
+          console.log(err)
+        })
   }
 
   /**
@@ -265,6 +270,10 @@ export class CheckoutPage {
     this.navCtrl.push(InvoiceDetailsPage, {
       id: invoice_id
     });
+  }
+
+  formatDate (card) {
+    return `${card.date.getMonth()}/${card.date.getFullYear()}`;
   }
 
 }

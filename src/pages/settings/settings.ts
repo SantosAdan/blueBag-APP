@@ -6,6 +6,7 @@ import {UserDataPage} from "../user-data/user-data";
 import {AddressPage} from "../address/address";
 import {RefreshTokenProvider} from "../../providers/refresh-token/refresh-token";
 import {InvoicePage} from "../invoice/invoice";
+import {CardPage} from "../card/card";
 
 @Component({
   selector: 'page-settings',
@@ -99,5 +100,9 @@ export class SettingsPage {
 
   goToInvoicesPage () {
     this.navCtrl.push(InvoicePage);
+  }
+
+  goToCardsPage () {
+    this.navCtrl.push(CardPage);
   }
 }
