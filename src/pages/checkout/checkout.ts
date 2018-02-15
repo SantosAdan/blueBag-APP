@@ -100,6 +100,9 @@ export class CheckoutPage {
         // Ordering
         this.addresses = _.orderBy(this.addresses, 'street', 'asc');
 
+        // Only itajubá
+        this.addresses = _.remove(this.addresses, {'city': 'Itajubá'});
+
         // Close loading spinner
         // this.showLoading = false;
       },
@@ -166,7 +169,7 @@ export class CheckoutPage {
   getPaymentInstallments () {
     // Format money to BRL
     let BRL = new Intl.NumberFormat('pt-BR', {style: 'currency', currency: 'BRL'});
-    let num_installments: number = 6;
+    let num_installments: number = 1;
 
     // Calculate the installments values
     for (let i = 1; i <= num_installments; i++) {

@@ -91,11 +91,11 @@
 
   <ion-list *ngIf="!showLoading">
     <ion-item *ngFor="let product of products" text-wrap text-center>
-      <ion-thumbnail item-start>
+      <ion-thumbnail item-start (click)="showProductDetails(product.id)">
         <img [src]="configProvider.base_url+'/products/'+product.id+'/photo'">
       </ion-thumbnail>
 
-      <p>{{ product.name }}</p>
+      <p>{{ product.name }} - {{ product.variety }} - {{ product.package }}</p>
 
       <h1 class="productValue" padding-vertical>
         R$ {{ product.value.toFixed(2).toString().replace('.', ',') }}
@@ -109,7 +109,6 @@
         Vendido e entregue por:
         <b>{{ product.client.data.name }}</b>
       </p>
-
     </ion-item>
   </ion-list>
 </ion-content>

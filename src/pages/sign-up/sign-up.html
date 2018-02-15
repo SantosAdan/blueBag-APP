@@ -4,9 +4,9 @@
   </ion-navbar>
 </ion-header>
 
-<ion-content>
+<ion-content no-padding>
   <div *ngIf="showSearch">
-    <h2 padding class="center">Seja muito bem-vindo! Informe sua cidade</h2>
+    <h4 padding class="center">Seja muito bem-vindo! Informe sua cidade</h4>
     <ion-searchbar
             [(ngModel)]="searchInput"
             [showCancelButton]="true"
@@ -20,10 +20,10 @@
     </ion-list>
   </div>
 
-  <div *ngIf="!showSearch" padding>
-    <h2 class="sign-up-title">Dados Pessoais</h2>
+  <div *ngIf="!showSearch">
 
     <ion-list>
+      <ion-list-header text-center>Dados Pessoais</ion-list-header>
       <ion-item>
         <ion-label>
           <ion-icon name="person"></ion-icon>
@@ -53,8 +53,8 @@
       </ion-item>
     </ion-list>
 
-    <h3 class="sign-up-title">Endereço</h3>
-    <ion-list>
+    <ion-list class="fix-margin-top">
+      <ion-list-header text-center>Endereço</ion-list-header>
       <ion-item>
         <ion-label floating>CEP</ion-label>
         <ion-input type="text" [(ngModel)]="address.zipcode" (change)="findCEP()" placeholder="CEP"></ion-input>
@@ -91,8 +91,13 @@
       </ion-item>
     </ion-list>
 
-    <div style="text-align: center;">
-      <button ion-button block outline color="bluebag-dark" (click)="signUp()">Cadastrar</button>
+    <ion-item text-wrap>
+      <ion-label>Ao clicar em Avançar, aceito os termos de uso e política de privacidade da BlueBag.</ion-label>
+      <ion-checkbox color="bluebag-dark"></ion-checkbox>
+    </ion-item>
+
+    <div style="text-align: center;" padding>
+      <button ion-button block color="bluebag-dark" (click)="signUp()">Cadastrar</button>
       <button ion-button block outline color="danger" (click)="goToLoginPage()">Voltar</button>
     </div>
   </div>

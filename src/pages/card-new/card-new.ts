@@ -68,7 +68,7 @@ export class CardNewPage {
    */
   storeCard () {
     let body = this.mountRequestBody();
-    console.log(body);
+    //console.log(body);
     return this.http
       .post(`${this.configProvider.base_url}/cards`, body, this.defaultRequest.merge(new RequestOptions))
       .map((res: Response) => res.json())

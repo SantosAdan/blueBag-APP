@@ -1,11 +1,11 @@
 page-home {
   div.swiper-pagination {
-    top:215px; bottom:inherit;
+    top:275px; bottom:inherit;
     //margin-bottom: 10% !important;
   }
 
   ion-slides {
-    max-height: 230px;
+    max-height: 290px;
     padding-top: 0 !important;
     margin-top: 0 !important;
   }
@@ -13,7 +13,7 @@ page-home {
   .blueSection {
     font-size: 1.3em;
     margin: 5% 0 0 3%;
-    padding: 0;
+    padding-top: 20%;
   }
 
   .onSaleSection {
@@ -24,7 +24,7 @@ page-home {
 
   .bluePrice {
     position: fixed;
-    top: 180px;
+    top: 225px;
     left: 30%;
     font-size: 1.3em;
   }
@@ -32,7 +32,7 @@ page-home {
   .card {
     //background-color: color($colors, bluebag-dark);
     display: flex;
-    height: 200px;
+    height: 250px;
     width: 92%;
     margin: 5% 0 10% 5%;
   }
@@ -43,7 +43,7 @@ page-home {
   }
 
   img {
-    max-height: 85px !important;
+    max-height: 105px !important;
     margin: 20% auto;
   }
 }

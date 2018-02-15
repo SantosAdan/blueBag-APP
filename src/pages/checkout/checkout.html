@@ -65,7 +65,7 @@
 
       <ion-item no-lines class="fix-margin-right">
         <ion-label floating>Parcelas</ion-label>
-        <ion-select [(ngModel)]="numPayments" cancelText="Fechar" interface="action-sheet" (ionChange)="selectInstallment()">
+        <ion-select [(ngModel)]="numPayments" cancelText="Fechar" interface="action-sheet" (ionChange)="selectInstallment()" disabled>
           <ion-option *ngFor="let installment of paymentInstallments" [value]="installment.value">
             {{ installment.text }}
           </ion-option>

@@ -1,12 +1,12 @@
 import {Component} from "@angular/core";
-import {NavController, NavParams, ToastController, Events} from "ionic-angular";
+import {NavController, NavParams, ToastController, Events, ModalController} from "ionic-angular";
 import {Http, Response, RequestOptions} from "@angular/http";
 import {DefaultRequestOptionsProvider} from "../../providers/default-request-options/default-request-options";
 import {ConfigProvider} from "../../providers/config/config";
 import {JwtProvider} from "../../providers/jwt/jwt";
 import {ShoppingBagProvider} from "../../providers/shopping-bag/shopping-bag";
 import "rxjs/add/operator/map";
-import * as _ from 'lodash';
+import {ProductPage} from "../product/product";
 
 @Component({
     selector: 'page-category_detail',
@@ -21,6 +21,7 @@ export class CategoryDetailPage {
     constructor(public navCtrl: NavController,
                 private navParams: NavParams,
                 public toastCtrl: ToastController,
+                public modalCtrl: ModalController,
                 public requestOptions: DefaultRequestOptionsProvider,
                 public http: Http,
                 private jwtProvider: JwtProvider,
@@ -90,6 +91,15 @@ export class CategoryDetailPage {
         this.events.publish('bag:updated', ++amount);
 
         this.presentToast('success');
+    }
+
+  /**
+   *
+   * @param product_id
+   */
+  public showProductDetails(product_id) {
+      let modal = this.modalCtrl.create(ProductPage, {id: product_id});
+      modal.present();
     }
 
     /**

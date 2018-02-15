@@ -11,7 +11,7 @@
     </ion-buttons>
   </ion-navbar>
 
-  <ion-searchbar placeholder="Buscar..."></ion-searchbar>
+  <ion-searchbar [(ngModel)]="searchText" (ionInput)="onInput($event)" debounce="500" placeholder="Buscar..."></ion-searchbar>
 </ion-header>
 
 <ion-content padding-vertical>
@@ -24,6 +24,29 @@
   </div>
 
   <!--<button ion-button (click)="sendSuperpay()">Superpay</button>-->
+
+  <ion-list *ngIf="searchResults.length != 0">
+    <ion-item *ngFor="let product of searchResults" text-wrap text-center>
+      <ion-thumbnail item-start>
+        <img [src]="configProvider.base_url+'/products/'+product.id+'/photo'">
+      </ion-thumbnail>
+
+      <p>{{ product.name }}</p>
+
+      <h1 class="productValue" padding-vertical>
+        R$ {{ product.value.toFixed(2).toString().replace('.', ',') }}
+      </h1>
+
+      <button ion-button icon-right outline block color="bluebag-dark">
+        Adicionar <ion-icon name="basket"></ion-icon>
+      </button>
+
+      <p class="clientInfo">
+        Vendido e entregue por:
+        <b>{{ product.client.data.name }}</b>
+      </p>
+    </ion-item>
+  </ion-list>
 
   <ion-list *ngIf="!showLoading && showInList" no-margin no-padding>
     <button ion-item *ngFor="let department of departments" (click)="goToProductsPage(department.name, department.icon, department.id)">

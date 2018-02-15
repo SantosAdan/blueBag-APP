@@ -37,6 +37,7 @@ import {ReadMoreComponent} from "../pages/read-more";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 
 import { MaskDirective } from '../directives/mask/mask';
+import {ProductPage} from "../pages/product/product";
 
 
 @NgModule({
@@ -44,6 +45,7 @@ import { MaskDirective } from '../directives/mask/mask';
     MyApp,
     DepartmentPage,
     CategoryDetailPage,
+    ProductPage,
     ShoppingBagPage,
     HomePage,
     SettingsPage,
@@ -73,6 +75,7 @@ import { MaskDirective } from '../directives/mask/mask';
     MyApp,
     DepartmentPage,
     CategoryDetailPage,
+    ProductPage,
     ShoppingBagPage,
     HomePage,
     SettingsPage,
