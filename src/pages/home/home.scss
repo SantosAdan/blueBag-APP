@@ -1,19 +1,7 @@
 page-home {
-  div.swiper-pagination {
-    top:275px; bottom:inherit;
-    //margin-bottom: 10% !important;
-  }
-
-  ion-slides {
-    max-height: 290px;
-    padding-top: 0 !important;
-    margin-top: 0 !important;
-  }
-
   .blueSection {
     font-size: 1.3em;
     margin: 5% 0 0 3%;
-    padding-top: 20%;
   }
 
   .onSaleSection {
@@ -23,27 +11,23 @@ page-home {
   }
 
   .bluePrice {
-    position: fixed;
-    top: 225px;
-    left: 30%;
     font-size: 1.3em;
   }
 
   .card {
-    //background-color: color($colors, bluebag-dark);
     display: flex;
-    height: 250px;
-    width: 92%;
-    margin: 5% 0 10% 5%;
+    //width: 90%;
+    margin: 5% 0 5% 4%;
   }
 
   .card-content {
     width: 100%;
-    //margin: auto;
   }
 
   img {
-    max-height: 105px !important;
-    margin: 20% auto;
+    max-width: 100px !important;
+    max-height: 100px !important;
+    margin: 10% auto;
   }
+
 }

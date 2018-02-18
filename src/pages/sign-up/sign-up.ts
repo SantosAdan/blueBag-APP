@@ -1,9 +1,11 @@
 import {Component} from '@angular/core';
-import { NavController } from 'ionic-angular';
+import {ModalController, NavController} from 'ionic-angular';
 import {LoginPage} from "../login/login";
 import {Http, Headers, RequestOptions, Response} from "@angular/http";
 import {ConfigProvider} from "../../providers/config/config";
 import {MaskDirective} from "../../directives/mask/mask";
+import {PoliceTermsPage} from "../police-terms/police-terms";
+import {UseTermsPage} from "../use-terms/use-terms";
 
 @Component({
   selector: 'page-sign-up',
@@ -14,6 +16,7 @@ export class SignUpPage {
   public user: {
     name: string;
     cpf: number;
+    birthday_date: string;
     email: string;
     password: string;
   };
@@ -34,11 +37,12 @@ export class SignUpPage {
 
   constructor(public navCtrl: NavController,
               public http: Http,
-              public configProvider : ConfigProvider) {
+              public configProvider : ConfigProvider,
+              public modalCtrl: ModalController) {
   }
 
   ngOnInit() {
-    this.user = {name: '', cpf: null, email: '', password: ''};
+    this.user = {name: '', cpf: null, birthday_date: '', email: '', password: ''};
     this.address = {street: '', number: null, complement: '', district: '', city: '', state: '', zipcode: ''};
     this.showSearch = true;
   }
@@ -50,6 +54,9 @@ export class SignUpPage {
     this.navCtrl.push(LoginPage);
   }
 
+  /**
+   * Make call to ViaCep API to find address info for typed Zipcode.
+   */
   findCEP() {
     this.http.get(`https://viacep.com.br/ws/${this.address.zipcode}/json/`)
         .map((res: Response) => res.json())
@@ -70,6 +77,9 @@ export class SignUpPage {
         })
   }
 
+  /**
+   * Get cities where BlueBag acts.
+   */
   getCities() {
 
     if (this.searchInput == '') {
@@ -109,6 +119,7 @@ export class SignUpPage {
     let body = {
       "name": this.user.name,
       "email": this.user.email,
+      "birthday_date": this.user.birthday_date,
       "password": this.user.password,
       "cpf": this.user.cpf,
 
@@ -127,5 +138,23 @@ export class SignUpPage {
         .subscribe(res => {
           this.goToLoginPage();
         });
+  }
+
+  /**
+   * Show modal for new credit card form.
+   */
+  presentUseTermsModal() {
+    const useTermsModal = this.modalCtrl.create(UseTermsPage);
+
+    useTermsModal.present();
+  }
+
+  /**
+   * Show modal for new credit card form.
+   */
+  presentPoliceTermsModal() {
+    const policeTermsModal = this.modalCtrl.create(PoliceTermsPage);
+
+    policeTermsModal.present();
   }
 }

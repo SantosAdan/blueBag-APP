@@ -38,10 +38,19 @@
     </ion-item>
 
     <ion-item>
+      <ion-label floating>Data de Nascimento</ion-label>
+      <ion-input mask="**/**/****" type="text" clearInput [(ngModel)]="user.birthday_date"></ion-input>
+    </ion-item>
+
+    <ion-item>
       <ion-label floating>Telefone</ion-label>
       <ion-input mask="(**) *****-****" type="text" clearInput [(ngModel)]="user.phone"></ion-input>
     </ion-item>
-
   </ion-list>
+
+  <ion-item>
+    <ion-label floating>Nova senha</ion-label>
+    <ion-input type="password" [(ngModel)]="user.password"></ion-input>
+  </ion-item>
 
 </ion-content>

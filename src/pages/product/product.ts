@@ -1,9 +1,10 @@
 import {Component} from '@angular/core';
-import {NavController, NavParams, ViewController} from 'ionic-angular';
+import {Events, NavController, NavParams, ToastController, ViewController} from 'ionic-angular';
 import {DefaultRequestOptionsProvider} from "../../providers/default-request-options/default-request-options";
 import {Http, RequestOptions, Response} from "@angular/http";
 import {ConfigProvider} from "../../providers/config/config";
 import {RefreshTokenProvider} from "../../providers/refresh-token/refresh-token";
+import {ShoppingBagProvider} from "../../providers/shopping-bag/shopping-bag";
 
 @Component({
   selector: 'page-product',
@@ -16,11 +17,14 @@ export class ProductPage {
 
   constructor (public navCtrl: NavController,
                public navParams: NavParams,
+               public toastCtrl: ToastController,
                public viewCtrl: ViewController,
+               public events: Events,
                public requestOptions: DefaultRequestOptionsProvider,
                public http: Http,
                public configProvider: ConfigProvider,
-               private refreshJWTProvider: RefreshTokenProvider)
+               private refreshJWTProvider: RefreshTokenProvider,
+               public shoppingBagProvider: ShoppingBagProvider)
   {
     this.BRL = new Intl.NumberFormat('pt-BR', {style: 'currency', currency: 'BRL'});
   }
@@ -61,5 +65,37 @@ export class ProductPage {
 
   public closeModal () {
     this.viewCtrl.dismiss();
+  }
+
+  /**
+   * Add product to shopping bag.
+   *
+   * @param product_id
+   */
+  public addToChart(product_id) {
+    let amount = this.shoppingBagProvider.bag.reduce((sum, product) => {
+      return sum + product.amount;
+    }, 0);
+
+    this.shoppingBagProvider.add(product_id, 1);
+    this.events.publish('bag:updated', ++amount);
+
+    this.presentToast('success');
+    this.closeModal();
+  }
+
+  /**
+   * Show toast message.
+   *
+   * @param type
+   */
+  private presentToast(type: string) {
+    let toast = this.toastCtrl.create({
+      message: 'Produto adicionado à sacola com sucesso!',
+      duration: 2000,
+      position: 'top',
+      cssClass: type
+    });
+    toast.present();
   }
 }

@@ -28,10 +28,22 @@ page-category_detail {
     padding: 0;
   }
 
+  .filterSection {
+    font-size: 1.1em;
+    margin: 5% 0 2% 3%;
+    padding: 0;
+  }
+
   .onSaleSection {
     font-size: 1.3em;
     margin: 10% 0 0 3%;
     padding: 0;
+  }
+
+  .blueName {
+    //overflow: hidden !important;
+    //text-overflow: ellipsis !important;
+    //white-space: nowrap !important;
   }
 
   .bluePrice {
@@ -42,10 +54,9 @@ page-category_detail {
   }
 
   .card {
-    //background-color: color($colors, bluebag-dark);
     display: flex;
     height: 230px;
-    width: 92%;
+    width: 95%;
     margin: 5% 0 10% 5%;
   }
 
@@ -70,6 +81,12 @@ page-category_detail {
   .clientInfo {
     font-size: 0.8em;
     margin-top: 5% !important;
+  }
+
+  img {
+    max-height: 70px !important;
+    max-width: 70px !important;
+    margin: 10% auto;
   }
 }
 

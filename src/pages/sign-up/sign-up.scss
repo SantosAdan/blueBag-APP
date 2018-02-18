@@ -15,4 +15,10 @@ page-sign-up {
   .fix-margin-top {
     margin-top: 15% !important;
   }
+
+  .link-decoration {
+    cursor: pointer;
+    color: color($colors, bluebag-dark) !important;
+    text-decoration: underline !important;
+  }
 }

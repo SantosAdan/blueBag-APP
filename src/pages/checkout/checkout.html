@@ -25,7 +25,8 @@
       <ion-list>
         <ion-item *ngFor="let address of addresses" no-lines text-wrap class="fix-item-color">
           <ion-card [ngClass]="{'card-selected' : (selectedAddress == address.id)}"
-                    (click)="selectAddress(address.id)">
+                    (click)="selectAddress(address.id)"
+                    *ngIf="address.city == 'Itajubá'">
             <ion-card-content>
               <strong>{{ address.street }}, {{ address.number }}.</strong> {{ address.district }}<br>
               {{ address.city}} - {{ address.state }}
@@ -35,6 +36,15 @@
             </span>
           </ion-card>
         </ion-item>
+
+        <span class="address-out-territory">Endereços fora do território de entrega</span>
+        <ion-card *ngFor="let address of addresses" [ngClass]="{'card-disabled' : (address.city != 'Itajubá')}">
+          <ion-card-content *ngIf="address.city != 'Itajubá'">
+            <strong>{{ address.street }}, {{ address.number }}.</strong> {{ address.district }}<br>
+            {{ address.city}} - {{ address.state }}
+          </ion-card-content>
+        </ion-card>
+
       </ion-list>
 
       <button class="fix-btn-margin" ion-button color="bluebag-dark" (click)="nextSlide()"

@@ -1,8 +1,14 @@
 page-checkout {
+  .card-disabled {
+    color: color($colors, gray);
+    background-color: color($colors, bluebag-grey) !important;
+  }
+  .address-out-territory {
+    font-size: 0.8em !important;
+  }
+
   .card-selected {
     border: 2px solid color($colors, bluebag-light);
-    //position: relative;
-    //z-index: 20 !important;
   }
   .card-selected-bg {
     background-color: color($colors, bluebag-dark) !important;

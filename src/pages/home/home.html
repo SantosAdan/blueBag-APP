@@ -10,51 +10,31 @@
     <span>Sessão Blue</span>
   </section>
 
-  <ion-slides pager slidesPerView="2">
+    <span *ngIf="products">
+      <ion-card *ngFor="let product of products">
+        <ion-card-content text-wrap text-center>
+          <span (click)="showProductDetails(product.id)">
+            <p>{{ product.name }} - {{ product.variety }} - {{ product.package }}</p>
 
-    <ion-slide>
-      <ion-card>
-        <ion-card-content>
-          <p>Nutella 500g</p>
+            <ion-thumbnail>
+              <img [src]="configProvider.base_url+'/products/'+product.id+'/photo'">
+            </ion-thumbnail>
 
-          <ion-thumbnail>
-            <img src="assets/img/nutella.png"/>
-          </ion-thumbnail>
+            <p class="bluePrice">R$ {{ product.value.toFixed(2).toString().replace('.', ',') }}</p>
+          </span>
 
-          <p class="bluePrice">R$ 12,49</p>
+          <button ion-button
+                  icon-right
+                  outline
+                  block
+                  small
+                  color="bluebag-dark"
+                  (click)="addToChart(product.id)">
+            Adicionar <ion-icon name="basket"></ion-icon>
+          </button>
         </ion-card-content>
       </ion-card>
-    </ion-slide>
-
-    <ion-slide>
-      <ion-card>
-        <ion-card-content>
-          <p>Picanha Friboi</p>
-
-          <ion-thumbnail>
-            <img src="assets/img/picanha.png"/>
-          </ion-thumbnail>
-
-          <p class="bluePrice">R$ 39,80</p>
-        </ion-card-content>
-      </ion-card>
-    </ion-slide>
-
-    <ion-slide>
-      <ion-card>
-        <ion-card-content>
-          <p>Combo de Cervejas</p>
-
-          <ion-thumbnail>
-            <img src="assets/img/beer-combo.jpeg"/>
-          </ion-thumbnail>
-
-          <p class="bluePrice">R$ 14,90</p>
-        </ion-card-content>
-      </ion-card>
-    </ion-slide>
-
-  </ion-slides>
+    </span>
 
   <!--<section class="onSaleSection">-->
     <!--<ion-icon name="ios-bookmark-outline" color="bluebag-dark"></ion-icon>-->

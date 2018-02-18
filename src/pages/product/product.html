@@ -25,7 +25,12 @@
       <ion-item text-wrap text-center>
         <span class="productPrice">{{product.value}}</span>
         <br/>
-        <button ion-button icon-right block outline color="bluebag-dark" >
+        <button ion-button
+                icon-right
+                block
+                outline
+                color="bluebag-dark"
+                (click)="addToChart(product.id)">
             Adicionar <ion-icon name="basket"></ion-icon>
         </button>
       </ion-item>

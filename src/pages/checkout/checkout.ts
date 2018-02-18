@@ -101,7 +101,7 @@ export class CheckoutPage {
         this.addresses = _.orderBy(this.addresses, 'street', 'asc');
 
         // Only itajubá
-        this.addresses = _.remove(this.addresses, {'city': 'Itajubá'});
+        //this.addresses = _.remove(this.addresses, {'city': 'Itajubá'});
 
         // Close loading spinner
         // this.showLoading = false;

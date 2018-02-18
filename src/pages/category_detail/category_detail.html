@@ -13,81 +13,52 @@
   </div>
 
   <!-- On Sale Products -->
-  <section class="blueSection" *ngIf="!showLoading">
+  <section class="blueSection" *ngIf="!showLoading && highlighted.length != 0">
     <ion-icon name="star-outline"></ion-icon>
     <span>Destaques</span>
   </section>
 
-  <ion-slides pager slidesPerView="2" *ngIf="!showLoading">
-    <ion-slide>
-      <ion-card>
-        <ion-card-content>
-          <p>Combo de Cervejas</p>
+  <ion-slides pager slidesPerView="2" *ngIf="!showLoading && highlighted.length != 0">
 
-          <ion-thumbnail>
-            <img src="assets/img/product-default.jpg"/>
+    <ion-slide *ngFor="let product of highlighted">
+      <ion-card *ngIf="product">
+        <ion-card-content>
+          <p class="blueName">{{ product.name }} {{ product.package }}</p>
+
+          <ion-thumbnail (click)="showProductDetails(product.id)">
+            <img [src]="configProvider.base_url+'/products/'+product.id+'/photo'">
           </ion-thumbnail>
 
-          <p class="bluePrice">R$ 14,90</p>
-          <button ion-button outline icon-right block small color="bluebag-dark">
+          <p class="bluePrice">{{ product.value}}</p>
+          <button ion-button
+                  icon-right
+                  outline
+                  block
+                  small
+                  color="bluebag-dark"
+                  (click)="addToChart(product.id)">
             Adicionar <ion-icon name="basket"></ion-icon>
           </button>
         </ion-card-content>
       </ion-card>
     </ion-slide>
 
-    <ion-slide>
-      <ion-card>
-        <ion-card-content>
-          <p>Combo de Cervejas</p>
-
-          <ion-thumbnail>
-            <img src="assets/img/product-default.jpg"/>
-          </ion-thumbnail>
-
-          <p class="bluePrice">R$ 5,89</p>
-          <button ion-button outline icon-right block small color="bluebag-dark">
-            Adicionar <ion-icon name="basket"></ion-icon>
-          </button>
-        </ion-card-content>
-      </ion-card>
-    </ion-slide>
-
-    <ion-slide>
-      <ion-card>
-        <ion-card-content>
-          <p>Combo de Cervejas</p>
-
-          <ion-thumbnail>
-            <img src="assets/img/product-default.jpg"/>
-          </ion-thumbnail>
-
-          <p class="bluePrice">R$ 14,90</p>
-          <button ion-button outline icon-right block small color="bluebag-dark">
-            Adicionar <ion-icon name="basket"></ion-icon>
-          </button>
-        </ion-card-content>
-      </ion-card>
-    </ion-slide>
-
-    <ion-slide>
-      <ion-card>
-        <ion-card-content>
-          <p>Combo de Cervejas</p>
-
-          <ion-thumbnail>
-            <img src="assets/img/product-default.jpg"/>
-          </ion-thumbnail>
-
-          <p class="bluePrice">R$ 15,89</p>
-          <button ion-button outline icon-right block small color="bluebag-dark">
-            Adicionar <ion-icon name="basket"></ion-icon>
-          </button>
-        </ion-card-content>
-      </ion-card>
-    </ion-slide>
   </ion-slides>
   <!-- End of On Sale Products -->
+
+  <!-- Filter Section -->
+  <section class="filterSection" *ngIf="!showLoading && products.length != 0">
+    <ion-icon name="funnel"></ion-icon>
+    <span>Filtrar</span>
+  </section>
+  <ion-item *ngIf="!showLoading && products.length != 0">
+    <ion-label>Categoria</ion-label>
+    <ion-select [(ngModel)]="selectedCategory" (ionChange)="getProductsByCategory()">
+      <ion-option value="all">Todas</ion-option>
+      <ion-option *ngFor="let category of categories" [value]="category.id">{{category.name}}</ion-option>
+    </ion-select>
+  </ion-item>
+  <!-- End of Filter Section -->
 
   <ion-list *ngIf="!showLoading">
     <ion-item *ngFor="let product of products" text-wrap text-center>
@@ -98,7 +69,7 @@
       <p>{{ product.name }} - {{ product.variety }} - {{ product.package }}</p>
 
       <h1 class="productValue" padding-vertical>
-        R$ {{ product.value.toFixed(2).toString().replace('.', ',') }}
+        {{product.value}}
       </h1>
 
       <button ion-button icon-right outline block color="bluebag-dark" (click)="addToChart(product.id)">

@@ -7,113 +7,311 @@ import {JwtProvider} from "../../providers/jwt/jwt";
 import {ShoppingBagProvider} from "../../providers/shopping-bag/shopping-bag";
 import "rxjs/add/operator/map";
 import {ProductPage} from "../product/product";
+import {Subscription} from "rxjs/Subscription";
 
 @Component({
-    selector: 'page-category_detail',
-    templateUrl: 'category_detail.html'
+  selector: 'page-category_detail',
+  templateUrl: 'category_detail.html'
 })
 export class CategoryDetailPage {
 
-    public department: {name: string, icon: string, id: number};
-    public products: any[];
-    public showLoading: boolean;
+  public department: { name: string, icon: string, id: number };
+  public categories: any[];
+  public products: any[] = [];
+  public highlighted: any[] = [];
+  public showLoading: boolean;
+  public selectedCategory: string = 'all';
 
-    constructor(public navCtrl: NavController,
-                private navParams: NavParams,
-                public toastCtrl: ToastController,
-                public modalCtrl: ModalController,
-                public requestOptions: DefaultRequestOptionsProvider,
-                public http: Http,
-                private jwtProvider: JwtProvider,
-                public configProvider: ConfigProvider,
-                public shoppingBagProvider: ShoppingBagProvider,
-                public events: Events) {
+  constructor (public navCtrl: NavController,
+               private navParams: NavParams,
+               public toastCtrl: ToastController,
+               public modalCtrl: ModalController,
+               public requestOptions: DefaultRequestOptionsProvider,
+               public http: Http,
+               private jwtProvider: JwtProvider,
+               public configProvider: ConfigProvider,
+               public shoppingBagProvider: ShoppingBagProvider,
+               public events: Events) {
 
-    }
+  }
 
-    ngOnInit() {
-        this.showLoading = true;
-        this.department = {
-            name: this.navParams.get('catName'),
-            icon: this.navParams.get('catIcon'),
-            id: this.navParams.get('catId')
-        };
-        this.getProducts();
-    }
+  ngOnInit () {
+    this.showLoading = true;
+    this.department = {
+      name: this.navParams.get('catName'),
+      icon: this.navParams.get('catIcon'),
+      id: this.navParams.get('catId')
+    };
+    this.getCategories();
+    this.getHighlightedProducts();
+    this.getProducts();
+  }
 
-    /**
-     *
-     *
-     * @returns {Subscription}
-     */
-    public getProducts() {
-        return this.http
-            .get(`${this.configProvider.base_url}/departments/products/${this.department.id}`, this.requestOptions.merge(new RequestOptions))
-            .map((response: Response) => response.json())
-            .subscribe(
-                response => {
+  /**
+   * Get all products of a department.
+   *
+   * @returns {Subscription}
+   */
+  getProducts () {
+    return this.http
+      .get(`${this.configProvider.base_url}/departments/products/${this.department.id}`, this.requestOptions.merge(new RequestOptions))
+      .map((response: Response) => response.json())
+      .subscribe(
+        response => {
+          this.products = response.data;
+
+          // Format value property
+          this.products.map(product => {
+            product.value = Intl.NumberFormat('pt-BR', {style: 'currency', currency: 'BRL'}).format(product.value);
+          });
+
+          this.showLoading = false;
+        },
+        err => {
+          if (err.status === 401) {
+            this.http.post(`${this.configProvider.base_url}/refresh_token`, {}, this.requestOptions.merge(new RequestOptions))
+              .map((response: Response) => response.json())
+              .subscribe(response => {
+                // Setando novo token
+                this.jwtProvider.token = response.token;
+
+                // Refazendo o request
+                this.http
+                  .get(`${this.configProvider.base_url}/departments/products/${this.department.id}`, this.requestOptions.merge(new RequestOptions))
+                  .map((response: Response) => response.json())
+                  .subscribe(response => {
                     this.products = response.data;
+
+                    // Format value property
+                    this.products.map(product => {
+                      product.value = Intl.NumberFormat('pt-BR', {
+                        style: 'currency',
+                        currency: 'BRL'
+                      }).format(product.value);
+                    });
+
                     this.showLoading = false;
-                },
-                err => {
-                    if (err.status === 401) {
-                        this.http.post(`${this.configProvider.base_url}/refresh_token`, {}, this.requestOptions.merge(new RequestOptions))
-                            .map((response: Response) => response.json())
-                            .subscribe(response => {
-                                // Setando novo token
-                                this.jwtProvider.token = response.token;
+                  });
+              });
+          }
+        }
+      );
+  }
 
-                                // Refazendo o request
-                                this.http
-                                    .get(`${this.configProvider.base_url}/departments/products/${this.department.id}`, this.requestOptions.merge(new RequestOptions))
-                                    .map((response: Response) => response.json())
-                                    .subscribe(response => {
-                                        this.products = response.data;
-                                        this.showLoading = false;
-                                    });
-                            });
-                    }
-                }
-            );
+  /**
+   * Get all categories of a department.
+   *
+   * @returns {Subscription}
+   */
+  getCategories () {
+    return this.http
+      .get(`${this.configProvider.base_url}/departments/${this.department.id}?include=categories`, this.requestOptions.merge(new RequestOptions))
+      .map((response: Response) => response.json())
+      .subscribe(
+        response => {
+          this.categories = response.data.categories.data;
+        },
+        err => {
+          if (err.status === 401) {
+            this.http.post(`${this.configProvider.base_url}/refresh_token`, {}, this.requestOptions.merge(new RequestOptions))
+              .map((response: Response) => response.json())
+              .subscribe(response => {
+                // Setando novo token
+                this.jwtProvider.token = response.token;
+
+                // Refazendo o request
+                this.http
+                  .get(`${this.configProvider.base_url}/departments/${this.department.id}?include=categories`, this.requestOptions.merge(new RequestOptions))
+                  .map((response: Response) => response.json())
+                  .subscribe(response => {
+                    this.categories = response.data.categories.data;
+                  });
+              });
+          }
+        }
+      );
+  }
+
+  getHighlightedProducts (): Subscription {
+
+    return this.http
+      .get(`${this.configProvider.base_url}/products/highlighted/department/${this.department.id}`, this.requestOptions.merge(new RequestOptions))
+      .map((response: Response) => response.json())
+      .subscribe(
+        response => {
+          this.highlighted = response.data;
+
+          // Format value property
+          this.highlighted.map(product => {
+            product.value = Intl.NumberFormat('pt-BR', {style: 'currency', currency: 'BRL'}).format(product.value);
+          });
+        },
+        err => {
+          if (err.status === 401) {
+            this.http.post(`${this.configProvider.base_url}/refresh_token`, {}, this.requestOptions.merge(new RequestOptions))
+              .map((response: Response) => response.json())
+              .subscribe(response => {
+                // Setando novo token
+                this.jwtProvider.token = response.token;
+
+                // Refazendo o request
+                this.http
+                  .get(`${this.configProvider.base_url}/products/highlighted/department/${this.department.id}`, this.requestOptions.merge(new RequestOptions))
+                  .map((response: Response) => response.json())
+                  .subscribe(response => {
+                    this.highlighted = response.data;
+
+                    // Format value property
+                    this.highlighted.map(product => {
+                      product.value = Intl.NumberFormat('pt-BR', {
+                        style: 'currency',
+                        currency: 'BRL'
+                      }).format(product.value);
+                    });
+                  });
+              });
+          }
+        }
+      );
+  }
+
+  getHighlightedProductsByCategory (): Subscription {
+
+    return this.http
+      .get(`${this.configProvider.base_url}/products/highlighted/${this.selectedCategory}`, this.requestOptions.merge(new RequestOptions))
+      .map((response: Response) => response.json())
+      .subscribe(
+        response => {
+          this.highlighted = response.data;
+
+          // Format value property
+          this.highlighted.map(product => {
+            product.value = Intl.NumberFormat('pt-BR', {style: 'currency', currency: 'BRL'}).format(product.value);
+          });
+        },
+        err => {
+          if (err.status === 401) {
+            this.http.post(`${this.configProvider.base_url}/refresh_token`, {}, this.requestOptions.merge(new RequestOptions))
+              .map((response: Response) => response.json())
+              .subscribe(response => {
+                // Setando novo token
+                this.jwtProvider.token = response.token;
+
+                // Refazendo o request
+                this.http
+                  .get(`{this.configProvider.base_url}/products/highlighted/${this.selectedCategory}`, this.requestOptions.merge(new RequestOptions))
+                  .map((response: Response) => response.json())
+                  .subscribe(response => {
+                    this.highlighted = response.data;
+
+                    // Format value property
+                    this.highlighted.map(product => {
+                      product.value = Intl.NumberFormat('pt-BR', {
+                        style: 'currency',
+                        currency: 'BRL'
+                      }).format(product.value);
+                    });
+                  });
+              });
+          }
+        }
+      );
+  }
+
+  /**
+   * Get all products of a category.
+   *
+   * @returns {Subscription}
+   */
+  getProductsByCategory (): Subscription {
+
+    if (this.selectedCategory == 'all') {
+      this.getHighlightedProducts();
+      this.getProducts();
+    } else {
+      return this.http
+        .get(`${this.configProvider.base_url}/categories/products/${this.selectedCategory}`, this.requestOptions.merge(new RequestOptions))
+        .map((response: Response) => response.json())
+        .subscribe(
+          response => {
+            this.products = response.data;
+
+            // Format value property
+            this.products.map(product => {
+              product.value = Intl.NumberFormat('pt-BR', {style: 'currency', currency: 'BRL'}).format(product.value);
+            });
+
+            this.getHighlightedProductsByCategory();
+          },
+          err => {
+            if (err.status === 401) {
+              this.http.post(`${this.configProvider.base_url}/refresh_token`, {}, this.requestOptions.merge(new RequestOptions))
+                .map((response: Response) => response.json())
+                .subscribe(response => {
+                  // Setando novo token
+                  this.jwtProvider.token = response.token;
+
+                  // Refazendo o request
+                  this.http
+                    .get(`${this.configProvider.base_url}/categories/products/${this.selectedCategory}`, this.requestOptions.merge(new RequestOptions))
+                    .map((response: Response) => response.json())
+                    .subscribe(response => {
+                      this.products = response.data;
+
+                      // Format value property
+                      this.products.map(product => {
+                        product.value = Intl.NumberFormat('pt-BR', {
+                          style: 'currency',
+                          currency: 'BRL'
+                        }).format(product.value);
+                      });
+
+                      this.getHighlightedProductsByCategory();
+                    });
+                });
+            }
+          }
+        );
     }
+  }
 
-    /**
-     * Add product to shopping bag.
-     *
-     * @param product_id
-     */
-    public addToChart(product_id) {
-        let amount = this.shoppingBagProvider.bag.reduce((sum, product) => {
-            return sum + product.amount;
-        }, 0);
+  /**
+   * Add product to shopping bag.
+   *
+   * @param product_id
+   */
+  addToChart (product_id) {
+    let amount = this.shoppingBagProvider.bag.reduce((sum, product) => {
+      return sum + product.amount;
+    }, 0);
 
-        this.shoppingBagProvider.add(product_id, 1);
-        this.events.publish('bag:updated', ++amount);
+    this.shoppingBagProvider.add(product_id, 1);
+    this.events.publish('bag:updated', ++amount);
 
-        this.presentToast('success');
-    }
+    this.presentToast('success');
+  }
 
   /**
    *
    * @param product_id
    */
-  public showProductDetails(product_id) {
-      let modal = this.modalCtrl.create(ProductPage, {id: product_id});
-      modal.present();
-    }
+  showProductDetails (product_id) {
+    let modal = this.modalCtrl.create(ProductPage, {id: product_id});
+    modal.present();
+  }
 
-    /**
-     * Show toast message.
-     *
-     * @param type
-     */
-    private presentToast(type: string) {
-        let toast = this.toastCtrl.create({
-            message: 'Produto adicionado à sacola com sucesso!',
-            duration: 2000,
-            position: 'top',
-            cssClass: type
-        });
-        toast.present();
-    }
+  /**
+   * Show toast message.
+   *
+   * @param type
+   */
+  private presentToast (type: string) {
+    let toast = this.toastCtrl.create({
+      message: 'Produto adicionado à sacola com sucesso!',
+      duration: 2000,
+      position: 'top',
+      cssClass: type
+    });
+    toast.present();
+  }
 }

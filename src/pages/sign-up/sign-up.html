@@ -33,9 +33,16 @@
 
       <ion-item>
         <ion-label>
-          <ion-icon name="person"></ion-icon>
+          <ion-icon name="card"></ion-icon>
         </ion-label>
         <ion-input type="text" mask="***.***.***-**" clearInput [(ngModel)]="user.cpf" placeholder="CPF"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>
+          <ion-icon name="calendar"></ion-icon>
+        </ion-label>
+        <ion-input type="text" mask="**/**/****" clearInput [(ngModel)]="user.birthday_date" placeholder="Data de Nascimento"></ion-input>
       </ion-item>
 
       <ion-item>
@@ -96,7 +103,15 @@
       <ion-checkbox color="bluebag-dark"></ion-checkbox>
     </ion-item>
 
-    <div style="text-align: center;" padding>
+    <ion-item text-wrap text-center>
+      <ion-label>Ler os
+        <span class="link-decoration" (click)="presentUseTermsModal()">Termos de Uso</span>
+        e
+        <span class="link-decoration" (click)="presentPoliceTermsModal()">Política de Privacidade</span>
+      </ion-label>
+    </ion-item>
+
+    <div text-center padding>
       <button ion-button block color="bluebag-dark" (click)="signUp()">Cadastrar</button>
       <button ion-button block outline color="danger" (click)="goToLoginPage()">Voltar</button>
     </div>
