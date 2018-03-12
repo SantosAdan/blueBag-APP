@@ -16,8 +16,9 @@ page-home {
 
   .card {
     display: flex;
-    //width: 90%;
-    margin: 5% 0 5% 4%;
+    //width: 92%;
+    margin: 5% 0 0 4%;
+    border-radius: 5px;
   }
 
   .card-content {
@@ -25,7 +26,7 @@ page-home {
   }
 
   img {
-    max-width: 100px !important;
+    max-width: 50px !important;
     max-height: 100px !important;
     margin: 10% auto;
   }

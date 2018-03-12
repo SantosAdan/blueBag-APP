@@ -2,9 +2,9 @@
   <ion-navbar>
     <ion-title>BlueBag</ion-title>
     <ion-buttons end>
-      <a href="https://api.whatsapp.com/send?phone=553588866622&text=Essa%20mensagem%20foi%20enviada%20via%20BlueBag%20.%20App%20Top" ion-button clear>
+      <button ion-button clear (click)="openActionSheet()">
         <ion-icon ios="ios-call-outline" md="md-call" color="danger"></ion-icon>
-      </a>
+      </button>
     </ion-buttons>
   </ion-navbar>
 </ion-header>
@@ -58,15 +58,11 @@
       Sugerir Melhorias
     </a>
 
-    <a href="#" ion-item>
-      Perguntas Frequentes
-    </a>
-
-    <a href="#" ion-item>
+    <a href="#" ion-item (click)="presentUseTermsModal()">
       Termos de Uso
     </a>
 
-    <a href="#" ion-item>
+    <a href="#" ion-item (click)="presentPoliceTermsModal()">
       Política de Privacidade
     </a>
 

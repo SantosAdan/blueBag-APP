@@ -21,8 +21,9 @@ page-department {
   .card {
     display: flex;
     height: 120px;
-    width: 92%;
-    margin: 5% 0 0 5%;
+    width: 95%;
+    margin: 5% 0 0 3%;
+    border-radius: 5px;
   }
 
   .card-content {

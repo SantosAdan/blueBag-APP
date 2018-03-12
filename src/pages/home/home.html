@@ -17,7 +17,7 @@
             <p>{{ product.name }} - {{ product.variety }} - {{ product.package }}</p>
 
             <ion-thumbnail>
-              <img [src]="configProvider.base_url+'/products/'+product.id+'/photo'">
+              <img [src]="product.photo">
             </ion-thumbnail>
 
             <p class="bluePrice">R$ {{ product.value.toFixed(2).toString().replace('.', ',') }}</p>

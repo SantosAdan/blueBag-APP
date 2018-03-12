@@ -68,6 +68,12 @@ page-shopping-bag {
     height: 210px;
     text-align: center;
   }
+
+  img {
+    max-width: 30px !important;
+    max-height: 100px !important;
+    margin: 10% auto;
+  }
 }
 
 

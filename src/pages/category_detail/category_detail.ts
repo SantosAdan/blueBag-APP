@@ -18,6 +18,7 @@ export class CategoryDetailPage {
   public department: { name: string, icon: string, id: number };
   public categories: any[];
   public products: any[] = [];
+  public productsPagination: any;
   public highlighted: any[] = [];
   public showLoading: boolean;
   public selectedCategory: string = 'all';
@@ -59,6 +60,8 @@ export class CategoryDetailPage {
       .subscribe(
         response => {
           this.products = response.data;
+          console.log(this.products)
+          this.productsPagination = response.meta.pagination;
 
           // Format value property
           this.products.map(product => {
@@ -81,6 +84,7 @@ export class CategoryDetailPage {
                   .map((response: Response) => response.json())
                   .subscribe(response => {
                     this.products = response.data;
+                    this.productsPagination = response.meta.pagination;
 
                     // Format value property
                     this.products.map(product => {
@@ -91,6 +95,56 @@ export class CategoryDetailPage {
                     });
 
                     this.showLoading = false;
+                  });
+              });
+          }
+        }
+      );
+  }
+
+  getMoreProducts (infiniteScroll) {
+    return this.http
+      .get(`${this.productsPagination.links.next}`, this.requestOptions.merge(new RequestOptions))
+      .map((response: Response) => response.json())
+      .subscribe(
+        response => {
+          this.productsPagination = response.meta.pagination;
+
+          // Format value property
+          response.data.map(product => {
+            product.value = Intl.NumberFormat('pt-BR', {style: 'currency', currency: 'BRL'}).format(product.value);
+          });
+
+          Array.prototype.push.apply(this.products, response.data);
+
+          infiniteScroll.complete();
+        },
+        err => {
+          if (err.status === 401) {
+            this.http.post(`${this.configProvider.base_url}/refresh_token`, {}, this.requestOptions.merge(new RequestOptions))
+              .map((response: Response) => response.json())
+              .subscribe(response => {
+                // Setando novo token
+                this.jwtProvider.token = response.token;
+
+                // Refazendo o request
+                this.http
+                  .get(`${this.productsPagination.links.next}`, this.requestOptions.merge(new RequestOptions))
+                  .map((response: Response) => response.json())
+                  .subscribe(response => {
+                    this.productsPagination = response.meta.pagination;
+
+                    // Format value property
+                    response.data.map(product => {
+                      product.value = Intl.NumberFormat('pt-BR', {
+                        style: 'currency',
+                        currency: 'BRL'
+                      }).format(product.value);
+                    });
+
+                    Array.prototype.push.apply(this.products, response.data);
+
+                    infiniteScroll.complete();
                   });
               });
           }
@@ -235,6 +289,7 @@ export class CategoryDetailPage {
         .subscribe(
           response => {
             this.products = response.data;
+            this.productsPagination = response.meta.pagination;
 
             // Format value property
             this.products.map(product => {
@@ -257,6 +312,7 @@ export class CategoryDetailPage {
                     .map((response: Response) => response.json())
                     .subscribe(response => {
                       this.products = response.data;
+                      this.productsPagination = response.meta.pagination;
 
                       // Format value property
                       this.products.map(product => {

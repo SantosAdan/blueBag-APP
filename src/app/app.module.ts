@@ -40,6 +40,8 @@ import {ReadMoreComponent} from "../pages/read-more";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 
 import {MaskDirective} from '../directives/mask/mask';
+import {FaqPage} from "../pages/faq/faq";
+import {OpenCasePage} from "../pages/open-case/open-case";
 
 
 @NgModule({
@@ -64,6 +66,8 @@ import {MaskDirective} from '../directives/mask/mask';
     CardNewPage,
     UseTermsPage,
     PoliceTermsPage,
+    FaqPage,
+    OpenCasePage,
     MaskDirective,
     ReadMoreComponent
   ],
@@ -95,7 +99,9 @@ import {MaskDirective} from '../directives/mask/mask';
     CardPage,
     CardNewPage,
     UseTermsPage,
-    PoliceTermsPage
+    PoliceTermsPage,
+    FaqPage,
+    OpenCasePage
   ],
   providers: [
     StatusBar,

@@ -82,6 +82,11 @@
         </ion-select>
       </ion-item>
 
+      <ion-item text-wrap no-lines margin-bottom class="fix-margin-right">
+        <ion-label>Retirar no balcão?</ion-label>
+        <ion-checkbox [(ngModel)]="is_balcony" color="bluebag-dark"></ion-checkbox>
+      </ion-item>
+
       <button class="fix-btn-margin" ion-button color="bluebag-dark" (click)="nextSlide()"
               [disabled]="(selectedCard == null)">Avançar
       </button>
@@ -93,7 +98,10 @@
     <ion-slide>
       <p>Confirme os dados do seu pedido</p>
 
-      <button class="fix-btn-margin" ion-button color="danger" (tap)="createInvoice()">Efetuar compra</button>
+      <button class="fix-btn-margin" ion-button color="danger" (tap)="createInvoice()">
+        Efetuar compra
+        <ion-spinner name="dots" *ngIf="show_spinner"></ion-spinner>
+      </button>
 
       <!-- INVOICE ITEMS -->
       <ion-card>

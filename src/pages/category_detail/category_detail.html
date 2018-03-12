@@ -26,7 +26,7 @@
           <p class="blueName">{{ product.name }} {{ product.package }}</p>
 
           <ion-thumbnail (click)="showProductDetails(product.id)">
-            <img [src]="configProvider.base_url+'/products/'+product.id+'/photo'">
+            <img [src]="product.photo">
           </ion-thumbnail>
 
           <p class="bluePrice">{{ product.value}}</p>
@@ -63,7 +63,7 @@
   <ion-list *ngIf="!showLoading">
     <ion-item *ngFor="let product of products" text-wrap text-center>
       <ion-thumbnail item-start (click)="showProductDetails(product.id)">
-        <img [src]="configProvider.base_url+'/products/'+product.id+'/photo'">
+        <img [src]="product.photo">
       </ion-thumbnail>
 
       <p>{{ product.name }} - {{ product.variety }} - {{ product.package }}</p>
@@ -82,4 +82,8 @@
       </p>
     </ion-item>
   </ion-list>
+
+  <ion-infinite-scroll (ionInfinite)="getMoreProducts($event)" *ngIf="productsPagination" [enabled]="productsPagination.current_page < productsPagination.total_pages">
+    <ion-infinite-scroll-content></ion-infinite-scroll-content>
+  </ion-infinite-scroll>
 </ion-content>

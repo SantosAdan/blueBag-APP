@@ -56,7 +56,7 @@
   <ion-list *ngIf="!showLoading" no-padding no-margin>
     <ion-item *ngFor="let product of products;" text-wrap text-center>
       <ion-thumbnail item-start>
-        <img [src]="configProvider.base_url+'/products/'+product.id+'/photo'">
+        <img [src]="product.photo">
       </ion-thumbnail>
       <p>{{ product.name }}</p>
 

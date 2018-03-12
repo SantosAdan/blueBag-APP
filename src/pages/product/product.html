@@ -18,7 +18,7 @@
     <ion-item text-wrap text-center text-uppercase no-lines>{{product.name}}</ion-item>
 
     <ion-thumbnail>
-      <img [src]="configProvider.base_url+'/products/'+product.id+'/photo'">
+      <img [src]="product.photo">
     </ion-thumbnail>
 
     <ion-list no-lines>
@@ -40,6 +40,12 @@
       </ion-item>
       <ion-item text-wrap>
         Embalagem: <p class="productAttr">{{product.package}}</p>
+      </ion-item>
+      <ion-item text-wrap>
+        Categoria: <p class="productAttr">{{product.name}}</p>
+      </ion-item>
+      <ion-item text-wrap>
+        Departamento: <p class="productAttr">{{product.name}}</p>
       </ion-item>
       <ion-item text-wrap>
         Vendido por: <p class="productAttr">{{product.client.data.name}}</p>

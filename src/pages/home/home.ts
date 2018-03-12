@@ -28,7 +28,7 @@ export class HomePage {
 
   }
 
-  ionViewDidLoad() {
+  ionViewDidEnter() {
     this.getHighlightedProductsRandomly();
   }
 

@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {NavController, AlertController, App} from 'ionic-angular';
+import {NavController, AlertController, App, ModalController, ActionSheetController} from 'ionic-angular';
 import {LoginPage} from "../login/login";
 import {AuthProvider} from "../../providers/auth/auth";
 import {UserDataPage} from "../user-data/user-data";
@@ -7,6 +7,9 @@ import {AddressPage} from "../address/address";
 import {RefreshTokenProvider} from "../../providers/refresh-token/refresh-token";
 import {InvoicePage} from "../invoice/invoice";
 import {CardPage} from "../card/card";
+import {PoliceTermsPage} from "../police-terms/police-terms";
+import {UseTermsPage} from "../use-terms/use-terms";
+import {FaqPage} from "../faq/faq";
 
 @Component({
   selector: 'page-settings',
@@ -18,6 +21,8 @@ export class SettingsPage {
 
   constructor (public navCtrl: NavController,
                public alertCtrl: AlertController,
+               public modalCtrl: ModalController,
+               public actionSheetCtrl: ActionSheetController,
                public app: App,
                public auth: AuthProvider,
                private refreshJWTProvider: RefreshTokenProvider) {
@@ -104,5 +109,51 @@ export class SettingsPage {
 
   goToCardsPage () {
     this.navCtrl.push(CardPage);
+  }
+
+  /**
+   * Show modal for new credit card form.
+   */
+  presentPoliceTermsModal() {
+    const policeTermsModal = this.modalCtrl.create(PoliceTermsPage);
+
+    policeTermsModal.present();
+  }
+
+  presentUseTermsModal() {
+    const policeTermsModal = this.modalCtrl.create(UseTermsPage);
+
+    policeTermsModal.present();
+  }
+
+  presentFAQModal() {
+    const faqModal = this.modalCtrl.create(FaqPage);
+
+    faqModal.present();
+  }
+
+  openActionSheet () {
+    let actionSheet = this.actionSheetCtrl.create({
+      title: 'Contato',
+      enableBackdropDismiss: true,
+      buttons: [
+        {
+          text: 'Perguntas Frequentes',
+          icon: 'help',
+          handler: () => {
+            this.presentFAQModal();
+          }
+        },
+        {
+          text: 'Abrir Chamado',
+          icon: 'call',
+          handler: () => {
+
+          }
+        }
+      ]
+    });
+
+    actionSheet.present();
   }
 }

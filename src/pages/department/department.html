@@ -28,7 +28,7 @@
   <ion-list *ngIf="searchResults.length != 0">
     <ion-item *ngFor="let product of searchResults" text-wrap text-center>
       <ion-thumbnail item-start>
-        <img [src]="configProvider.base_url+'/products/'+product.id+'/photo'">
+        <img [src]="product.photo">
       </ion-thumbnail>
 
       <p>{{ product.name }}</p>
@@ -58,9 +58,9 @@
 
   <ion-grid *ngIf="!showLoading && !showInList">
     <ion-row>
-      <ion-col col-4 *ngFor="let department of departments" (tap)="goToProductsPage(department.name, department.icon, department.id)">
+      <ion-col col-6 *ngFor="let department of departments" (tap)="goToProductsPage(department.name, department.icon, department.id)">
         <ion-card>
-          <ion-card-content text-center>
+          <ion-card-content text-wrap text-center>
             <ion-icon [name]="department.icon" color="bluebag-dark" class="fix-icon-card"></ion-icon>
             <span>{{ department.name }}</span>
           </ion-card-content>

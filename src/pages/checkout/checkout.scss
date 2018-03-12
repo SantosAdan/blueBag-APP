@@ -1,4 +1,9 @@
 page-checkout {
+  ion-spinner * {
+    margin-left: 5px;
+    fill: #fff !important;
+  }
+
   .card-disabled {
     color: color($colors, gray);
     background-color: color($colors, bluebag-grey) !important;
@@ -37,7 +42,6 @@ page-checkout {
     padding-top: 5% !important;
     margin-left: 5%;
     margin-right: 5% !important;
-    margin-bottom: 5% !important;
     width: 90%;
   }
 

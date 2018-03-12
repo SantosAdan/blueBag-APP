@@ -28,6 +28,8 @@ export class CheckoutPage {
   public numPayments: number = 1;
   public paymentInstallments: any[] = [];
   public user_id: number = null;
+  public is_balcony: boolean = false;
+  public show_spinner: boolean = false;
 
   public address: {
     id: number
@@ -181,6 +183,8 @@ export class CheckoutPage {
   }
 
   createInvoice () {
+    this.show_spinner = !this.show_spinner;
+
     let body = {
       address_id: this.selectedAddress,
       user_id: this.user_id,
@@ -189,7 +193,14 @@ export class CheckoutPage {
       }),
       total: this.products.reduce((sum, product) => {
         return sum + (product.value * product.amount)
-      }, 0)
+      }, 0),
+      total_in_client: this.products.reduce((sum, product) => {
+        return sum + (product.real_value * product.amount)
+      }, 0),
+      delivery_fee: 0,
+      is_delivery: !this.is_balcony,
+      installments: this.selectedInstallment['value'],
+      card: this.card
     };
 
     this.http

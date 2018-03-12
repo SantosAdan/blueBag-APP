@@ -25,6 +25,9 @@
         <p>{{ invoice.created_at }} <small>{{ created_hour}}</small></p>
         <p>{{ invoice.total }}</p>
       </div>
+      <ion-item text-center>
+        <ion-badge color="bluebag-light">{{invoice.status}}</ion-badge>
+      </ion-item>
     </ion-card-content>
   </ion-card>
   <!--END of General Info -->
