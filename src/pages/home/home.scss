@@ -25,9 +25,11 @@ page-home {
     width: 100%;
   }
 
-  img {
-    max-width: 50px !important;
-    max-height: 100px !important;
+  .img-container {
+    min-height: 100px;
+    background-size: contain;
+    background-repeat: no-repeat; // Não aglutinar essas duas propriedades
+    background-position:center; // porque não funcionam da maneira desejada
     margin: 10% auto;
   }
 

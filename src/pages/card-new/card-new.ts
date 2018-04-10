@@ -3,6 +3,7 @@ import {NavController, NavParams, ToastController, ViewController} from 'ionic-a
 import {DefaultRequestOptionsProvider} from "../../providers/default-request-options/default-request-options";
 import {ConfigProvider} from "../../providers/config/config";
 import {Http, Response, RequestOptions} from "@angular/http";
+import {CardPage} from "../card/card";
 
 
 @Component({
@@ -29,6 +30,7 @@ export class CardNewPage {
       "number": '',
       "name": '',
       "cpf": '',
+      "flag": '',
       "date": '',
       "cvc": '',
     }
@@ -68,7 +70,7 @@ export class CardNewPage {
    */
   storeCard () {
     let body = this.mountRequestBody();
-    //console.log(body);
+    console.log(body);
     return this.http
       .post(`${this.configProvider.base_url}/cards`, body, this.defaultRequest.merge(new RequestOptions))
       .map((res: Response) => res.json())
@@ -92,7 +94,7 @@ export class CardNewPage {
    */
   updateCard (card_id) {
     let body = this.mountRequestBody();
-
+    console.log(body);
     return this.http
       .put(`${this.configProvider.base_url}/cards/${card_id}`, body, this.defaultRequest.merge(new RequestOptions))
       .map((res: Response) => res.json())
@@ -129,7 +131,8 @@ export class CardNewPage {
       "name": this.card.name,
       "date": this.card.date,
       "cvc": this.card.cvc,
-      "cpf": this.card.cpf
+      "cpf": this.card.cpf,
+      "flag": CardPage.generateCardLogo(this.card).replace('.png', '')
     };
   }
 
@@ -152,6 +155,10 @@ export class CardNewPage {
 
   showDatePicker () {
 
+  }
+
+  onInput () {
+    this.card.flag = CardPage.generateCardLogo(this.card);
   }
 
   /**

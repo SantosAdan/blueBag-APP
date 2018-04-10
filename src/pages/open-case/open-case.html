@@ -1,18 +1,105 @@
-<!--
-  Generated template for the OpenCasePage page.
-
-  See http://ionicframework.com/docs/components/#navigation for more info on
-  Ionic pages and navigation.
--->
 <ion-header>
 
   <ion-navbar>
-    <ion-title>openCase</ion-title>
+    <ion-title>Abrir Chamado</ion-title>
   </ion-navbar>
 
 </ion-header>
 
 
-<ion-content padding>
+<ion-content no-padding>
 
+  <ion-list class="pageDefault" radio-group *ngIf="page === 0" [(ngModel)]="existingInvoice" text-wrap no-lines (ionChange)="next()">
+
+    <ion-list-header>
+      <h2>O chamado refere-se a alguma compra já realizada ou em andamento?</h2>
+    </ion-list-header>
+
+    <ion-item>
+      <ion-label>Sim</ion-label>
+      <ion-radio value="true"></ion-radio>
+    </ion-item>
+
+    <ion-item>
+      <ion-label>Não</ion-label>
+      <ion-radio value="false"></ion-radio>
+    </ion-item>
+
+  </ion-list>
+
+  <ion-list *ngIf="page == 1" text-wrap no-lines>
+    <ion-list-header>
+      <h2>
+        Para questões referentes a pedidos realizados ou em andamento, você pode contatar diretamente o Vendedor utilizando dos seguintes dados:
+      </h2>
+    </ion-list-header>
+
+    <ion-item>
+      <p>Dados do Padre Nicolau</p>
+      <p>Telefone</p>
+      <p>Email</p>
+      <p>Endereço</p>
+    </ion-item>
+
+    <button class="fix-margin-horizontal" ion-button block small color="bluebag-dark" (click)="goToPage3()">Ainda preciso de ajuda</button>
+    <button class="fix-margin-horizontal" ion-button block small color="secondary" (click)="close()">O problema foi resolvido</button>
+  </ion-list>
+
+  <ion-list *ngIf="page == 2" text-wrap no-lines>
+
+    <ion-list-header>
+      <h2>Ok, neste caso sobre qual assunto deseja tratar? Preencha os dados abaixo que entraremos em contato com você.</h2>
+    </ion-list-header>
+
+    <ion-item>
+      <ion-label floating>Assunto</ion-label>
+      <ion-select [(ngModel)]="subject">
+        <ion-option value="Dúvidas">Dúvidas</ion-option>
+        <ion-option value="Possuo supermercado e quero usar o BlueBag" text-wrap>Possuo supermercado e quero usar o BlueBag</ion-option>
+        <ion-option value="Reclamações">Reclamações</ion-option>
+        <ion-option value="Outros">Outros</ion-option>
+      </ion-select>
+    </ion-item>
+
+    <ion-item>
+      <ion-label floating>Comentário</ion-label>
+      <ion-textarea [(ngModel)]="comment" rows="5"></ion-textarea>
+    </ion-item>
+
+    <button class="fix-margin-horizontal" ion-button block small (click)="submitNo()">Enviar</button>
+
+  </ion-list>
+
+  <ion-list *ngIf="page == 3" text-wrap no-lines>
+    <ion-list-header>
+      <h2>
+        Fique tranquilo, vamos te ajudar. Selecione o número do pedido referente à solicitação e informe problema ocorrido! Você será contatado em breve.
+      </h2>
+    </ion-list-header>
+
+    <ion-item>
+      <ion-label floating>Pedido</ion-label>
+      <ion-select [(ngModel)]="selectedInvoice">
+        <ion-option *ngFor="let invoice of invoices" [value]="invoice.id" >Pedido #{{invoice.code}} - {{invoice.created_at}}</ion-option>
+      </ion-select>
+    </ion-item>
+
+    <ion-item>
+      <ion-label floating>Assunto</ion-label>
+      <ion-select [(ngModel)]="subject">
+        <ion-option value="Devoluções ou Cancelamentos">Devoluções ou Cancelamentos</ion-option>
+        <ion-option value="Produtos não entregues" text-wrap>Produtos não entregues</ion-option>
+        <ion-option value="Produtos danificados ou vencidos">Produtos danificados ou vencidos</ion-option>
+        <ion-option value="Outros">Outros</ion-option>
+      </ion-select>
+    </ion-item>
+
+    <ion-item>
+      <ion-label floating>Comentário</ion-label>
+      <ion-textarea [(ngModel)]="comment" rows="5"></ion-textarea>
+    </ion-item>
+
+    <button class="fix-margin-horizontal" ion-button block small (click)="submitYes()">Enviar</button>
+
+  </ion-list>
 </ion-content>

@@ -13,7 +13,6 @@ import {ShoppingBagProvider} from "../../providers/shopping-bag/shopping-bag";
 export class ProductPage {
 
   public product: any;
-  public BRL: any;
 
   constructor (public navCtrl: NavController,
                public navParams: NavParams,
@@ -24,9 +23,7 @@ export class ProductPage {
                public http: Http,
                public configProvider: ConfigProvider,
                private refreshJWTProvider: RefreshTokenProvider,
-               public shoppingBagProvider: ShoppingBagProvider)
-  {
-    this.BRL = new Intl.NumberFormat('pt-BR', {style: 'currency', currency: 'BRL'});
+               public shoppingBagProvider: ShoppingBagProvider) {
   }
 
   ionViewDidLoad () {
@@ -37,13 +34,13 @@ export class ProductPage {
   public getProductDetail (product_id) {
 
     return this.http
-      .get(`${this.configProvider.base_url}/products/${product_id}`, this.requestOptions.merge(new RequestOptions))
+      .get(`${this.configProvider.base_url}/products/${product_id}?include=category`, this.requestOptions.merge(new RequestOptions))
       .map((response: Response) => response.json())
       .subscribe(response => {
         //console.log(response.data);
           this.product = response.data;
 
-          this.product.value = this.BRL.format(this.product.value);
+          this.formatProduct(this.product);
         },
         err => {
           if (err.status === 401) {
@@ -57,7 +54,7 @@ export class ProductPage {
               .subscribe(response => {
                 this.product = response.data;
 
-                this.product.value = this.BRL.format(this.product.value);
+                this.formatProduct(this.product);
               });
           }
         });
@@ -82,6 +79,16 @@ export class ProductPage {
 
     this.presentToast('success');
     this.closeModal();
+  }
+
+  /**
+   * Format products attributes.
+   */
+  private formatProduct (product) {
+      product.value = Intl.NumberFormat('pt-BR', {style: 'currency', currency: 'BRL'}).format(product.value);
+      product.variety = (product.variety == '...' || product.variety == 'vazio') ? '' : product.variety;
+      product.package = (product.package == '...' || product.package == 'vazio') ? '' : product.package;
+
   }
 
   /**

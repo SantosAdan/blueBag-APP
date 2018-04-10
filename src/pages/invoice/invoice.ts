@@ -17,6 +17,7 @@ export class InvoicePage {
   public user_id: number = null;
   public invoices: any[] = [];
   public BRL = new Intl.NumberFormat('pt-BR', {style: 'currency', currency: 'BRL'});
+  public brazilianDate = new Intl.DateTimeFormat('pt-BR');
   public showLoader: boolean;
 
   constructor (public navCtrl: NavController,
@@ -49,7 +50,7 @@ export class InvoicePage {
           this.invoices.map((invoice) => {
             invoice.total = this.BRL.format(invoice.total);
             invoice.created_at = new Date(invoice.created_at.date);
-            invoice.created_at = `${invoice.created_at.getDate()}/${invoice.created_at.getMonth()+1}/${invoice.created_at.getFullYear()}`;
+            invoice.created_at = this.brazilianDate.format(invoice.created_at);
 
           })
         },

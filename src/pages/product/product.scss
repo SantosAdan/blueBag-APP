@@ -3,28 +3,24 @@ page-product {
     margin-bottom: 0 !important;
   }
 
-  img {
-    max-width: 30px !important;
-    max-height: 100px !important;
+  .img-container {
+    background-color: #fff;
+    background-size: contain;
+    background-repeat: no-repeat; // Não aglutinar essas duas propriedades
+    background-position:center; // porque não funcionam da maneira desejada
+    min-height: 150px;
     margin: 0 auto;
   }
 
-  ion-thumbnail {
-    background-color: #fff;
-    height: 120px !important;
-  }
-
   .productPrice {
-    font-size: 1.3em;
+    font-size: 1.9em;
     font-weight: bold;
     color: color($colors, bluebag-dark);
   }
 
   .productAttr {
-    display: inline;
     font-weight: bold;
-    font-style: italic;
-    color: color($colors, bluebag-dark);
-    text-align: right;
+    //color: color($colors, bluebag-dark);
+    text-align: right !important;
   }
 }

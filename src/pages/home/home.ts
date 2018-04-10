@@ -39,6 +39,8 @@ export class HomePage {
       .subscribe(
         response => {
           this.products = response.data;
+
+          this.formatProducts(this.products);
         },
         err => {
           if (err.status === 401) {
@@ -54,6 +56,8 @@ export class HomePage {
                   .map((response: Response) => response.json())
                   .subscribe(response => {
                     this.products = response.data;
+
+                    this.formatProducts(this.products);
                   });
               });
           }
@@ -75,6 +79,17 @@ export class HomePage {
     this.events.publish('bag:updated', ++amount);
 
     this.presentToast('success');
+  }
+
+  /**
+   * Format products attributes.
+   */
+  private formatProducts (products) {
+    products.map(product => {
+      //product.value = Intl.NumberFormat('pt-BR', {style: 'currency', currency: 'BRL'}).format(product.value);
+      product.variety = (product.variety == '...' || product.variety == 'vazio') ? '' : product.variety;
+      product.package = (product.package == '...' || product.package == 'vazio') ? '' : product.package;
+    });
   }
 
   /**

@@ -15,36 +15,37 @@
 </ion-header>
 
 <ion-content padding-vertical>
+
   <ion-refresher (ionRefresh)="refresh($event)">
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
 
-  <div class="spinner">
-    <ion-spinner *ngIf="showLoading"></ion-spinner>
+  <div class="spinner" *ngIf="showLoading">
+    <h2>Buscando</h2>
+    <ion-spinner name="dots"></ion-spinner>
   </div>
-
-  <!--<button ion-button (click)="sendSuperpay()">Superpay</button>-->
 
   <ion-list *ngIf="searchResults.length != 0">
     <ion-item *ngFor="let product of searchResults" text-wrap text-center>
       <ion-thumbnail item-start>
-        <img [src]="product.photo">
+        <div class="img-container" [style.background-image]="'url('+product.photo+')'" (click)="showProductDetails(product.id)"></div>
       </ion-thumbnail>
 
-      <p>{{ product.name }}</p>
+      <p>{{ product.name }} {{product.variety}} {{product.package}}</p>
 
-      <h1 class="productValue" padding-vertical>
-        R$ {{ product.value.toFixed(2).toString().replace('.', ',') }}
-      </h1>
+      <h1 class="productValue" padding-vertical *ngIf="product.amount > 0">R$ {{ product.value.toFixed(2).toString().replace('.', ',') }}</h1>
+      <h1 class="productValue" padding-vertical *ngIf="product.amount <= 0">Produto Indisponível</h1>
 
-      <button ion-button icon-right outline block color="bluebag-dark">
+      <button *ngIf="product.amount > 0"
+              (click)="addToChart(product.id)"
+              ion-button
+              icon-right
+              outline
+              block
+              color="bluebag-dark">
         Adicionar <ion-icon name="basket"></ion-icon>
       </button>
 
-      <p class="clientInfo">
-        Vendido e entregue por:
-        <b>{{ product.client.data.name }}</b>
-      </p>
     </ion-item>
   </ion-list>
 

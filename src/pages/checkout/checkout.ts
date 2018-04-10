@@ -1,5 +1,5 @@
-import {Component, ViewChild} from '@angular/core';
-import {Content, NavController, NavParams, Slides} from 'ionic-angular';
+import {Component} from '@angular/core';
+import {NavController, NavParams, ActionSheetController} from 'ionic-angular';
 import {AuthProvider} from "../../providers/auth/auth";
 import * as _ from 'lodash';
 import {Http, RequestOptions, Response} from "@angular/http";
@@ -14,8 +14,6 @@ import {InvoiceDetailsPage} from "../invoice-details/invoice-details";
   templateUrl: 'checkout.html',
 })
 export class CheckoutPage {
-  @ViewChild('checkoutSlider') checkoutSlider: Slides;
-  @ViewChild(Content) content: Content;
 
   public addresses: any[] = [];
   public cards: any[] = [];
@@ -24,89 +22,89 @@ export class CheckoutPage {
   public selectedCard: number = null;
   public selectedInstallment: string = '';
   // public totalAmount: string = '';
+  public subtotalValue: string = '';
   public totalValue: string = '';
   public numPayments: number = 1;
   public paymentInstallments: any[] = [];
   public user_id: number = null;
   public is_balcony: boolean = false;
+  public deliveryFee: string;
+  public deliveryFeeNumber: number;
+
+  public address: any;
+  public card: any;
+
+  public showAddress: boolean;
+  public showCard: boolean;
   public show_spinner: boolean = false;
-
-  public address: {
-    id: number
-    street: string
-    number: number
-    complement: string
-    district: string
-    city: string
-    state: string
-    zipcode: string
-  };
-
-  public card: {
-    id: number
-    name: string
-    number: string
-    due_date: string
-  };
 
   constructor (public navCtrl: NavController,
                public navParams: NavParams,
                public auth: AuthProvider,
                public http: Http,
+               public actionSheetCtrl: ActionSheetController,
                public configProvider: ConfigProvider,
                public defaultRequest: DefaultRequestOptionsProvider,
                private shoppingBagProvider: ShoppingBagProvider) {
-    this.address = {
-      id: null,
-      street: '',
-      number: null,
-      complement: '',
-      district: '',
-      city: '',
-      state: '',
-      zipcode: ''
-    };
-
-    this.card = {
-      id: null,
-      name: '',
-      number: '',
-      due_date: ''
-    };
-
-    // this.totalAmount = this.navParams.get('total_amount');
-    this.totalValue = this.navParams.get('total_value');
+    this.subtotalValue = this.navParams.get('total_value');
+    this.showAddress = false;
+    this.showCard = false;
   }
 
   ionViewDidEnter () {
-    this.checkoutSlider.lockSwipes(true);
-
+    this.getDeliveryFee();
     this.getAddresses();
     setTimeout(() => {
       this.getCreditCards();
-    }, 1000);
+    }, 500);
     this.getProducts();
     this.getPaymentInstallments();
     this.selectInstallment();
   }
 
+  getDeliveryFee () {
+    if (this.is_balcony) {
+      this.deliveryFeeNumber = 0.00;
+      this.deliveryFee = Intl.NumberFormat('pt-BR', {style: 'currency', currency: 'BRL'}).format(this.deliveryFeeNumber);
+
+      let total: number = parseFloat(this.subtotalValue.replace(',','.'));
+      this.totalValue = Intl.NumberFormat('pt-BR', {style: 'currency', currency: 'BRL'}).format(total);
+
+      return;
+    }
+
+    return this.http
+      .get(`${this.configProvider.base_url}/delivery-fee?price=${this.subtotalValue}`, this.defaultRequest.merge(new RequestOptions))
+      .map((res: Response) => res.json())
+      .subscribe(res => {
+        this.deliveryFeeNumber = parseFloat(res);
+
+        this.deliveryFee = Intl.NumberFormat('pt-BR', {style: 'currency', currency: 'BRL'}).format(this.deliveryFeeNumber);
+
+        let total: number = parseFloat(this.subtotalValue.replace(',','.')) + this.deliveryFeeNumber;
+
+        this.totalValue = Intl.NumberFormat('pt-BR', {style: 'currency', currency: 'BRL'}).format(total);
+        },
+        err => {
+          console.log(err);
+        });
+  }
   /**
    * Get all Addresses of logged user.
    */
   getAddresses () {
     this.auth.getUser().subscribe(
       res => {
-        this.user_id = res.data.id; // user_id to send on request
-        this.addresses = res.data.addresses.data;
+        this.user_id = res.data.id // user_id to send on request
+        this.addresses = res.data.addresses.data
 
         // Ordering
-        this.addresses = _.orderBy(this.addresses, 'street', 'asc');
+        this.addresses = _.orderBy(this.addresses, 'street', 'asc')
 
-        // Only itajubá
-        //this.addresses = _.remove(this.addresses, {'city': 'Itajubá'});
+        // Select Main Address
+        this.address = _.remove([...this.addresses], {'is_principal': true})[0]
 
-        // Close loading spinner
-        // this.showLoading = false;
+        this.showAddress = true
       },
       err => {
         console.log(err)
@@ -119,30 +117,16 @@ export class CheckoutPage {
       .get(`${this.configProvider.base_url}/cards?user_id=${this.user_id}`, this.defaultRequest.merge(new RequestOptions))
       .map((res: Response) => res.json())
       .subscribe(res => {
-          this.cards = res.data;
+          this.cards = res.data
 
           this.cards.map((card) => {
-            card.date = new Date(card.date.date);
-            card.date = this.formatDate(card);
+            card.date = new Date(card.date.date)
+            card.date = this.formatDate(card)
           })
-        },
-        err => {
-          console.log(err)
-        })
-  }
 
-  /**
-   * Get address data.
-   *
-   * @param address_id
-   * @returns {Subscription}
-   */
-  getAddressbyId (address_id) {
-    return this.http
-      .get(`${this.configProvider.base_url}/addresses/${address_id}/edit`, this.defaultRequest.merge(new RequestOptions))
-      .map((res: Response) => res.json())
-      .subscribe(res => {
-          this.address = res
+          this.card = this.cards[0]
+
+          this.showCard = true
         },
         err => {
           console.log(err)
@@ -158,6 +142,8 @@ export class CheckoutPage {
     return this.shoppingBagProvider.getProductsData()
       .subscribe(res => {
         this.products = res.data;
+
+        this.formatProducts(this.products);
 
         // Ajustando quantidade de acordo com a sacola
         this.products = this.shoppingBagProvider.adjustShoppingBag(this.products);
@@ -186,7 +172,7 @@ export class CheckoutPage {
     this.show_spinner = !this.show_spinner;
 
     let body = {
-      address_id: this.selectedAddress,
+      address_id: this.address.id,
       user_id: this.user_id,
       products: this.products.map(item => {
         return {id: item.id, amount: item.amount, value: item.value};
@@ -197,9 +183,10 @@ export class CheckoutPage {
       total_in_client: this.products.reduce((sum, product) => {
         return sum + (product.real_value * product.amount)
       }, 0),
-      delivery_fee: 0,
+      delivery_fee: this.deliveryFeeNumber,
       is_delivery: !this.is_balcony,
       installments: this.selectedInstallment['value'],
+      card_flag: this.card.flag,
       card: this.card
     };
 
@@ -218,62 +205,66 @@ export class CheckoutPage {
       },
         err => {
           console.log(err);
-        })
-  }
-
-  /**
-   * Select an address to delivery.
-   *
-   * @param address_id
-   */
-  selectAddress (address_id) {
-    this.selectedAddress = address_id;
-    this.getAddressbyId(address_id);
-  }
-
-  /**
-   * Select payment method, i.e., select credit card.
-   *
-   * @param card_id
-   */
-  selectCard (card_id) {
-    this.selectedCard = card_id;
-    this.card = _.find(this.cards, {id: card_id});
+        });
   }
 
   selectInstallment () {
     this.selectedInstallment = _.find(this.paymentInstallments, {value: this.numPayments});
   }
 
-  /**
-   * Go to next step.
-   */
-  nextSlide () {
-    this.checkoutSlider.lockSwipes(false);
-    this.checkoutSlider.slideNext();
-    this.checkoutSlider.lockSwipes(true);
+  openAddressSelector () {
+    let data: any[] = [];
 
-    this.scrollToTop();
+    for (let address of this.addresses) {
+      data.push({
+        text: `${address.street}, ${address.number}. ${address.city}-${address.state}`,
+        handler: () => {
+          this.selectAddress(address);
+        }
+      })
+    }
+
+    let actionSheet = this.actionSheetCtrl.create({
+      title: 'Selecionar endereço',
+      enableBackdropDismiss: true,
+      buttons: data
+    });
+
+    actionSheet.present();
+  }
+
+  selectAddress (address) {
+    this.address = address;
+  }
+
+  openCardSelector () {
+    let data: any[] = [];
+
+    for (let card of this.cards) {
+      data.push({
+        text: `${card.number} - Val: ${card.date} (${card.name})`,
+        handler: () => {
+          this.selectCard(card);
+        }
+      })
+    }
+
+    let actionSheet = this.actionSheetCtrl.create({
+      title: 'Selecionar cartão de crédito',
+      enableBackdropDismiss: true,
+      buttons: data
+    });
+
+    actionSheet.present();
+  }
+
+  selectCard (card) {
+    this.card = card;
   }
 
   /**
-   * Go to previous step.
+   * Remove all products from shopping bag.
    */
-  prevSlide () {
-    this.checkoutSlider.lockSwipes(false);
-    this.checkoutSlider.slidePrev();
-    this.checkoutSlider.lockSwipes(true);
-
-    this.scrollToTop();
-  }
-
-  /**
-   * Scroll to top.
-   */
-  scrollToTop () {
-    this.content.scrollToTop();
-  }
-
   clearShoppingBag () {
     localStorage.removeItem('shopping_bag');
   }
@@ -290,4 +281,14 @@ export class CheckoutPage {
     return `${card.date.getMonth()}/${card.date.getFullYear()}`;
   }
 
+  /**
+   * Format products attributes.
+   */
+  private formatProducts (products) {
+    products.map(product => {
+      //product.value = Intl.NumberFormat('pt-BR', {style: 'currency', currency: 'BRL'}).format(product.value);
+      product.variety = (product.variety == '...' || product.variety == 'vazio') ? '' : product.variety;
+      product.package = (product.package == '...' || product.package == 'vazio') ? '' : product.package;
+    });
+  }
 }

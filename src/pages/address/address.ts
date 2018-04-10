@@ -136,12 +136,32 @@ export class AddressPage {
                     handler: () => {
                         this.presentEditAddressModal(address_id);
                     }
+                }, {
+                    text: 'Marcar como principal',
+                    icon: 'star',
+                    handler: () => {
+                      this.makePrincipal(address_id);
+                    }
                 }
             ]
         });
         actionSheet.present();
     }
 
+  makePrincipal (address_id) {
+    this.http
+      .put(`${this.configProvider.base_url}/addresses/make-main/${address_id}`, {}, this.defaultRequest.merge(new RequestOptions))
+      .map((res: Response) => res.json())
+      .subscribe(res => {
+          this.presentToast('Endereço marcado como principal.', 'success');
+          this.getAddresses();
+        },
+        err => {
+          if (err.status == 500) {
+            this.presentToast('Endereço não foi marcado como principal.', 'error');
+          }
+        });
+  }
     /**
      * Show modal for new address form.
      */
@@ -151,7 +171,9 @@ export class AddressPage {
             mode: 'new'
         });
         newAddressModal.onDidDismiss(data => {
+          if (data.street != '') {
             this.updateAddressArray(data);
+          }
         });
         newAddressModal.present();
     }

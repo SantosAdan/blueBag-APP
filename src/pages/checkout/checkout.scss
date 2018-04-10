@@ -4,31 +4,20 @@ page-checkout {
     fill: #fff !important;
   }
 
+  ion-list-header {
+    margin-bottom: 2px !important;
+  }
+
+  ion-list {
+    margin-bottom: 20px !important;
+  }
+
   .card-disabled {
     color: color($colors, gray);
     background-color: color($colors, bluebag-grey) !important;
   }
   .address-out-territory {
-    font-size: 0.8em !important;
-  }
-
-  .card-selected {
-    border: 2px solid color($colors, bluebag-light);
-  }
-  .card-selected-bg {
-    background-color: color($colors, bluebag-dark) !important;
-  }
-  .card-selected-bg > h2 {
-    color: #fff !important;
-    font-weight: bold;
-  }
-
-  .selected-icon {
-    position: absolute;
-    right: 10px;
-    top: 0px;
-    color: #000;
-    z-index: 9999 !important;
+    font-size: 0.9em !important;
   }
 
   /* Arruma a margem dos botões */
@@ -45,9 +34,24 @@ page-checkout {
     width: 90%;
   }
 
+  .invoice-total, .invoice-subtotal, .invoice-total-value, .invoice-subtotal-value {
+    font-weight: bold;
+  }
+  .invoice-subtotal {
+    font-size: 1.1em;
+  }
+  .invoice-subtotal-value {
+    font-size: 1em;
+  }
   .invoice-total {
     font-size: 1.5em;
-    font-weight: bold;
+  }
+  .invoice-total-value {
+    font-size: 1.3em;
+  }
+
+  hr {
+    color: #000 !important;
   }
 
   ion-icon {
@@ -60,15 +64,6 @@ page-checkout {
   .fix-item-color {
     background-color: color($colors, bluebag-grey) !important;
   }
-
-  /* Arruma o problema com o scroll vertical do ion-slides */
-  .swiper-slide {
-    overflow-y: scroll;
-  }
-  .slide-zoom{
-    height:100%;
-  }
-  /* end */
 
 
   /* --------------------------------

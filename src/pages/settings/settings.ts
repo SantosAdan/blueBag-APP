@@ -10,6 +10,7 @@ import {CardPage} from "../card/card";
 import {PoliceTermsPage} from "../police-terms/police-terms";
 import {UseTermsPage} from "../use-terms/use-terms";
 import {FaqPage} from "../faq/faq";
+import {OpenCasePage} from "../open-case/open-case";
 
 @Component({
   selector: 'page-settings',
@@ -132,6 +133,10 @@ export class SettingsPage {
     faqModal.present();
   }
 
+  gotoOpenCasePage () {
+    this.navCtrl.push(OpenCasePage);
+  }
+
   openActionSheet () {
     let actionSheet = this.actionSheetCtrl.create({
       title: 'Contato',
@@ -148,7 +153,7 @@ export class SettingsPage {
           text: 'Abrir Chamado',
           icon: 'call',
           handler: () => {
-
+            this.gotoOpenCasePage();
           }
         }
       ]

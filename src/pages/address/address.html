@@ -28,13 +28,13 @@
     </ion-list-header>
 
     <ion-item *ngFor="let address of addresses">
+      <span *ngIf="address.is_principal">
+        <ion-badge color="bluebag-dark" float-start>Principal</ion-badge>
+      </span>
 
       <p>{{ address.street }}, {{ address.number }}. {{ address.district }}</p>
       <p>{{ address.city}} - {{ address.state }}</p>
 
-      <span *ngIf="address.is_principal">
-        <ion-badge color="bluebag-dark" float-start>Principal</ion-badge>
-      </span>
       <ion-icon name="more" item-end (click)="presentActionSheet(address.id)"></ion-icon>
     </ion-item>
 

@@ -8,14 +8,26 @@ page-category_detail {
   }
 
   div.swiper-pagination {
-    top:245px; bottom:inherit;
-    //margin-bottom: 10% !important;
+    top:255px;
+    bottom:inherit;
   }
 
   ion-slides {
-    max-height: 260px;
+    max-height: 270px;
     padding-top: 0 !important;
     margin-top: 0 !important;
+  }
+
+  .card {
+    display: flex;
+    height: 240px;
+    width: 95%;
+    margin: 5% 0 10% 5%;
+  }
+
+  .card-content {
+    width: 100%;
+    margin: auto;
   }
 
   ion-list {
@@ -41,9 +53,9 @@ page-category_detail {
   }
 
   .blueName {
-    //overflow: hidden !important;
-    //text-overflow: ellipsis !important;
-    //white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    white-space: nowrap !important;
   }
 
   .bluePrice {
@@ -51,18 +63,6 @@ page-category_detail {
     font-size: 1.3em;
     font-weight: bold;
     color: color($colors, bluebag-dark);
-  }
-
-  .card {
-    display: flex;
-    height: 230px;
-    width: 95%;
-    margin: 5% 0 10% 5%;
-  }
-
-  .card-content {
-    width: 100%;
-    margin: auto;
   }
 
   .productValue {
@@ -83,10 +83,20 @@ page-category_detail {
     margin-top: 5% !important;
   }
 
-  img {
-    max-height: 70px !important;
-    max-width: 30px !important;
+  .img-container, .img-container-highlighted {
+    background-color: #fff;
+    background-size: contain;
+    background-repeat: no-repeat; // Não aglutinar essas duas propriedades
+    background-position:center; // porque não funcionam da maneira desejada
     margin: 10% auto;
+  }
+
+  .img-container {
+    min-height: 130px;
+  }
+
+  .img-container-highlighted {
+    min-height: 110px;
   }
 }
 

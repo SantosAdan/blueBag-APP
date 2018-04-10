@@ -14,22 +14,22 @@
       <ion-card *ngFor="let product of products">
         <ion-card-content text-wrap text-center>
           <span (click)="showProductDetails(product.id)">
-            <p>{{ product.name }} - {{ product.variety }} - {{ product.package }}</p>
+            <p>{{ product.name }} {{ product.variety }} {{ product.package }}</p>
 
-            <ion-thumbnail>
-              <img [src]="product.photo">
-            </ion-thumbnail>
+            <div class="img-container" [style.background-image]="'url('+product.photo+')'"></div>
 
-            <p class="bluePrice">R$ {{ product.value.toFixed(2).toString().replace('.', ',') }}</p>
+            <p class="bluePrice" *ngIf="product.amount > 0">R$ {{ product.value.toFixed(2).toString().replace('.', ',') }}</p>
+            <p class="bluePrice" *ngIf="product.amount <= 0">Produto Indisponível</p>
           </span>
 
-          <button ion-button
+          <button (click)="addToChart(product.id)"
+                  *ngIf="product.amount > 0"
+                  ion-button
                   icon-right
                   outline
                   block
                   small
-                  color="bluebag-dark"
-                  (click)="addToChart(product.id)">
+                  color="bluebag-dark">
             Adicionar <ion-icon name="basket"></ion-icon>
           </button>
         </ion-card-content>

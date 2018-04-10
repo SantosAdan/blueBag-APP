@@ -21,4 +21,23 @@ page-sign-up {
     color: color($colors, bluebag-dark) !important;
     text-decoration: underline !important;
   }
+
+  #cityOutofDeliveryRangeAlert {
+    position: fixed !important;
+    top: 55px !important;
+    z-index: 9999;
+  }
+
+  p {
+    color: color($colors, danger);
+    margin-left: 10px;
+  }
+
+  .inputInvalid {
+    .item-inner {
+      border-bottom-color: color($colors, danger) !important;
+      -webkit-box-shadow: inset 0 -1px 0 0 color($colors, danger) !important;
+      box-shadow: inset 0 -1px 0 0 color($colors, danger) !important;
+    }
+  }
 }

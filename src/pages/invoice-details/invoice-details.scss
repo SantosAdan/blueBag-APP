@@ -7,17 +7,15 @@ page-invoice-details {
     text-align: center;
   }
 
-  ion-card-header {
-    background-color: color($colors, bluebag-dark) !important;
-    color: color($colors, white) !important;
-    font-weight: bold;
+  ion-list-header {
+    font-weight: bold !important;
   }
 
   ion-icon {
     font-size: 3em;
   }
 
-  ion-label {
+  ion-item {
     margin: 0 !important;
   }
 
@@ -26,12 +24,17 @@ page-invoice-details {
     text-align: center;
   }
 
-  .info > p {
+  .info {
     font-weight: bold !important;
     padding-bottom: 3%;
   }
 
   .fix-padding-top {
-    padding-top: 8%;
+    padding-top:20% !important;
+  }
+
+  #total p {
+    font-size: 1.3em !important;
+    font-weight: bold;
   }
 }

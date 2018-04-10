@@ -23,20 +23,21 @@
     <ion-slide *ngFor="let product of highlighted">
       <ion-card *ngIf="product">
         <ion-card-content>
-          <p class="blueName">{{ product.name }} {{ product.package }}</p>
+          <p class="blueName">{{ product.name }} {{product.variety}} {{product.package}}</p>
 
-          <ion-thumbnail (click)="showProductDetails(product.id)">
-            <img [src]="product.photo">
-          </ion-thumbnail>
+          <div class="img-container-highlighted" [style.background-image]="'url('+product.photo+')'" (click)="showProductDetails(product.id)"></div>
 
-          <p class="bluePrice">{{ product.value}}</p>
-          <button ion-button
+          <p class="bluePrice" *ngIf="product.amount > 0">{{ product.value}}</p>
+          <p class="bluePrice" *ngIf="product.amount <= 0">Produto Indisponível</p>
+
+          <button (click)="addToChart(product.id)"
+                  *ngIf="product.amount > 0"
+                  ion-button
                   icon-right
                   outline
                   block
                   small
-                  color="bluebag-dark"
-                  (click)="addToChart(product.id)">
+                  color="bluebag-dark">
             Adicionar <ion-icon name="basket"></ion-icon>
           </button>
         </ion-card-content>
@@ -63,23 +64,28 @@
   <ion-list *ngIf="!showLoading">
     <ion-item *ngFor="let product of products" text-wrap text-center>
       <ion-thumbnail item-start (click)="showProductDetails(product.id)">
-        <img [src]="product.photo">
+        <div class="img-container" [style.background-image]="'url('+product.photo+')'"></div>
       </ion-thumbnail>
 
-      <p>{{ product.name }} - {{ product.variety }} - {{ product.package }}</p>
+      <p>{{ product.name }} {{ product.variety }} {{ product.package }}</p>
 
-      <h1 class="productValue" padding-vertical>
-        {{product.value}}
-      </h1>
+      <h1 class="productValue" padding-vertical *ngIf="product.amount > 0">{{product.value}}</h1>
+      <h1 class="productValue" padding-vertical *ngIf="product.amount <= 0">Produto Indisponível</h1>
 
-      <button ion-button icon-right outline block color="bluebag-dark" (click)="addToChart(product.id)">
+      <button *ngIf="product.amount > 0"
+              (click)="addToChart(product.id)"
+              ion-button
+              icon-right
+              outline
+              block
+              color="bluebag-dark">
         Adicionar <ion-icon name="basket"></ion-icon>
       </button>
 
-      <p class="clientInfo">
-        Vendido e entregue por:
-        <b>{{ product.client.data.name }}</b>
-      </p>
+      <!--<p class="clientInfo">-->
+        <!--Vendido e entregue por:-->
+        <!--<b>{{ product.client.data.name }}</b>-->
+      <!--</p>-->
     </ion-item>
   </ion-list>
 

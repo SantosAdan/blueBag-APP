@@ -56,9 +56,9 @@
   <ion-list *ngIf="!showLoading" no-padding no-margin>
     <ion-item *ngFor="let product of products;" text-wrap text-center>
       <ion-thumbnail item-start>
-        <img [src]="product.photo">
+        <div class="img-container" [style.background-image]="'url('+product.photo+')'" (click)="showProductDetails(product.id)"></div>
       </ion-thumbnail>
-      <p>{{ product.name }}</p>
+      <p>{{ product.name }} {{product.variety}} {{product.package}}</p>
 
       <div class="product-amount" text-center>
         <button ion-button outline color="danger" class="btn-remove" (click)="removeAmount(product.id)">

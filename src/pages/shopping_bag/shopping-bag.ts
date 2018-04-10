@@ -1,11 +1,11 @@
 import {Component} from "@angular/core";
-import {NavController, ToastController, AlertController} from "ionic-angular";
+import {NavController, ToastController, AlertController, ModalController} from "ionic-angular";
 import {ShoppingBagProvider} from "../../providers/shopping-bag/shopping-bag";
 import * as _ from 'lodash';
 import {CheckoutPage} from "../checkout/checkout";
-import {ConfigProvider} from "../../providers/config/config";
 import {RefreshTokenProvider} from "../../providers/refresh-token/refresh-token";
 import {DepartmentPage} from "../department/department";
+import {ProductPage} from "../product/product";
 
 @Component({
   selector: 'page-shopping-bag',
@@ -19,8 +19,8 @@ export class ShoppingBagPage {
   constructor (public navCtrl: NavController,
                public toastCtrl: ToastController,
                public alertCtrl: AlertController,
+               public modalCtrl: ModalController,
                private shoppingBagProvider: ShoppingBagProvider,
-               private configProvider: ConfigProvider,
                private refreshJWTProvider: RefreshTokenProvider) {
 
   }
@@ -40,6 +40,8 @@ export class ShoppingBagPage {
     return this.shoppingBagProvider.getProductsData()
       .subscribe(res => {
           this.products = res.data;
+          this.formatProducts(this.products);
+
           this.showLoading = false; // Retiramos o spinner de loading
 
           this.products = this.shoppingBagProvider.adjustShoppingBag(this.products);
@@ -60,6 +62,8 @@ export class ShoppingBagPage {
             return this.shoppingBagProvider.getProductsData()
               .subscribe(res => {
                 this.products = res.data;
+                this.formatProducts(this.products);
+
                 this.showLoading = false; // Retiramos o spinner de loading
 
                 this.products = this.shoppingBagProvider.adjustShoppingBag(this.products);
@@ -71,6 +75,15 @@ export class ShoppingBagPage {
               });
           }
         });
+  }
+
+  /**
+   *
+   * @param product_id
+   */
+  showProductDetails (product_id) {
+    let modal = this.modalCtrl.create(ProductPage, {id: product_id});
+    modal.present();
   }
 
   /**
@@ -158,6 +171,17 @@ export class ShoppingBagPage {
     } else {
       this.showConfirm(product_id);
     }
+  }
+
+  /**
+   * Format products attributes.
+   */
+  private formatProducts (products) {
+    products.map(product => {
+      //product.value = Intl.NumberFormat('pt-BR', {style: 'currency', currency: 'BRL'}).format(product.value);
+      product.variety = (product.variety == '...' || product.variety == 'vazio') ? '' : product.variety;
+      product.package = (product.package == '...' || product.package == 'vazio') ? '' : product.package;
+    });
   }
 
   /**

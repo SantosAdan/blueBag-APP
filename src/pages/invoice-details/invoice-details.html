@@ -8,87 +8,81 @@
 
 
 <ion-content no-padding>
-
   <div class="spinner">
     <ion-spinner *ngIf="!invoice && !address && !products"></ion-spinner>
   </div>
 
   <!-- General Info -->
-  <ion-card *ngIf="invoice">
-    <ion-card-header text-center>Número {{invoice.code}}</ion-card-header>
-    <ion-card-content padding>
-      <div float-left>
-        <p>Data</p>
-        <p class="fix-padding-top">Pagamento</p>
-      </div>
-      <div class="info" float-right>
-        <p>{{ invoice.created_at }} <small>{{ created_hour}}</small></p>
-        <p>{{ invoice.total }}</p>
-      </div>
-      <ion-item text-center>
-        <ion-badge color="bluebag-light">{{invoice.status}}</ion-badge>
-      </ion-item>
-    </ion-card-content>
-  </ion-card>
+  <ion-list *ngIf="invoice" >
+    <ion-list-header color="bluebag-dark" no-margin text-center>Número {{invoice.code}}</ion-list-header>
+    <ion-item padding-horizontal>
+      <p>Data</p>
+      <p item-end>{{ invoice.created_at }} <small>{{ created_hour}}</small></p>
+    </ion-item>
+    <ion-item padding-horizontal>
+      <p>Subtotal</p>
+      <p item-end>{{ invoice.total }}</p>
+    </ion-item>
+    <ion-item padding-horizontal>
+      <p>Taxa de Serviço</p>
+      <p item-end>{{ BRL.format(invoice.delivery_fee) }}</p>
+    </ion-item>
+    <ion-item id="total" padding-horizontal>
+      <p>Total</p>
+      <p item-end>{{ invoiceTotal }}</p>
+    </ion-item>
+    <ion-item text-center>
+      <ion-badge color="bluebag-light">{{invoice.status}}</ion-badge>
+    </ion-item>
+  </ion-list>
   <!--END of General Info -->
 
   <!-- ADDRESS -->
-  <ion-card *ngIf="address">
-    <ion-card-header text-center>Endereço de Entrega</ion-card-header>
+  <ion-list *ngIf="address && invoice.is_delivery === 'Entrega'" no-lines text-wrap>
+    <ion-list-header color="bluebag-dark" text-center no-margin>Endereço de Entrega</ion-list-header>
+      <ion-item>
+        <ion-icon name="home" item-left></ion-icon>
+        <p>{{ address.street }}, {{ address.number }}. {{ address.district }} - {{ address.complement }}</p>
+      </ion-item>
 
-    <ion-card-content no-padding>
-      <ion-list no-lines text-wrap>
+      <ion-item>
+        <ion-icon name="map" item-left></ion-icon>
+        <p>{{ address.city}} - {{ address.state }}</p>
+      </ion-item>
 
-        <ion-item>
-          <ion-icon name="home" item-left></ion-icon>
-          <p>{{ address.street }}, {{ address.number }}. {{ address.district }} - {{ address.complement }}</p>
-        </ion-item>
+      <ion-item>
+        <ion-icon name="locate" item-left></ion-icon>
+        <p>{{address.zipcode}}</p>
+      </ion-item>
 
-        <ion-item>
-          <ion-icon name="map" item-left></ion-icon>
-          <p>{{ address.city}} - {{ address.state }}</p>
-        </ion-item>
-
-        <ion-item>
-          <ion-icon name="locate" item-left></ion-icon>
-          <p>{{address.zipcode}}</p>
-        </ion-item>
-
-      </ion-list>
-    </ion-card-content>
-  </ion-card>
+  </ion-list>
   <!-- END of ADDRESS -->
 
   <!-- Invoice Items -->
-  <ion-card *ngIf="products">
-    <ion-card-header text-center>Items</ion-card-header>
-    <ion-card-content no-padding>
+  <ion-list *ngIf="products" no-lines text-wrap>
+    <ion-list-header text-center color="bluebag-dark" no-margin>Items</ion-list-header>
 
-      <ion-list no-lines text-wrap>
-        <ion-item *ngFor="let product of products;">
-          <ion-grid>
-            <ion-row>
-              <ion-col col-12>
-                <h2>{{product.name}}</h2>
-              </ion-col>
-            </ion-row>
+    <ion-item *ngFor="let product of products;">
+      <ion-grid>
+        <ion-row>
+          <ion-col col-12>
+            <h2>{{product.name}} {{product.variety}} {{product.package}}</h2>
+          </ion-col>
+        </ion-row>
 
-            <ion-row>
-              <ion-col col-6 text-left>
-                <p>R$ {{product.value.toFixed(2).toString().replace('.', ',')}}</p>
-              </ion-col>
-              <ion-col col-2 text-center>
-                <p>x{{product.amount}}</p>
-              </ion-col>
-              <ion-col col-4 text-right>
-                <p>R$ {{ (product.value * product.amount).toFixed(2).toString().replace('.', ',') }}</p>
-              </ion-col>
-            </ion-row>
-          </ion-grid>
-        </ion-item>
-      </ion-list>
-
-    </ion-card-content>
-  </ion-card>
+        <ion-row>
+          <ion-col col-6 text-left>
+            <p>R$ {{product.value.toFixed(2).toString().replace('.', ',')}}</p>
+          </ion-col>
+          <ion-col col-2 text-center>
+            <p>x{{product.amount}}</p>
+          </ion-col>
+          <ion-col col-4 text-right>
+            <p>R$ {{ (product.value * product.amount).toFixed(2).toString().replace('.', ',') }}</p>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-item>
+  </ion-list>
   <!-- END of Invoice Items -->
 </ion-content>
