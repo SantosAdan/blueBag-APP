@@ -35,10 +35,13 @@
     </ion-list-header>
 
     <ion-item>
-      <p>Dados do Padre Nicolau</p>
-      <p>Telefone</p>
-      <p>Email</p>
-      <p>Endereço</p>
+      <h2 text-center margin-bottom>{{ client.name }}</h2>
+      <p>Telefone: {{ client.phone }}</p>
+      <p>Email: {{ client.email }}</p>
+      <p>
+        Endereço: {{ client.address.street }}, {{ client.address.number }}. {{ client.address.district }}.
+        {{ client.address.city }} - {{ client.address.state }}
+      </p>
     </ion-item>
 
     <button class="fix-margin-horizontal" ion-button block small color="bluebag-dark" (click)="goToPage3()">Ainda preciso de ajuda</button>

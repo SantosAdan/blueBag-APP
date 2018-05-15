@@ -161,4 +161,13 @@ export class SettingsPage {
 
     actionSheet.present();
   }
+
+  commingSoonAlert() {
+    let alert = this.alertCtrl.create({
+      title: 'Em breve',
+      subTitle: '',
+      buttons: ['Ok']
+    });
+    alert.present();
+  }
 }

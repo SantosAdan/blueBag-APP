@@ -17,6 +17,7 @@ export class SignUpPage {
     name: string;
     cpf: number;
     birthday_date: string;
+    phone: string;
     email: string;
     password: string;
     password_confirmation: string;
@@ -34,6 +35,7 @@ export class SignUpPage {
 
   public showCityOutofDeliveryRangeAlert: boolean;
   public isAddressFilled: boolean;
+  public isTermsChecked: boolean;
   public errors: any[] = [];
 
   constructor(public navCtrl: NavController,
@@ -42,10 +44,11 @@ export class SignUpPage {
               public modalCtrl: ModalController) {
     this.showCityOutofDeliveryRangeAlert = false
     this.isAddressFilled = false
+    this.isTermsChecked = false
   }
 
   ngOnInit() {
-    this.user = {name: '', cpf: null, birthday_date: '', email: '', password: '', password_confirmation: ''}
+    this.user = {name: '', cpf: null, birthday_date: '', email: '', phone: '', password: '', password_confirmation: ''}
     this.address = {street: '', number: null, complement: '', district: '', city: '', state: '', zipcode: ''}
   }
 
@@ -101,6 +104,7 @@ export class SignUpPage {
       "name": this.user.name,
       "email": this.user.email,
       "birthday_date": this.user.birthday_date,
+      "phone": this.user.phone,
       "password": this.user.password,
       "password_confirmation": this.user.password_confirmation,
       "cpf": this.user.cpf,

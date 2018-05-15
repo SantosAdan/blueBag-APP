@@ -3,7 +3,8 @@
     <ion-title>BlueBag</ion-title>
     <ion-buttons end>
       <button ion-button clear (click)="openActionSheet()">
-        <ion-icon ios="ios-call-outline" md="md-call" color="danger"></ion-icon>
+        <!--<ion-icon ios="ios-call-outline" md="md-call" color="danger"></ion-icon>-->
+        Me Ajuda!
       </button>
     </ion-buttons>
   </ion-navbar>
@@ -54,7 +55,7 @@
   </div>
 
   <ion-list no-margin>
-    <a href="#" ion-item>
+    <a href="#" ion-item (click)="commingSoonAlert()">
       Sugerir Melhorias
     </a>
 
@@ -66,7 +67,7 @@
       Política de Privacidade
     </a>
 
-    <a href="#" ion-item>
+    <a href="#" ion-item (click)="commingSoonAlert()">
       Avalie-nos na Store!
       <ion-icon name="appstore" item-end color="secondary"></ion-icon>
     </a>

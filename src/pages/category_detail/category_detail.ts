@@ -23,6 +23,8 @@ export class CategoryDetailPage {
   public highlighted: any[] = [];
   public showLoading: boolean;
   public selectedCategory: string = 'all';
+  public searchText: string = '';
+  public searchResults: any[] = [];
 
   constructor (public navCtrl: NavController,
                private navParams: NavParams,
@@ -50,7 +52,32 @@ export class CategoryDetailPage {
   }
 
   /**
-   * Get all products of a department.
+   * Search products inside department.
+   *
+   * @returns {Subscription}
+   */
+  onInput() {
+    this.showLoading = true;
+
+    if (this.searchText == '') {
+      this.searchResults = [];
+      this.showLoading = false;
+    } else {
+      return this.http
+        .get(`${this.configProvider.base_url}/products/search/${this.department.id}?q=${this.searchText}`, this.requestOptions.merge(new RequestOptions))
+        .map((response: Response) => response.json())
+        .subscribe(response => {
+          this.searchResults = response.data;
+          console.log(this.searchResults);
+          this.formatProducts(this.searchResults);
+
+          this.showLoading = false;
+        });
+    }
+  }
+
+  /**
+   * * Get all products of a department.
    *
    * @returns {Subscription}
    */
@@ -138,7 +165,7 @@ export class CategoryDetailPage {
   }
 
   /**
-   * Get all categories of a department.
+   * *Get all categories of a department.
    *
    * @returns {Subscription}
    */

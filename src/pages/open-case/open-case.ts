@@ -13,6 +13,7 @@ import * as _ from 'lodash';
 })
 export class OpenCasePage {
 
+  public client: any;
   public existingInvoice: string;
   public page: number;
   public subject: string = '';
@@ -34,13 +35,40 @@ export class OpenCasePage {
   }
 
   ionViewDidEnter() {
-   this.page = 0;
+    this.page = 0;
     this.getUserId();
+    this.getClient();
+  }
+
+  getClient () {
+    return this.http
+      .get(`${this.configProvider.base_url}/client`, this.defaultRequest.merge(new RequestOptions))
+      .map((res: Response) => res.json())
+      .subscribe(res => {
+          this.client = res;
+
+        },
+        err => {
+          if (err.status === 401) {
+            // Refresh token
+            this.refreshJWTProvider.refresh();
+
+            // Redo request
+            this.http
+              .get(`${this.configProvider.base_url}/client`, this.defaultRequest.merge(new RequestOptions))
+              .map((res: Response) => res.json())
+              .subscribe(res => {
+
+                this.client = res.data;
+
+              });
+          }
+        })
   }
 
   getInvoices () {
     return this.http
-      .get(`${this.configProvider.base_url}/invoices?user_id=${this.user_id}`, this.defaultRequest.merge(new RequestOptions))
+      .get(`${this.configProvider.base_url}/invoices`, this.defaultRequest.merge(new RequestOptions))
       .map((res: Response) => res.json())
       .subscribe(res => {
           this.invoices = res.data;

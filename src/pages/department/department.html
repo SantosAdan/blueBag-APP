@@ -49,7 +49,7 @@
     </ion-item>
   </ion-list>
 
-  <ion-list *ngIf="!showLoading && showInList" no-margin no-padding>
+  <ion-list *ngIf="!showLoading && showInList && departments != undefined" no-margin no-padding>
     <button ion-item *ngFor="let department of departments" (click)="goToProductsPage(department.name, department.icon, department.id)">
       <ion-icon [name]="department.icon" item-start color="bluebag-dark"></ion-icon>
       <span>{{ department.name }}</span>
@@ -57,10 +57,10 @@
   </ion-list>
 
 
-  <ion-grid *ngIf="!showLoading && !showInList">
+  <ion-grid *ngIf="!showLoading && !showInList && departments != undefined">
     <ion-row>
-      <ion-col col-6 *ngFor="let department of departments" (tap)="goToProductsPage(department.name, department.icon, department.id)">
-        <ion-card>
+      <ion-col col-6 *ngFor="let department of departments" (click)="goToProductsPage(department.name, department.icon, department.id)">
+        <ion-card >
           <ion-card-content text-wrap text-center>
             <ion-icon [name]="department.icon" color="bluebag-dark" class="fix-icon-card"></ion-icon>
             <span>{{ department.name }}</span>
@@ -69,5 +69,21 @@
       </ion-col>
     </ion-row>
   </ion-grid>
+
+  <div class="fix-center" *ngIf="!showLoading && departments == undefined">
+    <ion-grid>
+      <ion-row text-center>
+        <ion-col col-12>
+          <ion-icon name="sad" color="bluebag-light" style="font-size: 5em;"></ion-icon>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col col-12>
+          <h4>Desculpe, mas não há Departamentos com produtos cadastrados!</h4>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </div>
 
 </ion-content>

@@ -18,6 +18,10 @@ export class InvoiceDetailsPage {
   public BRL = new Intl.NumberFormat('pt-BR', {style: 'currency', currency: 'BRL'});
   public invoiceSubtotal;
   public invoiceTotal;
+  public step1Class: string = '';
+  public step3Class: string = '';
+  public step2Class: string = '';
+  public step4Class: string = '';
 
   constructor (public navCtrl: NavController,
                public navParams: NavParams,
@@ -53,6 +57,22 @@ export class InvoiceDetailsPage {
           this.products = res.data.products.data;
 
           this.formatProducts(this.products);
+
+          if(this.invoice.status == 'Aprovação do pagamento' || this.invoice.status == 'Pagamento recusado') {
+            this.step1Class = 'current';
+          } else if (this.invoice.status == 'Separação dos produtos' || this.invoice.status == 'Produtos indisponíveis em estoque' || this.invoice.status == 'Pedido reprocessado manualmente') {
+            this.step1Class = 'visited';
+            this.step2Class = 'current';
+          } else if (this.invoice.status == 'Pedido separado para entrega') {
+            this.step1Class = 'visited';
+            this.step2Class = 'visited';
+            this.step3Class = 'current';
+          } else {
+            this.step1Class = 'visited';
+            this.step2Class = 'visited';
+            this.step3Class = 'visited';
+            this.step4Class = 'current';
+          }
         },
         err => {
           console.log(err)

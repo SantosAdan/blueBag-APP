@@ -12,6 +12,19 @@
     <ion-checkbox [(ngModel)]="is_balcony" color="bluebag-dark" (ionChange)="getDeliveryFee()"></ion-checkbox>
   </ion-item>
 
+  <ion-item id="cvvInput" text-wrap *ngIf="showCvvInput">
+    <ion-grid item-content>
+      <ion-row>
+        <ion-label floating>Digite o CVV (Código de segurança)</ion-label>
+        <ion-input type="tel" [(ngModel)]="cvv" max="4"></ion-input>
+      </ion-row>
+
+      <ion-row margin-top>
+        <button ion-button block (tap)="createInvoice()">Ok</button>
+      </ion-row>
+    </ion-grid>
+  </ion-item>
+
   <!--Loading while getting addresses -->
   <ion-list *ngIf="!showAddress">
     <ion-list-header text-center color="bluebag-dark">
@@ -32,7 +45,7 @@
       <strong>{{ address.street }}, {{ address.number }}.</strong> {{ address.district }}<br>
       {{ address.city}} - {{ address.state }}
 
-      <button ion-button clear item-right (click)="openAddressSelector()">Trocar</button>
+      <button ion-button clear item-right (click)="openAddressSelector()" >Trocar</button>
     </ion-item>
   </ion-list>
 
@@ -46,6 +59,17 @@
       <ion-spinner></ion-spinner>
     </ion-item>
   </ion-list>
+
+  <!-- Cartão não cadastrado -->
+  <ion-list *ngIf="card == undefined && showCard" margin-bottom no-lines>
+      <ion-list-header text-center color="bluebag-dark" text-wrap padding>
+        <p>Você não possui cartão de crédito cadastrado, mas não esquenta basta adicionar um no botão abaixo para continuar sua compra!</p>
+      </ion-list-header>
+    <ion-item text-center>
+      <button ion-button color="bluebag-light" (click)="presentNewCardModal()">Adicionar cartão</button>
+    </ion-item>
+  </ion-list>
+  <!-- Fim de Cartão não cadastrado -->
 
   <ion-list *ngIf="card != undefined && showCard" margin-bottom no-lines>
     <ion-list-header text-center color="bluebag-dark">
@@ -139,7 +163,7 @@
   </ion-list>
   <!-- END-INVOICE ITEMS -->
 
-  <button class="fix-btn-margin" ion-button color="danger" (tap)="createInvoice()">
+  <button class="fix-btn-margin" ion-button color="danger" (tap)="createInvoice()" [disabled]="card == undefined">
     Efetuar compra
     <ion-spinner name="dots" *ngIf="show_spinner"></ion-spinner>
   </button>

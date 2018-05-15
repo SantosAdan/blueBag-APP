@@ -18,6 +18,7 @@ export class CardPage {
 
   public cards: any[] = [];
   private userId: string;
+  public showCard: boolean;
 
   constructor (public navCtrl: NavController,
                private auth: AuthProvider,
@@ -32,6 +33,7 @@ export class CardPage {
 
   ionViewDidEnter () {
     this.getCreditCards();
+    this.showCard = false;
   }
 
   /**
@@ -52,6 +54,8 @@ export class CardPage {
 
         // Ordering
         this.cards = _.orderBy(this.cards, 'number', 'asc');
+
+        this.showCard = true;
 
       },
       err => {

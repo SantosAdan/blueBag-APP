@@ -1,8 +1,7 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-title *ngIf="mode == 'new'">Novo Cartão</ion-title>
-    <ion-title *ngIf="mode == 'edit'">Editando Cartão</ion-title>
+    <ion-title>BlueBag</ion-title>
 
     <ion-buttons end>
       <button ion-button icon-only (click)="closeModal()">
@@ -14,7 +13,11 @@
 </ion-header>
 
 
-<ion-content padding>
+<ion-content padding-top>
+    <ion-list-header text-center color="bluebag-dark" text-wrap>
+      <p *ngIf="mode == 'new'">Novo Cartão</p>
+      <p *ngIf="mode == 'edit'">Editando Cartão</p>
+    </ion-list-header>
   <ion-list *ngIf="card">
 
     <ion-item no-lines *ngIf="card.flag != ''">
@@ -48,14 +51,14 @@
       <ion-datetime cancelText="Fechar" doneText="Selecionar" displayFormat="MM/YYYY" min="2017" max="2040" [(ngModel)]="card.date"></ion-datetime>
     </ion-item>
 
-    <ion-item>
-      <ion-label>CVC</ion-label>
-      <ion-input type="text" mask="***" clearInput [(ngModel)]="card.cvc"></ion-input>
-    </ion-item>
+    <!--<ion-item>-->
+      <!--<ion-label>CVC</ion-label>-->
+      <!--<ion-input type="text" mask="***" clearInput [(ngModel)]="card.cvc"></ion-input>-->
+    <!--</ion-item>-->
 
   </ion-list>
 
-  <button ion-button block outline color="bluebag-dark" *ngIf="mode == 'new'" (click)="storeCard()">Salvar</button>
-  <button ion-button block outline color="bluebag-dark" *ngIf="mode == 'edit'" (click)="updateCard(card.id)">Salvar</button>
+  <button class="fix-btn-margin" ion-button block outline color="bluebag-dark" *ngIf="mode == 'new'" (click)="storeCard()">Salvar</button>
+  <button class="fix-btn-margin" ion-button block outline color="bluebag-dark" *ngIf="mode == 'edit'" (click)="updateCard(card.id)">Salvar</button>
 
 </ion-content>

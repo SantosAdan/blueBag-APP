@@ -36,6 +36,14 @@
         <ion-input type="text" mask="**/**/****" clearInput [(ngModel)]="user.birthday_date" placeholder="Data de Nascimento"></ion-input>
       </ion-item>
 
+      <ion-item [ngClass]="{inputInvalid: errors.phone != undefined}">
+        <ion-label>
+          <ion-icon ios="ios-call-outline" md="md-call"></ion-icon>
+        </ion-label>
+        <ion-input type="tel" clearInput [(ngModel)]="user.phone" placeholder="Celular"></ion-input>
+      </ion-item>
+      <p *ngIf="errors.phone != undefined">{{errors.phone[0]}}</p>
+
       <ion-item [ngClass]="{inputInvalid: errors.email != undefined}">
         <ion-label>
           <ion-icon ios="ios-at-outline" md="md-at"></ion-icon>
@@ -102,7 +110,7 @@
 
     <ion-item text-wrap>
       <ion-label>Ao clicar em Avançar, aceito os termos de uso e política de privacidade da BlueBag.</ion-label>
-      <ion-checkbox color="bluebag-dark"></ion-checkbox>
+      <ion-checkbox color="bluebag-dark" [(ngModel)]="isTermsChecked"></ion-checkbox>
     </ion-item>
 
     <ion-item text-wrap text-center>
@@ -114,14 +122,21 @@
     </ion-item>
 
     <div text-center padding>
-      <button [disabled]="!isAddressFilled || showCityOutofDeliveryRangeAlert"
+      <button [disabled]="!isAddressFilled || !isTermsChecked || showCityOutofDeliveryRangeAlert"
               ion-button
               block
               color="bluebag-dark"
               (click)="signUp()">
         Cadastrar
       </button>
-      <button ion-button block outline color="danger" (click)="goToLoginPage()">Voltar</button>
+
+      <button ion-button
+              block
+              outline
+              color="danger"
+              (click)="goToLoginPage()">
+        Voltar
+      </button>
     </div>
   </div>
 </ion-content>

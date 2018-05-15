@@ -35,7 +35,6 @@ export class InvoicePage {
     this.getUserId();
     setTimeout(() => {
       this.getInvoices();
-      this.showLoader = false;
     }, 1000);
   }
 
@@ -51,8 +50,9 @@ export class InvoicePage {
             invoice.total = this.BRL.format(invoice.total);
             invoice.created_at = new Date(invoice.created_at.date);
             invoice.created_at = this.brazilianDate.format(invoice.created_at);
-
           })
+
+          this.showLoader = false;
         },
         err => {
           console.log(err)

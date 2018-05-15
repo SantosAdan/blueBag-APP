@@ -1,4 +1,4 @@
-import {Component, Input, ElementRef, ViewChild, AfterContentInit} from '@angular/core';
+import {Component, Input, ElementRef, ViewChild} from '@angular/core';
 import { trigger, state, style, transition, animate } from '@angular/animations'
 
 

@@ -12,6 +12,19 @@ page-checkout {
     margin-bottom: 20px !important;
   }
 
+  ion-input {
+    width: 100% !important;
+  }
+
+  #cvvInput {
+    margin: 400px auto;
+    position: absolute;
+    top: 0; left: 0; bottom: 0; right: 0;
+    height: 150px;
+    box-shadow: 1px 0 20px 2000px rgba(50, 50, 50, 0.8);
+    z-index: 200 !important;
+  }
+
   .card-disabled {
     color: color($colors, gray);
     background-color: color($colors, bluebag-grey) !important;

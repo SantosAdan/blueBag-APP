@@ -5,12 +5,40 @@
       {{ department.name }}
     </ion-title>
   </ion-navbar>
+
+  <ion-searchbar [(ngModel)]="searchText" (ionInput)="onInput($event)" debounce="500" placeholder="Buscar em {{ department.name }}"></ion-searchbar>
 </ion-header>
 
 <ion-content>
-  <div class="spinner">
-    <ion-spinner *ngIf="showLoading"></ion-spinner>
+  <div class="spinner" *ngIf="showLoading">
+    <h2>Buscando</h2>
+    <ion-spinner name="dots"></ion-spinner>
   </div>
+
+  <!-- Search Results -->
+  <ion-list *ngIf="searchResults.length != 0">
+    <ion-item *ngFor="let product of searchResults" text-wrap text-center>
+      <ion-thumbnail item-start>
+        <div class="img-container" [style.background-image]="'url('+product.photo+')'" (click)="showProductDetails(product.id)"></div>
+      </ion-thumbnail>
+
+      <p>{{ product.name }} {{product.variety}} {{product.package}}</p>
+
+      <h1 class="productValue" padding-vertical *ngIf="product.amount > 0">R$ {{ product.value }}</h1>
+      <h1 class="productValue" padding-vertical *ngIf="product.amount <= 0">Produto Indisponível</h1>
+
+      <button *ngIf="product.amount > 0"
+              (click)="addToChart(product.id)"
+              ion-button
+              icon-right
+              outline
+              block
+              color="bluebag-dark">
+        Adicionar <ion-icon name="basket"></ion-icon>
+      </button>
+
+    </ion-item>
+  </ion-list>
 
   <!-- On Sale Products -->
   <section class="blueSection" *ngIf="!showLoading && highlighted.length != 0">

@@ -1,13 +1,15 @@
 import {Component} from '@angular/core';
-import {NavController, NavParams, ActionSheetController} from 'ionic-angular';
+import {NavController, NavParams, ActionSheetController, ModalController} from 'ionic-angular';
 import {AuthProvider} from "../../providers/auth/auth";
 import * as _ from 'lodash';
 import {Http, RequestOptions, Response} from "@angular/http";
 import {ConfigProvider} from "../../providers/config/config";
 import {DefaultRequestOptionsProvider} from "../../providers/default-request-options/default-request-options";
 import {ShoppingBagProvider} from "../../providers/shopping-bag/shopping-bag";
-import {InvoicePage} from "../invoice/invoice";
 import {InvoiceDetailsPage} from "../invoice-details/invoice-details";
+import {CardNewPage} from "../card-new/card-new";
+import {CardPage} from "../card/card";
+import {TabsPage} from "../tabs/tabs";
 
 @Component({
   selector: 'page-checkout',
@@ -30,6 +32,7 @@ export class CheckoutPage {
   public is_balcony: boolean = false;
   public deliveryFee: string;
   public deliveryFeeNumber: number;
+  public cvv: string;
 
   public address: any;
   public card: any;
@@ -37,11 +40,13 @@ export class CheckoutPage {
   public showAddress: boolean;
   public showCard: boolean;
   public show_spinner: boolean = false;
+  public showCvvInput: boolean = false;
 
   constructor (public navCtrl: NavController,
                public navParams: NavParams,
                public auth: AuthProvider,
                public http: Http,
+               public modalCtrl: ModalController,
                public actionSheetCtrl: ActionSheetController,
                public configProvider: ConfigProvider,
                public defaultRequest: DefaultRequestOptionsProvider,
@@ -52,11 +57,14 @@ export class CheckoutPage {
   }
 
   ionViewDidEnter () {
+    this.showCvvInput = false;
+    this.cvv = null;
+
     this.getDeliveryFee();
     this.getAddresses();
     setTimeout(() => {
       this.getCreditCards();
-    }, 500);
+    }, 1000);
     this.getProducts();
     this.getPaymentInstallments();
     this.selectInstallment();
@@ -101,6 +109,9 @@ export class CheckoutPage {
         // Ordering
         this.addresses = _.orderBy(this.addresses, 'street', 'asc')
 
+        // Remove addresses out of itajubá
+        this.addresses = _.remove([...this.addresses], {'city': 'Itajubá'})
+
         // Select Main Address
         this.address = _.remove([...this.addresses], {'is_principal': true})[0]
 
@@ -130,6 +141,7 @@ export class CheckoutPage {
         },
         err => {
           console.log(err)
+          this.getCreditCards()
         })
   }
 
@@ -169,7 +181,16 @@ export class CheckoutPage {
   }
 
   createInvoice () {
+    if (!this.cvv) {
+      this.showCvvInput = true;
+      return;
+    }
+
+    this.showCvvInput = false;
     this.show_spinner = !this.show_spinner;
+
+    // Adiciona o cvv ao cartão
+    this.card.cvc = this.cvv;
 
     let body = {
       address_id: this.address.id,
@@ -208,10 +229,35 @@ export class CheckoutPage {
         });
   }
 
+  /**
+   *
+   */
   selectInstallment () {
     this.selectedInstallment = _.find(this.paymentInstallments, {value: this.numPayments});
   }
 
+  /**
+   * Show modal for new credit card form.
+   */
+  presentNewCardModal() {
+    const newAddressModal = this.modalCtrl.create(CardNewPage, {
+      user_id: this.user_id,
+      mode: 'new'
+    });
+
+    // When modal closes
+    newAddressModal.onDidDismiss(data => {
+      if (data.number != '') {
+        this.updateCardArray(data);
+      }
+    });
+
+    newAddressModal.present();
+  }
+
+  /**
+   *
+   */
   openAddressSelector () {
     let data: any[] = [];
 
@@ -225,7 +271,8 @@ export class CheckoutPage {
     }
 
     let actionSheet = this.actionSheetCtrl.create({
-      title: 'Selecionar endereço',
+      title: 'Endereços fora da área de entrega não são exibidos.',
+      subTitle: '',
       enableBackdropDismiss: true,
       buttons: data
     });
@@ -237,6 +284,9 @@ export class CheckoutPage {
     this.address = address;
   }
 
+  /**
+   *
+   */
   openCardSelector () {
     let data: any[] = [];
 
@@ -270,7 +320,7 @@ export class CheckoutPage {
   }
 
   goToInvoicePage (invoice_id) {
-    this.navCtrl.setRoot(InvoicePage);
+    this.navCtrl.setRoot(TabsPage);
     this.navCtrl.popToRoot();
     this.navCtrl.push(InvoiceDetailsPage, {
       id: invoice_id
@@ -290,5 +340,25 @@ export class CheckoutPage {
       product.variety = (product.variety == '...' || product.variety == 'vazio') ? '' : product.variety;
       product.package = (product.package == '...' || product.package == 'vazio') ? '' : product.package;
     });
+  }
+
+  /**
+   * Update cards array to match created/updated values.
+   *
+   * @param data
+   */
+  updateCardArray (data) {
+    data.number = CardPage.formatCardNumber(data.number, 4).join(' ')
+    data.flag = CardPage.generateCardLogo(data)
+
+    this.cards = _.reject(this.cards, {id: data.id}) // Removes card from array
+    this.cards.push(data) // Push new/updated value
+    this.cards = _.orderBy(this.cards, 'number', 'asc') // Ordering
+
+    // Seta cartão principal
+    this.card = this.cards[0]
+
+    // Atualiza flag
+    this.showCard = true
   }
 }

@@ -1,4 +1,4 @@
-import {Directive, Attribute, NgModule} from '@angular/core';
+import {Directive, Attribute} from '@angular/core';
 import {NgModel} from "@angular/forms";
 
 @Directive({

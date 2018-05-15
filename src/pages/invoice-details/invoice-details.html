@@ -15,6 +15,16 @@
   <!-- General Info -->
   <ion-list *ngIf="invoice" >
     <ion-list-header color="bluebag-dark" no-margin text-center>Número {{invoice.code}}</ion-list-header>
+    <ion-item no-padding no-margin>
+      <nav>
+        <ol class="cd-multi-steps text-top">
+          <li [className]="step1Class"><em>Pagamento</em></li>
+          <li [className]="step2Class"><em>Separação</em></li>
+          <li [className]="step3Class"><em>Entrega</em></li>
+          <li [className]="step4Class"><em>Concluído</em></li>
+        </ol>
+      </nav>
+    </ion-item>
     <ion-item padding-horizontal>
       <p>Data</p>
       <p item-end>{{ invoice.created_at }} <small>{{ created_hour}}</small></p>

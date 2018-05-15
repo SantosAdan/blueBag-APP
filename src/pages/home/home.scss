@@ -33,4 +33,12 @@ page-home {
     margin: 10% auto;
   }
 
+  div.fix-center {
+    color: #414141;
+    margin: auto;
+    position: absolute;
+    top: 0; left: 0; bottom: 0; right: 0;
+    height: 210px;
+    text-align: center;
+  }
 }

@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams, LoadingController, AlertController } from 'ionic-angular';
 import { Headers, Http, RequestOptions, Response } from "@angular/http";
-import {Observable} from 'rxjs/Observable';
+// import {Observable} from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/toPromise';
 
@@ -76,13 +76,13 @@ export class LoginPage {
    *
    * @param error
    * @returns {ErrorObservable}
-   */
-  private handleError(error: any) {
+   *
+  private handleError(error: any): ErrorObservable {
     let errMsg = (error.message) ? error.message :
         error.status ? `${error.status} - ${error.statusText}` : 'Server error';
     console.error(errMsg); // log to console instead
     return Observable.throw(errMsg);
-  }
+  }*/
 
   /**
    *
@@ -139,6 +139,71 @@ export class LoginPage {
               if (error == 'invalid_credentials') {
                 this.alertConnetionError();
               }
+            }
+        );
+  }
+
+  presentEmailAlert() {
+    let alert = this.alertCtrl.create({
+      title: 'Restaurar senha?',
+      inputs: [
+        {
+          name: 'email',
+          placeholder: 'E-mail de cadastro'
+        },
+      ],
+      buttons: [
+        {
+          text: 'Cancelar',
+          role: 'cancel',
+          handler: data => {
+            console.log('Cancel clicked')
+          }
+        },
+        {
+          text: 'Enviar',
+          handler: data => {
+            this.requestPasswordReset(data.email)
+            console.log(data.email)
+          }
+        }
+      ]
+    });
+
+    alert.present();
+  }
+
+  requestPasswordReset(email: string) {
+    // Prepare header request
+    let headers = new Headers();
+    headers.append('Content-Type', 'application/json');
+    let options = new RequestOptions({ headers: headers});
+
+    this.http.get(`${this.configProvider.base_url}/reset_password?email=${email}`, options)
+        .map(this.extractData)
+        .subscribe(
+            data => {
+              console.log(data)
+
+              let alert = this.alertCtrl.create({
+                title: 'Olá!',
+                subTitle: 'Um email foi enviado com a sua solicitação.',
+                buttons: ['OK']
+              });
+
+              alert.present()
+            },
+            err => {
+              let error = err.json().error
+              console.log(error)
+
+              let alert = this.alertCtrl.create({
+                title: 'Ops!',
+                subTitle: 'Desculpa, mas não encontramos esse email em nosso sistema. Tem certeza que digitou o email correto?',
+                buttons: ['Fechar']
+              });
+
+              alert.present();
             }
         );
   }

@@ -1,6 +1,6 @@
 import {Component} from "@angular/core";
 import {Events, ModalController, NavController, ToastController} from "ionic-angular";
-import {Http, Headers, RequestOptions, Response} from "@angular/http";
+import {Http, RequestOptions, Response} from "@angular/http";
 import {CategoryDetailPage} from "../category_detail/category_detail";
 import {DefaultRequestOptionsProvider} from "../../providers/default-request-options/default-request-options";
 import "rxjs/add/operator/map";
