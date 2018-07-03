@@ -40,7 +40,7 @@
         <ion-label>
           <ion-icon ios="ios-call-outline" md="md-call"></ion-icon>
         </ion-label>
-        <ion-input type="tel" clearInput [(ngModel)]="user.phone" placeholder="Celular"></ion-input>
+        <ion-input type="text" mask="(**) *****-****" clearInput [(ngModel)]="user.phone" placeholder="Celular"></ion-input>
       </ion-item>
       <p *ngIf="errors.phone != undefined">{{errors.phone[0]}}</p>
 

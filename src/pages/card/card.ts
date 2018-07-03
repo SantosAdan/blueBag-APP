@@ -47,7 +47,7 @@ export class CardPage {
 
         this.cards.map((card) => {
           card.number = CardPage.formatCardNumber(card.number, 4).join(' ');
-          card.date = new Date(card.date.date);
+          card.date = new Date(card.date);
           card.date = CardPage.formatDate(card);
           card.flag = CardPage.generateCardLogo(card);
         });

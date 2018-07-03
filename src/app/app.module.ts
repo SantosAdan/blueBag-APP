@@ -5,6 +5,8 @@ import {IonicApp, IonicModule, IonicErrorHandler} from 'ionic-angular';
 import {MyApp} from './app.component';
 import {IonicStorageModule} from '@ionic/storage';
 import {Network} from "@ionic-native/network";
+import {AppVersion} from '@ionic-native/app-version';
+import {Market} from '@ionic-native/market';
 
 import {DepartmentPage} from '../pages/department/department';
 import {CategoryDetailPage} from '../pages/category_detail/category_detail';
@@ -108,6 +110,8 @@ import {OpenCasePage} from "../pages/open-case/open-case";
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     Network,
+    AppVersion,
+    Market,
     StorageProvider,
     JwtProvider,
     AuthProvider,

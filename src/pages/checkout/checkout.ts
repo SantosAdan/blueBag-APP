@@ -1,14 +1,16 @@
 import {Component} from '@angular/core';
-import {NavController, NavParams, ActionSheetController, ModalController} from 'ionic-angular';
+import {NavController, NavParams, ActionSheetController, ModalController, AlertController, ToastController} from 'ionic-angular';
 import {AuthProvider} from "../../providers/auth/auth";
 import * as _ from 'lodash';
 import {Http, RequestOptions, Response} from "@angular/http";
 import {ConfigProvider} from "../../providers/config/config";
 import {DefaultRequestOptionsProvider} from "../../providers/default-request-options/default-request-options";
 import {ShoppingBagProvider} from "../../providers/shopping-bag/shopping-bag";
+import {RefreshTokenProvider} from "../../providers/refresh-token/refresh-token";
 import {InvoiceDetailsPage} from "../invoice-details/invoice-details";
 import {CardNewPage} from "../card-new/card-new";
 import {CardPage} from "../card/card";
+import {AddressPage} from "../address/address";
 import {TabsPage} from "../tabs/tabs";
 
 @Component({
@@ -47,10 +49,13 @@ export class CheckoutPage {
                public auth: AuthProvider,
                public http: Http,
                public modalCtrl: ModalController,
+               public alertCtrl: AlertController,
                public actionSheetCtrl: ActionSheetController,
+               public toastCtrl: ToastController,
                public configProvider: ConfigProvider,
                public defaultRequest: DefaultRequestOptionsProvider,
-               private shoppingBagProvider: ShoppingBagProvider) {
+               private shoppingBagProvider: ShoppingBagProvider,
+               public refreshJWTProvider: RefreshTokenProvider) {
     this.subtotalValue = this.navParams.get('total_value');
     this.showAddress = false;
     this.showCard = false;
@@ -131,7 +136,7 @@ export class CheckoutPage {
           this.cards = res.data
 
           this.cards.map((card) => {
-            card.date = new Date(card.date.date)
+            card.date = new Date(card.date)
             card.date = this.formatDate(card)
           })
 
@@ -164,7 +169,6 @@ export class CheckoutPage {
 
   /**
    * Calculate the installments value up to 12x.
-   *
    */
   getPaymentInstallments () {
     // Format money to BRL
@@ -180,6 +184,9 @@ export class CheckoutPage {
     }
   }
 
+  /**
+   * Create invoice on server.
+   */
   createInvoice () {
     if (!this.cvv) {
       this.showCvvInput = true;
@@ -220,7 +227,7 @@ export class CheckoutPage {
           let data = res.json();
 
           this.clearShoppingBag();
-          this.goToInvoicePage(data.id);
+          this.openFeedbackPrompt(data.id);
         }
 
       },
@@ -229,8 +236,65 @@ export class CheckoutPage {
         });
   }
 
+  openFeedbackPrompt (invoiceId) {
+    let alert = this.alertCtrl.create({
+      title: 'Obrigado, por comprar com o BlueBag!',
+      message: 'Encontrou algum erro ou nao encontrou algum produto procurado? Conta pra gente! ;)',
+      inputs: [
+        {
+          name: 'comment',
+          placeholder: ''
+        },
+      ],
+      buttons: [
+        {
+          text: 'Não, obrigado!',
+          role: 'cancel',
+          handler: data => {
+            this.goToInvoicePage(invoiceId);
+          }
+        },
+        {
+          text: 'Enviar',
+          handler: data => {
+            let body = {
+              id: invoiceId,
+              subject: 'Feedback',
+              comment: data.comment
+            };
+
+            this.http
+              .post(`${this.configProvider.base_url}/contact/invoice`, body, this.defaultRequest.merge(new RequestOptions))
+              .map((res: Response) => res.json())
+              .subscribe(res => {
+                this.presentToast('Email enviado com sucesso. Obrigado pelo feedback!', 'success');
+                this.goToInvoicePage(invoiceId);
+              },
+                err => {
+                  if (err.status === 401) {
+                    // Refresh token
+                    this.refreshJWTProvider.refresh();
+
+                    // Redo request
+                    this.http
+                      .get(`${this.configProvider.base_url}/contact/invoice`, this.defaultRequest.merge(new RequestOptions))
+                      .map((res: Response) => res.json())
+                      .subscribe(res => {
+                          this.presentToast('Email enviado com sucesso. Obrigado pelo feedback!', 'success');
+                          this.goToInvoicePage(invoiceId);
+                      });
+                  }
+                });
+          }
+        }
+      ]
+    });
+
+    alert.present();
+  }
+
   /**
-   *
+   * Select number of installments (by now it's always 1).
    */
   selectInstallment () {
     this.selectedInstallment = _.find(this.paymentInstallments, {value: this.numPayments});
@@ -280,6 +344,11 @@ export class CheckoutPage {
     actionSheet.present();
   }
 
+  /**
+   * Select an address from the list.
+   *
+   * @param address
+   */
   selectAddress (address) {
     this.address = address;
   }
@@ -319,6 +388,11 @@ export class CheckoutPage {
     localStorage.removeItem('shopping_bag');
   }
 
+  /**
+   * Go to invoices page.
+   *
+   * @param invoice_id
+   */
   goToInvoicePage (invoice_id) {
     this.navCtrl.setRoot(TabsPage);
     this.navCtrl.popToRoot();
@@ -327,8 +401,21 @@ export class CheckoutPage {
     });
   }
 
+  /**
+   * Go to Address list page.
+   */
+  goToAddressPage () {
+    this.navCtrl.push(AddressPage);
+  }
+
+  /**
+   * Format credit card date.
+   *
+   * @param card
+   */
   formatDate (card) {
-    return `${card.date.getMonth()}/${card.date.getFullYear()}`;
+    // return `${card.date.getMonth()+1}/${card.date.getFullYear()}`;
+    return new Intl.DateTimeFormat('pt-BR', {month: '2-digit', year: 'numeric'}).format(card.date)
   }
 
   /**
@@ -360,5 +447,21 @@ export class CheckoutPage {
 
     // Atualiza flag
     this.showCard = true
+  }
+
+  /**
+   * Show toast message.
+   *
+   * @param message
+   * @param type
+   */
+  presentToast (message: string, type: string) {
+    let toast = this.toastCtrl.create({
+      message: message,
+      duration: 1500,
+      position: 'top',
+      cssClass: type
+    });
+    toast.present();
   }
 }

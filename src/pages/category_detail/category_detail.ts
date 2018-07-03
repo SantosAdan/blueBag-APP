@@ -121,6 +121,11 @@ export class CategoryDetailPage {
       );
   }
 
+  /**
+   * Get more products from the paginated return.
+   *
+   * @param infiniteScroll
+   */
   getMoreProducts (infiniteScroll) {
     return this.http
       .get(`${this.productsPagination.links.next}`, this.requestOptions.merge(new RequestOptions))

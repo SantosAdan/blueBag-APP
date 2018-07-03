@@ -12,6 +12,7 @@
     <ion-checkbox [(ngModel)]="is_balcony" color="bluebag-dark" (ionChange)="getDeliveryFee()"></ion-checkbox>
   </ion-item>
 
+  <!-- CVV Input -->
   <ion-item id="cvvInput" text-wrap *ngIf="showCvvInput">
     <ion-grid item-content>
       <ion-row>
@@ -25,7 +26,20 @@
     </ion-grid>
   </ion-item>
 
-  <!--Loading while getting addresses -->
+  <!-- Previsão de entrega -->
+  <ion-list color="bluebag-dark" *ngIf="!is_balcony">
+    <ion-list-header text-center color="bluebag-dark">
+      <p>Previsão de entrega</p>
+    </ion-list-header>
+    <ion-item text-wrap text-justify padding>
+      <p>Para compras realizadas até as 14h00 a entrega é garantida até o fim do dia.</p>
+      <p>Após as 14h00, a entrega será feita até a manhã do dia seguinte.</p>
+      <br />
+      <p><strong>Caso precise adiantar a entrega é possível entrar em contato com o vendedor através do menu de ajuda na aba Conta.</strong></p>
+    </ion-item>
+  </ion-list>
+
+  <!-- Loading while getting addresses -->
   <ion-list *ngIf="!showAddress">
     <ion-list-header text-center color="bluebag-dark">
       <p>Selecione o endereço de entrega</p>
@@ -36,6 +50,17 @@
     </ion-item>
   </ion-list>
 
+  <!-- Address not found -->
+  <ion-list *ngIf="address == undefined && showAddress" margin-bottom no-lines>
+    <ion-list-header text-center color="bluebag-dark" text-wrap padding>
+      <p>Você não possui endereço principal cadastrado, mas não esquenta! Basta adicionar um no botão abaixo para continuar sua compra!</p>
+    </ion-list-header>
+    <ion-item text-center>
+      <button ion-button color="bluebag-light" (click)="goToAddressPage()">Adicionar endereço</button>
+    </ion-item>
+  </ion-list>
+
+  <!-- Address found -->
   <ion-list *ngIf="!is_balcony && address != undefined && showAddress" margin-bottom>
     <ion-list-header text-center color="bluebag-dark">
       <p>Selecione o endereço de entrega</p>
@@ -49,7 +74,7 @@
     </ion-item>
   </ion-list>
 
-  <!--Loading while getting cards -->
+  <!-- Loading while getting cards -->
   <ion-list *ngIf="!showCard">
     <ion-list-header text-center color="bluebag-dark">
       <p>Selecione o cartão de crédito</p>
@@ -63,7 +88,7 @@
   <!-- Cartão não cadastrado -->
   <ion-list *ngIf="card == undefined && showCard" margin-bottom no-lines>
       <ion-list-header text-center color="bluebag-dark" text-wrap padding>
-        <p>Você não possui cartão de crédito cadastrado, mas não esquenta basta adicionar um no botão abaixo para continuar sua compra!</p>
+        <p>Você não possui cartão de crédito cadastrado, mas não esquenta! Basta adicionar um no botão abaixo para continuar sua compra!</p>
       </ion-list-header>
     <ion-item text-center>
       <button ion-button color="bluebag-light" (click)="presentNewCardModal()">Adicionar cartão</button>

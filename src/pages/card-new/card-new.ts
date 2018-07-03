@@ -55,7 +55,7 @@ export class CardNewPage {
       .map((res: Response) => res.json())
       .subscribe(res => {
           this.card = res.data;
-          this.card.date = new Date(this.card.date.date);
+          this.card.date = new Date(this.card.date);
           this.card.date = this.formatDate(this.card);
         },
         err => {

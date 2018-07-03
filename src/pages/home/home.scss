@@ -10,8 +10,10 @@ page-home {
     padding: 0;
   }
 
-  .bluePrice {
-    font-size: 1.3em;
+  .productPrice {
+    font-size: 1.9em;
+    font-weight: bold;
+    color: color($colors, bluebag-dark);
   }
 
   .card {
