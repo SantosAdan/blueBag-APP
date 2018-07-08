@@ -5,6 +5,7 @@ page-department {
     top: 0; left: 0; bottom: 0; right: 0;
     height: 100px;
     text-align: center;
+    color: color($colors, bluebag-dark);
   }
 
   .fix-icon-card {
@@ -21,12 +22,31 @@ page-department {
   .card {
     display: flex;
     height: 120px;
-    width: 92%;
-    margin: 5% 0 0 5%;
+    width: 95%;
+    margin: 5% 0 0 3%;
+    border-radius: 5px;
   }
 
   .card-content {
     width: 100%;
     margin: auto;
+  }
+
+  .img-container {
+    background-color: #fff;
+    background-size: contain;
+    background-repeat: no-repeat; // Não aglutinar essas duas propriedades
+    background-position:center; // porque não funcionam da maneira desejada
+    min-height: 75px;
+    margin: 0 auto;
+  }
+
+  div.fix-center {
+    color: #414141;
+    margin: auto;
+    position: absolute;
+    top: 0; left: 0; bottom: 0; right: 0;
+    height: 210px;
+    text-align: center;
   }
 }

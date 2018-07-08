@@ -18,6 +18,7 @@ export class CardPage {
 
   public cards: any[] = [];
   private userId: string;
+  public showCard: boolean;
 
   constructor (public navCtrl: NavController,
                private auth: AuthProvider,
@@ -32,6 +33,7 @@ export class CardPage {
 
   ionViewDidEnter () {
     this.getCreditCards();
+    this.showCard = false;
   }
 
   /**
@@ -44,14 +46,16 @@ export class CardPage {
         this.cards = res.data.cards.data;
 
         this.cards.map((card) => {
-          card.number = this.formatCardNumber(card.number, 4).join(' ');
-          card.date = new Date(card.date.date);
+          card.number = CardPage.formatCardNumber(card.number, 4).join(' ');
+          card.date = new Date(card.date);
           card.date = CardPage.formatDate(card);
           card.flag = CardPage.generateCardLogo(card);
         });
 
         // Ordering
         this.cards = _.orderBy(this.cards, 'number', 'asc');
+
+        this.showCard = true;
 
       },
       err => {
@@ -214,7 +218,7 @@ export class CardPage {
    * @param {number} numChar
    * @returns {Array}
    */
-  formatCardNumber (cardNumber : string, numChar : number) {
+  static formatCardNumber (cardNumber : string, numChar : number) {
     let formattedString = [];
     let i = 0;
 
@@ -234,13 +238,30 @@ export class CardPage {
    */
   static generateCardLogo (card) {
     let cardLogo: string;
+    let firstDigit: string = card.number.charAt(0);
+    let twoDigits: string = card.number.substring(0, 2);
+    let threeDigits: string = card.number.substring(0, 3);
+    let fourDigits: string = card.number.substring(0, 4);
 
-    if (card.number.charAt(0) == '4') {
+    if (firstDigit == '4') {
       cardLogo = 'visa.png';
-    } else if (card.number.charAt(0) == '5') {
+    } else if (twoDigits == '50') {
+      cardLogo = 'aura.png';
+    } else if (firstDigit == '5') {
       cardLogo = 'mastercard.png';
-    } else {
+    } else if (twoDigits == '35') {
+      cardLogo = 'jcb.png';
+    } else if (twoDigits == '34' || twoDigits == '37') {
+      cardLogo = 'amex.png';
+    } else if (twoDigits == '36' || twoDigits == '38' || threeDigits == '301' || threeDigits == '305') {
+      cardLogo = 'diners.png';
+    } else if (threeDigits == '622' || twoDigits == '64' || twoDigits == '65' || fourDigits == '6011') {
+      cardLogo = 'discover.png';
+    } else if (card.number == '') {
       cardLogo = '';
+    }
+    else {
+      cardLogo = 'elo.png';
     }
 
     return cardLogo;
@@ -251,8 +272,8 @@ export class CardPage {
    *
    * @param data
    */
-  updateCardArray(data) {
-    data.number = this.formatCardNumber(data.number, 4).join(' ');
+  updateCardArray (data) {
+    data.number = CardPage.formatCardNumber(data.number, 4).join(' ');
     data.flag = CardPage.generateCardLogo(data);
 
     this.cards = _.reject(this.cards, {id: data.id}); // Removes card from array

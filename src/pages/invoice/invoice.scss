@@ -17,6 +17,15 @@ page-invoice {
   }
 
   ion-icon {
-    margin-right: 3%;
+    margin-left: 5px;
+  }
+
+  .invoiceCode {
+    font-size: 1.1em !important;
+    color: color($colors, bluebag-dark) !important;
+  }
+
+  .invoicePrice {
+    font-size: 1.3em !important;
   }
 }

@@ -48,8 +48,10 @@ export class AuthProvider {
     let body = {
       name: user.name,
       email: user.email,
+      birthday_date: user.birthday_date,
       cpf: user.cpf.substring(0, 11),
-      phone: user.phone.substring(0, 11)
+      phone: user.phone.substring(0, 11),
+      password: user.password
     };
 
     return this.http

@@ -1,7 +1,6 @@
-import {Component, NgModule} from '@angular/core';
+import {Component} from '@angular/core';
 import {NavController, NavParams, ToastController} from 'ionic-angular';
 import { AuthProvider } from "../../providers/auth/auth";
-import {MaskDirective} from "../../directives/mask/mask";
 
 @Component({
   selector: 'page-user-data',
@@ -13,8 +12,10 @@ export class UserDataPage {
     id: number,
     name: string,
     email: string,
+    birthday_date: any;
     cpf: number,
-    phone: number
+    phone: number,
+    password: string
   };
 
   constructor(
@@ -22,7 +23,7 @@ export class UserDataPage {
       public navParams: NavParams,
       public auth: AuthProvider,
       public toastCtrl: ToastController) {
-      this.user = {id: null, name: '', email: '', cpf: null, phone: null};
+      this.user = {id: null, name: '', email: '', birthday_date: '', cpf: null, phone: null, password: null};
   }
 
   ionViewDidLoad() {
@@ -33,9 +34,13 @@ export class UserDataPage {
             id: res.data.id,
             name: res.data.name,
             email: res.data.email,
+            birthday_date: res.data.birthday_date,
             cpf: res.data.cpf,
-            phone: res.data.phone
+            phone: res.data.phone,
+            password: null,
           };
+          this.user.birthday_date = new Date(this.user.birthday_date.date);
+          this.user.birthday_date = this.formatDate(this.user.birthday_date);
         },
         err => {
           console.log(err);
@@ -59,6 +64,17 @@ export class UserDataPage {
           console.log(err);
         }
     );
+  }
+
+  /**
+   * Format birthday date to show correct pattern
+   *
+   * @Pattern: DD/MM/YYYY
+   * @returns: {string}
+   * @param date
+   */
+  formatDate (date) {
+    return new Intl.DateTimeFormat('pt-BR').format(date);
   }
 
 }

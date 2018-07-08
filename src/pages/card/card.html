@@ -12,13 +12,28 @@
 
 </ion-header>
 
-
 <ion-content no-padding>
   <div class="spinner">
-    <ion-spinner *ngIf="cards.length == 0"></ion-spinner>
+    <ion-spinner *ngIf="!showCard"></ion-spinner>
   </div>
 
-  <ion-list *ngIf="cards.length != 0">
+  <div class="fix-center" *ngIf="cards.length == 0 && showCard">
+      <ion-grid>
+        <ion-row text-center>
+            <ion-col col-12>
+              <ion-icon name="sad" color="bluebag-light" style="font-size: 5em;"></ion-icon>
+            </ion-col>
+          </ion-row>
+
+        <ion-row>
+          <ion-col col-12>
+            <h4>Você não possui cartões cadastrados. Clica no símbolo <ion-icon name="add" color="bluebag-light"></ion-icon> alí em cima para adicionar um e realizar suas compras!</h4>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </div>
+
+  <ion-list *ngIf="cards.length != 0 && showCard">
     <ion-list-header>
       <h2>
         <ion-icon name="card"></ion-icon>

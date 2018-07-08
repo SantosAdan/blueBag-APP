@@ -1,0 +1,65 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>Detalhes</ion-title>
+
+    <ion-buttons end>
+      <button ion-button icon-only (click)="closeModal()">
+        <ion-icon name="close" color="danger"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content>
+  <span *ngIf="product">
+    <ion-item text-wrap text-center text-uppercase no-lines>
+      <h2>{{product.name}} {{product.variety}} {{product.package}}</h2>
+    </ion-item>
+
+    <div class="img-container" [style.background-image]="'url('+product.photo+')'"></div>
+
+    <ion-list no-lines>
+      <ion-item text-wrap text-center>
+        <span class="productPrice" *ngIf="product.amount > 0">{{product.value}}</span>
+        <span class="productPrice" *ngIf="product.amount <= 0">Produto Indisponível</span>
+        <br/>
+        <button (click)="addToChart(product.id)"
+                *ngIf="product.amount > 0"
+                ion-button
+                icon-right
+                block
+                outline
+                color="bluebag-dark">
+            Adicionar <ion-icon name="basket"></ion-icon>
+        </button>
+      </ion-item>
+      <ion-item text-wrap text-center>{{product.description == 'vazio' ? '...' : ''}}</ion-item>
+    </ion-list>
+
+    <ion-list>
+      <ion-item>
+        <h2>Variedade</h2>
+        <p class="productAttr" item-end>{{product.variety}}</p>
+      </ion-item>
+      <ion-item>
+        <h2>Embalagem</h2>
+        <p class="productAttr" item-end>{{product.package}}</p>
+      </ion-item>
+      <ion-item>
+        <h2>Departamento</h2>
+        <p class="productAttr" item-end>{{product.category.data.department.data.name}}</p>
+      </ion-item>
+      <ion-item>
+        <h2>Categoria</h2>
+        <p class="productAttr" item-end>{{product.category.data.name}}</p>
+      </ion-item>
+      <ion-item>
+        <h2 text-nowrap>Vendido por</h2>
+        <p class="productAttr" item-end>{{product.client.data.name}}</p>
+      </ion-item>
+    </ion-list>
+  </span>
+</ion-content>

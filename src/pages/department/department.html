@@ -11,21 +11,45 @@
     </ion-buttons>
   </ion-navbar>
 
-  <ion-searchbar placeholder="Buscar..."></ion-searchbar>
+  <ion-searchbar [(ngModel)]="searchText" (ionInput)="onInput($event)" debounce="500" placeholder="Buscar..."></ion-searchbar>
 </ion-header>
 
 <ion-content padding-vertical>
+
   <ion-refresher (ionRefresh)="refresh($event)">
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
 
-  <div class="spinner">
-    <ion-spinner *ngIf="showLoading"></ion-spinner>
+  <div class="spinner" *ngIf="showLoading">
+    <h2>Buscando</h2>
+    <ion-spinner name="dots"></ion-spinner>
   </div>
 
-  <!--<button ion-button (click)="sendSuperpay()">Superpay</button>-->
+  <ion-list *ngIf="searchResults.length != 0">
+    <ion-item *ngFor="let product of searchResults" text-wrap text-center>
+      <ion-thumbnail item-start>
+        <div class="img-container" [style.background-image]="'url('+product.photo+')'" (click)="showProductDetails(product.id)"></div>
+      </ion-thumbnail>
 
-  <ion-list *ngIf="!showLoading && showInList" no-margin no-padding>
+      <p>{{ product.name }} {{product.variety}} {{product.package}}</p>
+
+      <h1 class="productValue" padding-vertical *ngIf="product.amount > 0">R$ {{ product.value.toFixed(2).toString().replace('.', ',') }}</h1>
+      <h1 class="productValue" padding-vertical *ngIf="product.amount <= 0">Produto Indisponível</h1>
+
+      <button *ngIf="product.amount > 0"
+              (click)="addToChart(product.id)"
+              ion-button
+              icon-right
+              outline
+              block
+              color="bluebag-dark">
+        Adicionar <ion-icon name="basket"></ion-icon>
+      </button>
+
+    </ion-item>
+  </ion-list>
+
+  <ion-list *ngIf="!showLoading && showInList && departments != undefined" no-margin no-padding>
     <button ion-item *ngFor="let department of departments" (click)="goToProductsPage(department.name, department.icon, department.id)">
       <ion-icon [name]="department.icon" item-start color="bluebag-dark"></ion-icon>
       <span>{{ department.name }}</span>
@@ -33,11 +57,11 @@
   </ion-list>
 
 
-  <ion-grid *ngIf="!showLoading && !showInList">
+  <ion-grid *ngIf="!showLoading && !showInList && departments != undefined">
     <ion-row>
-      <ion-col col-4 *ngFor="let department of departments" (tap)="goToProductsPage(department.name, department.icon, department.id)">
-        <ion-card>
-          <ion-card-content text-center>
+      <ion-col col-6 *ngFor="let department of departments" (click)="goToProductsPage(department.name, department.icon, department.id)">
+        <ion-card >
+          <ion-card-content text-wrap text-center>
             <ion-icon [name]="department.icon" color="bluebag-dark" class="fix-icon-card"></ion-icon>
             <span>{{ department.name }}</span>
           </ion-card-content>
@@ -45,5 +69,21 @@
       </ion-col>
     </ion-row>
   </ion-grid>
+
+  <div class="fix-center" *ngIf="!showLoading && departments == undefined">
+    <ion-grid>
+      <ion-row text-center>
+        <ion-col col-12>
+          <ion-icon name="sad" color="bluebag-light" style="font-size: 5em;"></ion-icon>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col col-12>
+          <h4>Desculpe, mas não há Departamentos com produtos cadastrados!</h4>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </div>
 
 </ion-content>

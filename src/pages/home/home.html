@@ -10,99 +10,49 @@
     <span>Sessão Blue</span>
   </section>
 
-  <ion-slides pager slidesPerView="2">
+  <div *ngIf="products">
+    <ion-card *ngFor="let product of products">
+      <ion-card-content text-wrap text-center>
+        <span (click)="showProductDetails(product.id)">
+          <p>{{ product.name }} {{ product.variety }} {{ product.package }}</p>
 
-    <ion-slide>
-      <ion-card>
-        <ion-card-content>
-          <p>Nutella 500g</p>
+          <div class="img-container" [style.background-image]="'url('+product.photo+')'"></div>
 
-          <ion-thumbnail>
-            <img src="assets/img/nutella.png"/>
-          </ion-thumbnail>
+          <p class="productPrice" *ngIf="product.amount > 0">R$ {{ product.value.toFixed(2).toString().replace('.', ',') }}</p>
+          <p class="productPrice" *ngIf="product.amount <= 0">Produto Indisponível</p>
+        </span>
 
-          <p class="bluePrice">R$ 12,49</p>
-        </ion-card-content>
-      </ion-card>
-    </ion-slide>
+        <button (tap)="addToChart(product.id)"
+                *ngIf="product.amount > 0"
+                ion-button
+                icon-right
+                outline
+                block
+                small
+                color="bluebag-dark">
+          Adicionar <ion-icon name="basket"></ion-icon>
+        </button>
+      </ion-card-content>
+    </ion-card>
+  </div>
 
-    <ion-slide>
-      <ion-card>
-        <ion-card-content>
-          <p>Picanha Friboi</p>
+  <div class="fix-center" *ngIf="products.length == 0">
+    <ion-grid>
+      <ion-row text-center>
+          <ion-col col-12>
+            <ion-icon name="sad" color="bluebag-light" style="font-size: 5em;"></ion-icon>
+          </ion-col>
+        </ion-row>
 
-          <ion-thumbnail>
-            <img src="assets/img/picanha.png"/>
-          </ion-thumbnail>
+      <ion-row>
+        <ion-col col-12>
+          <h4>Desculpe, no momento não temos produtos em promoção</h4>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </div>
 
-          <p class="bluePrice">R$ 39,80</p>
-        </ion-card-content>
-      </ion-card>
-    </ion-slide>
-
-    <ion-slide>
-      <ion-card>
-        <ion-card-content>
-          <p>Combo de Cervejas</p>
-
-          <ion-thumbnail>
-            <img src="assets/img/beer-combo.jpeg"/>
-          </ion-thumbnail>
-
-          <p class="bluePrice">R$ 14,90</p>
-        </ion-card-content>
-      </ion-card>
-    </ion-slide>
-
-  </ion-slides>
-
-  <section class="onSaleSection">
-    <ion-icon name="ios-bookmark-outline" color="bluebag-dark"></ion-icon>
-    <span>Recomendados para você</span>
-  </section>
-
-  <ion-slides pager slidesPerView="2">
-    <ion-slide>
-      <ion-card>
-        <ion-card-content>
-          <p>Mac. Parafuso Amália 1kg</p>
-
-          <ion-thumbnail>
-            <img src="assets/img/macarrao.jpg"/>
-          </ion-thumbnail>
-
-          <p class="bluePrice">R$ 3,89</p>
-        </ion-card-content>
-      </ion-card>
-    </ion-slide>
-
-    <ion-slide>
-      <ion-card>
-        <ion-card-content>
-          <p>Molho de Tomate Fugini 500g</p>
-
-          <ion-thumbnail>
-            <img src="assets/img/molho.png"/>
-          </ion-thumbnail>
-
-          <p class="bluePrice">R$ 2,19</p>
-        </ion-card-content>
-      </ion-card>
-    </ion-slide>
-
-    <ion-slide>
-      <ion-card>
-        <ion-card-content>
-          <p>Queijo Ralado Vigor 50g</p>
-
-          <ion-thumbnail>
-            <img src="assets/img/queijo_ralado.png"/>
-          </ion-thumbnail>
-
-          <p class="bluePrice">R$ 4,89</p>
-        </ion-card-content>
-      </ion-card>
-    </ion-slide>
-
-  </ion-slides>
+  <ion-infinite-scroll (ionInfinite)="getMoreProducts($event)" *ngIf="productsPagination" [enabled]="productsPagination.current_page < productsPagination.total_pages">
+    <ion-infinite-scroll-content></ion-infinite-scroll-content>
+  </ion-infinite-scroll>
 </ion-content>

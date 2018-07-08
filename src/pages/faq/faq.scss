@@ -1,0 +1,12 @@
+page-faq {
+  h2 {
+    color: color($colors, bluebag-dark);
+  }
+
+  h4 {
+    color: color($colors, bluebag-dark);
+    font-weight: 600 !important;
+    text-transform: uppercase;
+    padding-bottom: 10px;
+  }
+}

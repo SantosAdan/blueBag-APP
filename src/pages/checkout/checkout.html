@@ -3,178 +3,194 @@
   <ion-navbar>
     <ion-title>Checkout</ion-title>
   </ion-navbar>
-  <nav>
-    <ol class="cd-multi-steps text-top count">
-      <li [ngClass]="{'visited': (checkoutSlider.getActiveIndex() > 0), 'current': (checkoutSlider.getActiveIndex() == 0)}">
-        <em>Endereço</em></li>
-      <li [ngClass]="{'visited': (checkoutSlider.getActiveIndex() > 1), 'current': (checkoutSlider.getActiveIndex() == 1)}">
-        <em>Pagamento</em></li>
-      <li [ngClass]="{'current': (checkoutSlider.getActiveIndex() == 2)}"><em>Revisão</em></li>
-    </ol>
-  </nav>
 </ion-header>
 
 
 <ion-content no-padding>
+  <ion-item text-wrap no-lines margin-bottom>
+    <ion-label>Retirar no balcão?</ion-label>
+    <ion-checkbox [(ngModel)]="is_balcony" color="bluebag-dark" (ionChange)="getDeliveryFee()"></ion-checkbox>
+  </ion-item>
 
-  <ion-slides #checkoutSlider padding-vertical>
-    <!-- ADDRESS -->
-    <ion-slide>
-      <p>Qual o endereço para entrega?</p>
+  <!-- CVV Input -->
+  <ion-item id="cvvInput" text-wrap *ngIf="showCvvInput">
+    <ion-grid item-content>
+      <ion-row>
+        <ion-label floating>Digite o CVV (Código de segurança)</ion-label>
+        <ion-input type="tel" [(ngModel)]="cvv" max="4"></ion-input>
+      </ion-row>
 
-      <ion-list>
-        <ion-item *ngFor="let address of addresses" no-lines text-wrap class="fix-item-color">
-          <ion-card [ngClass]="{'card-selected' : (selectedAddress == address.id)}"
-                    (click)="selectAddress(address.id)">
-            <ion-card-content>
-              <strong>{{ address.street }}, {{ address.number }}.</strong> {{ address.district }}<br>
-              {{ address.city}} - {{ address.state }}
-            </ion-card-content>
-            <span class="selected-icon" *ngIf="(selectedAddress == address.id)">
-              <ion-icon name="checkmark-circle" color="bluebag-light"></ion-icon>
-            </span>
-          </ion-card>
-        </ion-item>
-      </ion-list>
+      <ion-row margin-top>
+        <button ion-button block (tap)="createInvoice()">Ok</button>
+      </ion-row>
+    </ion-grid>
+  </ion-item>
 
-      <button class="fix-btn-margin" ion-button color="bluebag-dark" (click)="nextSlide()"
-              [disabled]="(selectedAddress == null)">Avançar
-      </button>
-    </ion-slide>
-    <!-- END-ADDRESS-->
+  <!-- Previsão de entrega -->
+  <ion-list color="bluebag-dark" *ngIf="!is_balcony">
+    <ion-list-header text-center color="bluebag-dark">
+      <p>Previsão de entrega</p>
+    </ion-list-header>
+    <ion-item text-wrap text-justify padding>
+      <p>Para compras realizadas até as 14h00 a entrega é garantida até o fim do dia.</p>
+      <p>Após as 14h00, a entrega será feita até a manhã do dia seguinte.</p>
+      <br />
+      <p><strong>Caso precise adiantar a entrega é possível entrar em contato com o vendedor através do menu de ajuda na aba Conta.</strong></p>
+    </ion-item>
+  </ion-list>
 
-    <!-- PAYMENT -->
-    <ion-slide>
-      <p>Qual cartão deseja utilizar?</p>
+  <!-- Loading while getting addresses -->
+  <ion-list *ngIf="!showAddress">
+    <ion-list-header text-center color="bluebag-dark">
+      <p>Selecione o endereço de entrega</p>
+    </ion-list-header>
 
-      <ion-list *ngIf="cards.length != 0">
-        <ion-item *ngFor="let card of cards" no-lines text-wrap class="fix-item-color">
-          <ion-card [ngClass]="{'card-selected' : (selectedCard == card.id)}"
-                    (click)="selectCard(card.id)">
-            <ion-card-content>
-              <strong>{{ card.number }}</strong><br>
-              {{ card.name }}<br>
-              {{card.date}}
-            </ion-card-content>
-            <span class="selected-icon" *ngIf="(selectedCard == card.id)">
-              <ion-icon name="checkmark-circle" color="bluebag-light"></ion-icon>
-            </span>
-          </ion-card>
-        </ion-item>
-      </ion-list>
+    <ion-item text-center>
+      <ion-spinner></ion-spinner>
+    </ion-item>
+  </ion-list>
 
-      <ion-item no-lines class="fix-margin-right">
-        <ion-label floating>Parcelas</ion-label>
-        <ion-select [(ngModel)]="numPayments" cancelText="Fechar" interface="action-sheet" (ionChange)="selectInstallment()">
-          <ion-option *ngFor="let installment of paymentInstallments" [value]="installment.value">
-            {{ installment.text }}
-          </ion-option>
-        </ion-select>
-      </ion-item>
+  <!-- Address not found -->
+  <ion-list *ngIf="address == undefined && showAddress" margin-bottom no-lines>
+    <ion-list-header text-center color="bluebag-dark" text-wrap padding>
+      <p>Você não possui endereço principal cadastrado, mas não esquenta! Basta adicionar um no botão abaixo para continuar sua compra!</p>
+    </ion-list-header>
+    <ion-item text-center>
+      <button ion-button color="bluebag-light" (click)="goToAddressPage()">Adicionar endereço</button>
+    </ion-item>
+  </ion-list>
 
-      <button class="fix-btn-margin" ion-button color="bluebag-dark" (click)="nextSlide()"
-              [disabled]="(selectedCard == null)">Avançar
-      </button>
-      <button class="fix-btn-margin" ion-button outline color="bluebag-light" (click)="prevSlide()">Voltar</button>
-    </ion-slide>
-    <!-- END-PAYMENT -->
+  <!-- Address found -->
+  <ion-list *ngIf="!is_balcony && address != undefined && showAddress" margin-bottom>
+    <ion-list-header text-center color="bluebag-dark">
+      <p>Selecione o endereço de entrega</p>
+    </ion-list-header>
 
-    <!-- REVIEW -->
-    <ion-slide>
-      <p>Confirme os dados do seu pedido</p>
+    <ion-item text-wrap padding-vertical>
+      <strong>{{ address.street }}, {{ address.number }}.</strong> {{ address.district }}<br>
+      {{ address.city}} - {{ address.state }}
 
-      <button class="fix-btn-margin" ion-button color="danger" (tap)="createInvoice()">Efetuar compra</button>
+      <button ion-button clear item-right (click)="openAddressSelector()" >Trocar</button>
+    </ion-item>
+  </ion-list>
 
-      <!-- INVOICE ITEMS -->
-      <ion-card>
-        <ion-card-header class="card-selected-bg">
-          <h2>Resumo do Pedido</h2>
-        </ion-card-header>
+  <!-- Loading while getting cards -->
+  <ion-list *ngIf="!showCard">
+    <ion-list-header text-center color="bluebag-dark">
+      <p>Selecione o cartão de crédito</p>
+    </ion-list-header>
 
-        <ion-row padding>
-          <ion-col col-6 text-left>
-            <h2>Total a pagar: </h2>
-          </ion-col>
-          <ion-col col-6 text-right>
-            <h2 class="invoice-total">R$ {{ totalValue }}</h2>
+    <ion-item text-center>
+      <ion-spinner></ion-spinner>
+    </ion-item>
+  </ion-list>
+
+  <!-- Cartão não cadastrado -->
+  <ion-list *ngIf="card == undefined && showCard" margin-bottom no-lines>
+      <ion-list-header text-center color="bluebag-dark" text-wrap padding>
+        <p>Você não possui cartão de crédito cadastrado, mas não esquenta! Basta adicionar um no botão abaixo para continuar sua compra!</p>
+      </ion-list-header>
+    <ion-item text-center>
+      <button ion-button color="bluebag-light" (click)="presentNewCardModal()">Adicionar cartão</button>
+    </ion-item>
+  </ion-list>
+  <!-- Fim de Cartão não cadastrado -->
+
+  <ion-list *ngIf="card != undefined && showCard" margin-bottom no-lines>
+    <ion-list-header text-center color="bluebag-dark">
+      <p>Selecione o cartão de crédito</p>
+    </ion-list-header>
+
+    <ion-item text-wrap padding-vertical>
+      <strong>{{ card.number }}</strong><br>
+      {{ card.name }}<br>
+      {{card.date}}
+
+      <button ion-button clear item-right (click)="openCardSelector()">Trocar</button>
+    </ion-item>
+
+    <ion-item [hidden]="true" margin-bottom>
+      <ion-label floating>Parcelas</ion-label>
+      <ion-select [(ngModel)]="numPayments" cancelText="Fechar" interface="action-sheet"
+                  (ionChange)="selectInstallment()" disabled>
+        <ion-option *ngFor="let installment of paymentInstallments" [value]="installment.value">
+          {{ installment.text }}
+        </ion-option>
+      </ion-select>
+    </ion-item>
+  </ion-list>
+
+  <!-- INVOICE ITEMS -->
+  <ion-list>
+    <ion-list-header text-center color="bluebag-dark">
+      <h2>Resumo do Pedido</h2>
+    </ion-list-header>
+
+    <ion-item *ngFor="let product of products;" no-padding text-wrap>
+      <ion-grid>
+        <ion-row>
+          <ion-col col-12>
+            <h2>{{product.name}} {{product.variety}} {{product.package}}</h2>
           </ion-col>
         </ion-row>
 
-        <ion-card-content no-padding>
+        <ion-row>
+          <ion-col col-6 text-left>
+            <p>R$ {{product.value.toFixed(2).toString().replace('.', ',')}}</p>
+          </ion-col>
+          <ion-col col-2 text-center>
+            <p>x{{product.amount}}</p>
+          </ion-col>
+          <ion-col col-4 text-right>
+            <p>R$ {{ (product.value * product.amount).toFixed(2).toString().replace('.', ',') }}</p>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-item>
 
-          <read-more [products]="products"></read-more>
+    <ion-item no-padding>
+      <ion-grid>
+        <!-- Subtotal -->
+        <ion-row>
+          <ion-col col-6 text-left>
+            <p class="invoice-subtotal">Subtotal</p>
+          </ion-col>
+          <ion-col col-6 text-right>
+            <p class="invoice-subtotal-value">R$ {{ subtotalValue }}</p>
+          </ion-col>
+        </ion-row>
 
-        </ion-card-content>
+        <!-- Delivery Fee -->
+        <ion-row>
+          <ion-col col-6 text-left>
+            <p class="invoice-subtotal">Taxa de Entrega</p>
+          </ion-col>
+          <ion-col col-6 text-right>
+            <p class="invoice-subtotal-value">{{ deliveryFee }}</p>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-item>
 
-      </ion-card>
-      <!-- END-INVOICE ITEMS -->
+    <ion-item no-padding>
+      <ion-grid>
+        <!-- Total -->
+        <ion-row>
+          <ion-col col-6 text-left>
+            <p class="invoice-total">Total</p>
+          </ion-col>
+          <ion-col col-6 text-right>
+            <p class="invoice-total-value">{{ totalValue }}</p>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-item>
+  </ion-list>
+  <!-- END-INVOICE ITEMS -->
 
-      <!-- ADDRESS -->
-      <ion-card>
-        <ion-card-header class="card-selected-bg">
-          <h2>Endereço de Entrega</h2>
-        </ion-card-header>
+  <button class="fix-btn-margin" ion-button color="danger" (tap)="createInvoice()" [disabled]="card == undefined">
+    Efetuar compra
+    <ion-spinner name="dots" *ngIf="show_spinner"></ion-spinner>
+  </button>
 
-        <ion-card-content no-padding>
-          <ion-list no-lines text-wrap>
-
-            <ion-item>
-              <ion-icon name="home" item-left></ion-icon>
-              <p>{{ address.street }}, {{ address.number }}. {{ address.district }}</p>
-            </ion-item>
-
-            <ion-item>
-              <ion-icon name="map" item-left></ion-icon>
-              <p>{{ address.city}} - {{ address.state }}</p>
-            </ion-item>
-
-            <ion-item>
-              <ion-icon name="locate" item-left></ion-icon>
-              <p>{{address.zipcode}}</p>
-            </ion-item>
-
-          </ion-list>
-        </ion-card-content>
-      </ion-card>
-      <!-- END-ADDRESS -->
-
-      <!-- PAYMENT -->
-      <ion-card>
-        <ion-card-header class="card-selected-bg">
-          <h2>Dados do Pagamento</h2>
-        </ion-card-header>
-
-        <ion-card-content no-padding>
-          <ion-list no-lines text-wrap>
-
-            <ion-item>
-              <ion-icon name="card" item-left></ion-icon>
-              <p>{{ card.number }}</p>
-            </ion-item>
-
-            <ion-item>
-              <ion-icon name="person" item-left></ion-icon>
-              <p>{{ card.name }}</p>
-            </ion-item>
-
-            <ion-item>
-              <ion-icon name="calendar" item-left></ion-icon>
-              <p>{{card.date}}</p>
-            </ion-item>
-
-            <ion-item>
-              <ion-icon name="cash" item-left></ion-icon>
-              <p>{{selectedInstallment.text}}</p>
-            </ion-item>
-
-          </ion-list>
-        </ion-card-content>
-      </ion-card>
-      <!-- END-ADDRESS -->
-
-      <button class="fix-btn-margin" ion-button color="danger" (tap)="createInvoice()">Efetuar compra</button>
-      <button class="fix-btn-margin" ion-button outline color="bluebag-light" (tap)="prevSlide()">Voltar</button>
-    </ion-slide>
-    <!-- END-REVIEW -->
-  </ion-slides>
 </ion-content>

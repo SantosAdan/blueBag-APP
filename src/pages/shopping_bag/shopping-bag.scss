@@ -23,9 +23,10 @@ page-shopping-bag {
   }
 
   .product-value {
-    font-size: 1.3em !important;
+    font-size: 1.5em !important;
     font-weight: bold !important;
     padding-top: 10%;
+    color: color($colors, bluebag-dark);
   }
 
   .product-amount {
@@ -67,6 +68,19 @@ page-shopping-bag {
     top: 0; left: 0; bottom: 0; right: 0;
     height: 210px;
     text-align: center;
+  }
+
+  .img-container {
+    background-color: #fff;
+    background-size: cover;
+    background-repeat: no-repeat; // Não aglutinar essas duas propriedades
+    background-position:center; // porque não funcionam da maneira desejada
+    min-height: 100px;
+    margin: 10% auto;
+  }
+
+  ion-col > h3 {
+    font-size: 1.7em !important;
   }
 }
 

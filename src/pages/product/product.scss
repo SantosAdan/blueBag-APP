@@ -1,0 +1,26 @@
+page-product {
+  ion-item {
+    margin-bottom: 0 !important;
+  }
+
+  .img-container {
+    background-color: #fff;
+    background-size: contain;
+    background-repeat: no-repeat; // Não aglutinar essas duas propriedades
+    background-position:center; // porque não funcionam da maneira desejada
+    min-height: 150px;
+    margin: 0 auto;
+  }
+
+  .productPrice {
+    font-size: 1.9em;
+    font-weight: bold;
+    color: color($colors, bluebag-dark);
+  }
+
+  .productAttr {
+    font-weight: bold;
+    //color: color($colors, bluebag-dark);
+    text-align: right !important;
+  }
+}
