@@ -184,11 +184,44 @@ export class CheckoutPage {
     }
   }
 
+  openCVVPrompt () {
+    let alert = this.alertCtrl.create({
+      title: 'Informe o CVV',
+      message: 'Dígitos de segurança (verso do cartão)',
+      inputs: [
+        {
+          name: 'cvv',
+          placeholder: '123'
+        },
+      ],
+      buttons: [
+        {
+          text: 'Cancelar',
+          role: 'cancel',
+          handler: data => {}
+        },
+        {
+          text: 'Ok',
+          handler: data => {
+            if (data.cvv != '') {
+              this.card.cvc = data.cvv
+              this.createInvoice()
+            } else {
+              this.presentToast('Por favor, insira o CVV!', 'error');
+            }
+          }
+        }
+      ]
+    });
+
+    alert.present();
+  }
+
   /**
    * Create invoice on server.
    */
   createInvoice () {
-    if (!this.cvv) {
+    /*if (!this.cvv) {
       this.showCvvInput = true;
       return;
     }
@@ -197,7 +230,8 @@ export class CheckoutPage {
     this.show_spinner = !this.show_spinner;
 
     // Adiciona o cvv ao cartão
-    this.card.cvc = this.cvv;
+    this.card.cvc = this.cvv;*/
+    this.show_spinner = !this.show_spinner;
 
     let body = {
       address_id: this.address.id,
@@ -227,12 +261,15 @@ export class CheckoutPage {
           let data = res.json();
 
           this.clearShoppingBag();
+          this.presentToast('Pedido realizado!', 'success');
           this.openFeedbackPrompt(data.id);
         }
 
       },
         err => {
           console.log(err);
+          this.presentToast('Ocorreu um erro com sua compra. Tente novamente mais tarde.', 'error');
+          this.show_spinner = !this.show_spinner;
         });
   }
 

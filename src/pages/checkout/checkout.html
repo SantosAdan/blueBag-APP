@@ -12,7 +12,7 @@
     <ion-checkbox [(ngModel)]="is_balcony" color="bluebag-dark" (ionChange)="getDeliveryFee()"></ion-checkbox>
   </ion-item>
 
-  <!-- CVV Input -->
+  <!-- CVV Input
   <ion-item id="cvvInput" text-wrap *ngIf="showCvvInput">
     <ion-grid item-content>
       <ion-row>
@@ -24,7 +24,7 @@
         <button ion-button block (tap)="createInvoice()">Ok</button>
       </ion-row>
     </ion-grid>
-  </ion-item>
+  </ion-item>-->
 
   <!-- Previsão de entrega -->
   <ion-list color="bluebag-dark" *ngIf="!is_balcony">
@@ -188,9 +188,13 @@
   </ion-list>
   <!-- END-INVOICE ITEMS -->
 
-  <button class="fix-btn-margin" ion-button color="danger" (tap)="createInvoice()" [disabled]="card == undefined">
+  <button class="fix-btn-margin" ion-button color="danger" (tap)="openCVVPrompt()" [disabled]="card == undefined" *ngIf="!show_spinner">
     Efetuar compra
-    <ion-spinner name="dots" *ngIf="show_spinner"></ion-spinner>
+    <!--<ion-spinner name="dots" *ngIf="show_spinner"></ion-spinner>-->
   </button>
 
+  <button class="fix-btn-margin" ion-button color="gray" disabled="true" *ngIf="show_spinner">
+    Processando
+    <ion-spinner name="dots"></ion-spinner>
+  </button>
 </ion-content>

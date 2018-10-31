@@ -1,8 +1,8 @@
 {
   "name": "blueBag",
-  "app_id": "c0c80f1d",
-  "type": "ionic-angular",
   "integrations": {
     "cordova": {}
-  }
+  },
+  "type": "ionic-angular",
+  "pro_id": "c0c80f1d"
 }

@@ -64,7 +64,7 @@ export class CategoryDetailPage {
       this.showLoading = false;
     } else {
       return this.http
-        .get(`${this.configProvider.base_url}/products/search/${this.department.id}?q=${this.searchText}`, this.requestOptions.merge(new RequestOptions))
+        .get(`${this.configProvider.base_url}/products/search?q=${this.searchText}`, this.requestOptions.merge(new RequestOptions))
         .map((response: Response) => response.json())
         .subscribe(response => {
           this.searchResults = response.data;
