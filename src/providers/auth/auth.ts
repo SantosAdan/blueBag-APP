@@ -48,9 +48,9 @@ export class AuthProvider {
     let body = {
       name: user.name,
       email: user.email,
-      birthday_date: user.birthday_date,
-      cpf: user.cpf.substring(0, 11),
-      phone: user.phone.substring(0, 11),
+      birthday_date: this.clearMask(user.birthday_date),
+      cpf: this.clearMask(user.cpf),
+      phone: this.clearMask(user.phone),
       password: user.password
     };
 
@@ -58,5 +58,9 @@ export class AuthProvider {
         .put(`${this.configProvider.base_url}/users/${user.id}`, body, this.requestOptions.merge(new RequestOptions))
         .map((res:Response) => res.json())
         .catch((error:any) => Observable.throw(error.json().error || 'Server Error.'));
+  }
+
+  clearMask(maskedValue:string) {
+    return maskedValue.replace(/\D/g,'');
   }
 }

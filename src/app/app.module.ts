@@ -41,6 +41,7 @@ import {RefreshTokenProvider} from '../providers/refresh-token/refresh-token';
 import {ReadMoreComponent} from "../pages/read-more";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 
+import { BrMaskerModule } from 'brmasker-ionic-3';
 import {MaskDirective} from '../directives/mask/mask';
 import {FaqPage} from "../pages/faq/faq";
 import {OpenCasePage} from "../pages/open-case/open-case";
@@ -78,7 +79,8 @@ import {OpenCasePage} from "../pages/open-case/open-case";
     BrowserAnimationsModule,
     HttpModule,
     IonicModule.forRoot(MyApp),
-    IonicStorageModule.forRoot()
+    IonicStorageModule.forRoot(),
+    BrMaskerModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [

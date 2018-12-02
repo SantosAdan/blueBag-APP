@@ -15,7 +15,7 @@ export class SignUpPage {
 
   public user: {
     name: string;
-    cpf: number;
+    cpf: string;
     birthday_date: string;
     phone: string;
     email: string;
@@ -103,11 +103,11 @@ export class SignUpPage {
     let body = {
       "name": this.user.name,
       "email": this.user.email,
-      "birthday_date": this.user.birthday_date,
-      "phone": this.user.phone,
+      "birthday_date": this.clearMask(this.user.birthday_date),
+      "phone": this.clearMask(this.user.phone),
       "password": this.user.password,
       "password_confirmation": this.user.password_confirmation,
-      "cpf": this.user.cpf,
+      "cpf": this.clearMask(this.user.cpf),
 
       "street": this.address.street,
       "number": this.address.number,
@@ -117,6 +117,8 @@ export class SignUpPage {
       "state": this.address.state,
       "zipcode": this.address.zipcode
     }
+
+    console.log(body);
 
     this.http
         .post(`${this.configProvider.base_url}/users`, body, options)
@@ -150,5 +152,9 @@ export class SignUpPage {
 
   scrollToTop () {
     this.content.scrollToTop();
+  }
+
+  clearMask(maskedValue:string) {
+    return maskedValue.replace(/\D/g,'');
   }
 }

@@ -26,8 +26,8 @@
 
     <ion-item>
       <ion-label>Número</ion-label>
-      <ion-input type="text"
-                 mask="**** **** **** ****"
+      <ion-input type="tel"
+                 [brmasker]="{mask:'0000 0000 0000 0000', len:19, type:'num'}"
                  clearInput
                  [(ngModel)]="card.number"
                  placeholder="xxxx xxxx xxxx xxxx"
@@ -42,7 +42,7 @@
 
     <ion-item>
       <ion-label>CPF Titular</ion-label>
-      <ion-input type="text" mask="***.***.***-**" clearInput [(ngModel)]="card.cpf"></ion-input>
+      <ion-input type="tel" [brmasker]="{mask:'000.000.000-00', len:14, type:'num'}" clearInput [(ngModel)]="card.cpf"></ion-input>
     </ion-item>
 
     <ion-item>

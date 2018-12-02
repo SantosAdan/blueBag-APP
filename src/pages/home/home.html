@@ -10,7 +10,12 @@
     <span>Sessão Blue</span>
   </section>
 
-  <div *ngIf="products">
+  <div class="spinner" *ngIf="products.length == 0">
+    <h2>Buscando</h2>
+    <ion-spinner name="dots"></ion-spinner>
+  </div>
+
+  <div *ngIf="products.length != 0">
     <ion-card *ngFor="let product of products">
       <ion-card-content text-wrap text-center>
         <span (click)="showProductDetails(product.id)">
@@ -36,7 +41,7 @@
     </ion-card>
   </div>
 
-  <div class="fix-center" *ngIf="products.length == 0">
+  <div class="fix-center" *ngIf="showError">
     <ion-grid>
       <ion-row text-center>
           <ion-col col-12>

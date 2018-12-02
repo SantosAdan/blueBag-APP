@@ -25,7 +25,7 @@
         <ion-label>
           <ion-icon name="card"></ion-icon>
         </ion-label>
-        <ion-input type="text" mask="***.***.***-**" clearInput [(ngModel)]="user.cpf" placeholder="CPF"></ion-input>
+        <ion-input type="tel" [brmasker]="{mask:'000.000.000-00', len:14, type:'num'}" clearInput [(ngModel)]="user.cpf" placeholder="CPF"></ion-input>
       </ion-item>
       <p *ngIf="errors.cpf != undefined">{{errors.cpf[0]}}</p>
 
@@ -33,14 +33,14 @@
         <ion-label>
           <ion-icon name="calendar"></ion-icon>
         </ion-label>
-        <ion-input type="text" mask="**/**/****" clearInput [(ngModel)]="user.birthday_date" placeholder="Data de Nascimento"></ion-input>
+        <ion-input type="tel" [brmasker]="{mask:'00/00/0000', len:10, type:'num'}" clearInput [(ngModel)]="user.birthday_date" placeholder="Data de Nascimento"></ion-input>
       </ion-item>
 
       <ion-item [ngClass]="{inputInvalid: errors.phone != undefined}">
         <ion-label>
           <ion-icon ios="ios-call-outline" md="md-call"></ion-icon>
         </ion-label>
-        <ion-input type="text" mask="(**) *****-****" clearInput [(ngModel)]="user.phone" placeholder="Celular"></ion-input>
+        <ion-input type="tel" [brmasker]="{phone: true}" clearInput [(ngModel)]="user.phone" placeholder="Celular"></ion-input>
       </ion-item>
       <p *ngIf="errors.phone != undefined">{{errors.phone[0]}}</p>
 

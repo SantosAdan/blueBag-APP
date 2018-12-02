@@ -70,7 +70,7 @@ export class CardNewPage {
    */
   storeCard () {
     let body = this.mountRequestBody();
-    console.log(body);
+
     return this.http
       .post(`${this.configProvider.base_url}/cards`, body, this.defaultRequest.merge(new RequestOptions))
       .map((res: Response) => res.json())
@@ -118,8 +118,8 @@ export class CardNewPage {
    */
   mountRequestBody() {
 
-    this.card.number = this.card.number != null ? this.card.number.slice(0, 16) : this.card.number;
-    this.card.cpf = this.card.cpf != null ? this.card.cpf.slice(0, 11) : this.card.cpf;
+    this.card.number = this.card.number != null ? this.clearMask(this.card.number) : this.card.number;
+    this.card.cpf = this.card.cpf != null ? this.clearMask(this.card.cpf) : this.card.cpf;
     this.card.cvc = this.card.cvc != null ? this.card.cvc.slice(0, 3) : this.card.cvc;
 
     let date = this.card.date.split('-');
@@ -177,5 +177,9 @@ export class CardNewPage {
    */
   closeModal () {
     this.viewCtrl.dismiss(this.card);
+  }
+
+  clearMask(maskedValue:string) {
+    return maskedValue.replace(/\D/g,'');
   }
 }

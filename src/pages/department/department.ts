@@ -45,7 +45,6 @@ export class DepartmentPage {
 
   onInput() {
     this.showLoading = true;
-
     if (this.searchText == '') {
       this.searchResults = [];
       this.showLoading = false;

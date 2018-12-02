@@ -16,6 +16,7 @@ export class HomePage {
 
   public products: any[] = [];
   public productsPagination: any;
+  showError: boolean = false;
 
   constructor(public navCtrl: NavController,
               public toastCtrl: ToastController,
@@ -29,7 +30,7 @@ export class HomePage {
 
   }
 
-  ionViewDidEnter() {
+  ionViewDidLoad() {
     this.getHighlightedProductsRandomly();
   }
 
@@ -47,6 +48,12 @@ export class HomePage {
           this.productsPagination = response.meta.pagination;
 
           this.formatProducts(this.products);
+
+          if(this.products.length === 0) {
+            this.showError = true;
+          } else {
+            this.showError = false;
+          }
         },
         err => {
           if (err.status === 401) {
@@ -66,6 +73,11 @@ export class HomePage {
                     this.productsPagination = response.meta.pagination;
 
                     this.formatProducts(this.products);
+                    if(this.products.length === 0) {
+                      this.showError = true;
+                    } else {
+                      this.showError = false;
+                    }
                   });
               });
           }

@@ -34,17 +34,17 @@
 
     <ion-item>
       <ion-label floating>CPF</ion-label>
-      <ion-input type="text" clearInput [(ngModel)]="user.cpf" disabled></ion-input>
+      <ion-input type="tel" [brmasker]="{mask:'000.000.000-00', len:14, type:'num'}" clearInput [(ngModel)]="user.cpf" disabled></ion-input>
     </ion-item>
 
     <ion-item>
       <ion-label floating>Data de Nascimento</ion-label>
-      <ion-input mask="**/**/****" type="text" clearInput [(ngModel)]="user.birthday_date"></ion-input>
+      <ion-input type="tel" [brmasker]="{mask:'00/00/0000', len:10, type:'num'}" clearInput [(ngModel)]="user.birthday_date"></ion-input>
     </ion-item>
 
     <ion-item>
       <ion-label floating>Telefone</ion-label>
-      <ion-input mask="(**) *****-****" type="text" clearInput [(ngModel)]="user.phone"></ion-input>
+      <ion-input type="tel" [brmasker]="{phone: true}" clearInput [(ngModel)]="user.phone"></ion-input>
     </ion-item>
   </ion-list>
 
